@@ -1,0 +1,184 @@
+[
+  {
+    "day": 8,
+    "date": "2026-08-17",
+    "weekday": "Thứ Hai",
+    "week": 2,
+    "phase": "Scaffolding",
+    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
+    "day_type": "kien_thuc",
+    "title": "SDT — ba nhu cầu tâm lý nền tảng",
+    "body": "Tuần trước bạn học cách xác định khách đang ở đâu. Tuần này là câu hỏi tiếp theo: cái gì giữ họ ở lại.\n\nThuyết Tự quyết (Self-Determination Theory — Deci & Ryan) cho rằng động lực bền vững mọc lên từ ba nhu cầu tâm lý: **Autonomy** (quyền tự quyết — tôi được chọn), **Competence** (cảm giác đủ năng lực — tôi làm được), **Relatedness** (cảm giác được kết nối — tôi thuộc về nơi này). Thiếu một trong ba, động lực vẫn chạy được nhưng chạy bằng ý chí, và ý chí thì có hạn.\n\nĐiều đáng nói là phần lớn giáo án tốt về mặt kỹ thuật lại bóp nghẹt cả ba. Khách được đưa một danh sách bài tập không được góp ý (mất Autonomy), bắt đầu bằng những động tác họ làm sai liên tục trong hai tuần đầu (mất Competence), và tập một mình ở góc phòng (mất Relatedness). Rồi khi họ nghỉ, ta kết luận là họ thiếu quyết tâm.\n\nBa nhu cầu này không phải thứ để thêm vào sau. Chúng là thứ bạn thiết kế ngay từ buổi đầu.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Theo SDT, đâu KHÔNG phải là một trong ba nhu cầu tâm lý cơ bản?",
+        "options": ["Autonomy", "Competence", "Relatedness", "Discipline"],
+        "correct_index": 3,
+        "explain": "Ba nhu cầu là Autonomy, Competence, Relatedness. Kỷ luật là kết quả khi ba nhu cầu này được đáp ứng, không phải nguyên nhân."
+      }
+    ]
+  },
+  {
+    "day": 9,
+    "date": "2026-08-18",
+    "weekday": "Thứ Ba",
+    "week": 2,
+    "phase": "Scaffolding",
+    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
+    "day_type": "kien_thuc",
+    "title": "COM-B — ba mảnh phải có đủ thì hành vi mới xảy ra",
+    "body": "Mô hình COM-B (Michie và cộng sự) gọn hơn SDT và cực kỳ hữu dụng khi chẩn đoán. Nó nói: một hành vi chỉ xảy ra khi có đủ ba thứ — **Capability** (khả năng: thể chất và kiến thức để làm), **Opportunity** (cơ hội: thời gian, không gian, môi trường xã hội cho phép), **Motivation** (động lực: cả phần lý trí lẫn phần thói quen, cảm xúc).\n\nGiá trị lớn nhất của COM-B là nó buộc bạn hỏi đúng câu. Khách không tập buổi sáng — vì họ không biết tập gì (Capability), vì con họ dậy lúc 6h (Opportunity), hay vì họ ghét dậy sớm (Motivation)? Ba nguyên nhân này cần ba can thiệp hoàn toàn khác nhau, mà nếu chỉ nhìn từ ngoài thì trông giống hệt nhau: một người không tập.\n\nSai lầm nghề nghiệp phổ biến nhất của PT trẻ là mặc định mọi vấn đề đều là Motivation. Nên ta động viên, ta truyền lửa, ta gửi câu nói truyền cảm hứng lúc 6h sáng. Trong khi vấn đề thật có thể chỉ là phòng tập cách nhà 40 phút. Trước khi tăng động lực, hãy kiểm tra hai mảnh kia đã.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Khách nói: \"Em muốn tập lắm nhưng công ty em tăng ca liên tục tới 9h tối.\" Theo COM-B, đây chủ yếu là vấn đề của thành phần nào?",
+        "options": ["Capability", "Opportunity", "Motivation", "Cả ba như nhau"],
+        "correct_index": 1,
+        "explain": "Đây là rào cản về cơ hội — thời gian và hoàn cảnh bên ngoài. Động viên thêm sẽ không giải quyết được; đổi khung giờ hoặc rút ngắn buổi tập thì có."
+      }
+    ]
+  },
+  {
+    "day": 10,
+    "date": "2026-08-19",
+    "weekday": "Thứ Tư",
+    "week": 2,
+    "phase": "Scaffolding",
+    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
+    "day_type": "kien_thuc",
+    "title": "Ego depletion — vì sao khách hết ý chí vào cuối ngày",
+    "body": "Ego depletion là giả thuyết cho rằng tự chủ dùng chung một nguồn lực có hạn: dùng nhiều vào buổi sáng thì buổi tối còn ít. Nó giải thích rất hợp lý chuyện khách ăn uống kỷ luật cả ngày rồi đổ vỡ lúc 10h đêm.\n\nMình cần nói thẳng một điều: **đây là lý thuyết đang gây tranh cãi trong giới nghiên cứu.** Nhiều nghiên cứu lặp lại quy mô lớn không tìm thấy hiệu ứng rõ như các thí nghiệm gốc, và cách hiểu \"ý chí như bình xăng\" gần như chắc chắn là quá đơn giản. Mình đưa nó vào tuần này không phải để bạn tin tuyệt đối, mà vì phần ứng dụng của nó vẫn đứng vững kể cả khi cơ chế còn tranh cãi.\n\nPhần đứng vững đó là: **đừng thiết kế kế hoạch dựa trên giả định khách luôn có sẵn ý chí.** Xếp buổi tập vào lúc trong ngày mà họ ít bị bào mòn nhất. Giảm số quyết định họ phải tự đưa ra — chuẩn bị sẵn bữa ăn, sẵn túi đồ tập, sẵn giáo án in ra. Một kế hoạch cần ít tự chủ hơn thì sống lâu hơn một kế hoạch hoàn hảo trên giấy.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Cách dùng khái niệm ego depletion nào là hợp lý nhất với hiểu biết hiện nay?",
+        "options": [
+          "Coi ý chí là bình xăng có dung tích cố định, đo được chính xác",
+          "Bác bỏ hoàn toàn, vì lý thuyết này đã bị chứng minh là sai",
+          "Giữ phần ứng dụng — giảm số quyết định và chọn khung giờ ít bị bào mòn — dù cơ chế còn tranh cãi",
+          "Dùng nó để giải thích mọi thất bại của khách hàng"
+        ],
+        "correct_index": 2,
+        "explain": "Cơ chế còn đang tranh luận, nhưng nguyên tắc thực hành thì vẫn đúng: kế hoạch đòi hỏi ít tự chủ sẽ bền hơn. Đó là cách dùng lý thuyết một cách trung thực."
+      }
+    ]
+  },
+  {
+    "day": 11,
+    "date": "2026-08-20",
+    "weekday": "Thứ Năm",
+    "week": 2,
+    "phase": "Scaffolding",
+    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
+    "day_type": "thu_thach",
+    "title": "Thử thách áp dụng — thiết kế một buổi tập có quyền tự quyết",
+    "body": "Autonomy là nhu cầu dễ trả lại cho khách nhất, mà cũng bị lấy đi thường xuyên nhất.",
+    "prompt": "Lấy **một buổi tập bạn thường cho khách**, viết lại nó theo hướng tăng Autonomy:\n\n1. Buổi tập gốc: liệt kê nhanh các bài, set, rep.\n2. Ba chỗ bạn có thể trao lựa chọn cho khách mà không phá cấu trúc buổi tập (ví dụ: chọn giữa hai bài cùng nhóm cơ, chọn thứ tự, chọn mức rep trong khoảng).\n3. Một câu bạn sẽ nói để khách hiểu họ đang được chọn — chứ không phải đang bị hỏi cho có.\n\nGợi ý: trao lựa chọn không có nghĩa là bỏ mặc. Hai phương án bạn đưa ra đều phải là phương án bạn đồng ý.",
+    "mechanic": "Thỏ nhảy 2 bước khi nộp bài (+5đ) — có thể trúng Hộp quà bí ẩn",
+    "questions": []
+  },
+  {
+    "day": 12,
+    "date": "2026-08-21",
+    "weekday": "Thứ Sáu",
+    "week": 2,
+    "phase": "Scaffolding",
+    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
+    "day_type": "kien_thuc",
+    "title": "Khi nào thưởng phạt phản tác dụng",
+    "body": "SDT phân biệt động lực nội tại (làm vì bản thân việc đó) và động lực ngoại sinh (làm vì phần thưởng hoặc để tránh hình phạt). Cả hai đều dùng được — nhưng chúng không cộng dồn đơn giản như ta tưởng.\n\nHiện tượng đáng chú ý nhất là **overjustification**: khi bạn treo phần thưởng ngoại sinh cho một việc người ta vốn đã thích làm, động lực nội tại có thể tụt xuống. Khách vốn thích cảm giác nâng tạ nặng hơn; bạn thưởng cho họ mỗi lần lên mốc; dừng thưởng, họ hụt hẫng. Việc từng có nghĩa với họ giờ thành việc để lấy thưởng.\n\nQuy tắc thực dụng mình dùng: **dùng phần thưởng ngoại sinh cho việc khách chưa thích, và rút dần khi họ bắt đầu thích.** Giai đoạn đầu, một tấm thẻ đánh dấu chuỗi buổi tập là hữu ích. Sáu tháng sau, thứ giữ họ lại phải là cảm giác khoẻ lên và mối quan hệ trong phòng tập, chứ không phải tấm thẻ.\n\nVà một điều nữa: phần thưởng mang tính công nhận năng lực (\"kỹ thuật squat của em tháng này chắc hơn hẳn\") ít khi phá động lực nội tại, vì nó nuôi Competence chứ không thay thế lý do.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Hiệu ứng overjustification mô tả điều gì?",
+        "options": [
+          "Người ta cần nhiều lý do thì mới hành động",
+          "Phần thưởng ngoại sinh cho việc vốn đã yêu thích có thể làm giảm động lực nội tại",
+          "Càng nhiều phần thưởng thì hành vi càng bền",
+          "Hình phạt hiệu quả hơn phần thưởng trong dài hạn"
+        ],
+        "correct_index": 1,
+        "explain": "Khi lý do bên ngoài thay thế lý do bên trong, việc từng có nghĩa trở thành việc để lấy thưởng — và mất thưởng thì mất luôn hành vi."
+      }
+    ]
+  },
+  {
+    "day": 13,
+    "date": "2026-08-22",
+    "weekday": "Thứ Bảy",
+    "week": 2,
+    "phase": "Scaffolding",
+    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
+    "day_type": "quiz_tuan",
+    "title": "Quiz tổng hợp tuần 2 — SDT & COM-B",
+    "body": "Năm câu cho tuần thứ hai. Đúng từ 4 câu bạn nhận thêm tia sáng bonus.",
+    "mechanic": "Thỏ nhảy 1 bước; đạt ≥80% nhận thêm \"tia sáng\" bonus (+3đ)",
+    "questions": [
+      {
+        "prompt": "Ba thành phần của mô hình COM-B là gì?",
+        "options": [
+          "Commitment, Opportunity, Motivation",
+          "Capability, Opportunity, Motivation",
+          "Capability, Outcome, Mindset",
+          "Consistency, Optimism, Momentum"
+        ],
+        "correct_index": 1,
+        "explain": "Capability (khả năng), Opportunity (cơ hội), Motivation (động lực) — thiếu bất kỳ mảnh nào thì hành vi không xảy ra."
+      },
+      {
+        "prompt": "Khách mới tập tuần đầu liên tục làm sai kỹ thuật deadlift và tỏ ra nản. Theo SDT, nhu cầu nào đang bị đe doạ nhiều nhất?",
+        "options": ["Autonomy", "Competence", "Relatedness", "Không nhu cầu nào"],
+        "correct_index": 1,
+        "explain": "Cảm giác \"tôi làm được\" đang bị bào mòn. Cách xử lý là hạ độ khó xuống mức họ thành công được, rồi tăng dần — chứ không phải giải thích kỹ hơn."
+      },
+      {
+        "prompt": "PT nào đang áp dụng COM-B đúng nhất?",
+        "options": [
+          "Gửi câu nói truyền cảm hứng mỗi sáng cho khách hay bỏ buổi",
+          "Hỏi rõ khách vướng ở khả năng, ở hoàn cảnh hay ở động lực, rồi mới chọn cách can thiệp",
+          "Tăng số buổi tập để tạo thói quen nhanh hơn",
+          "Yêu cầu khách cam kết bằng văn bản"
+        ],
+        "correct_index": 1,
+        "explain": "Giá trị của COM-B nằm ở khâu chẩn đoán. Ba nguyên nhân trông giống nhau từ bên ngoài nhưng cần ba cách xử lý khác nhau."
+      },
+      {
+        "prompt": "Cách trao Autonomy cho khách nào là hợp lý?",
+        "options": [
+          "Để khách tự chọn toàn bộ bài tập mỗi buổi",
+          "Đưa hai phương án mà bạn đều đồng ý, để khách chọn một",
+          "Hỏi khách hôm nay muốn tập gì rồi làm theo",
+          "Không thay đổi gì, vì PT phải là người quyết định"
+        ],
+        "correct_index": 1,
+        "explain": "Autonomy là được chọn trong khuôn khổ có chuyên môn, không phải bị bỏ mặc. Cả hai phương án đều phải nằm trong kế hoạch của bạn."
+      },
+      {
+        "prompt": "Với khách đã tập đều một năm và yêu thích cảm giác tiến bộ, bạn nên làm gì với các phần thưởng ngoại sinh đang dùng?",
+        "options": [
+          "Tăng giá trị phần thưởng để giữ chân họ",
+          "Rút dần và chuyển sang công nhận năng lực, kết nối trong nhóm",
+          "Giữ nguyên mãi mãi cho ổn định",
+          "Đổi sang hình phạt khi họ nghỉ buổi"
+        ],
+        "correct_index": 1,
+        "explain": "Phần thưởng ngoại sinh hợp lý ở giai đoạn đầu. Khi động lực nội tại đã mọc, giữ nguyên phần thưởng có nguy cơ thay thế chính lý do khách ở lại."
+      }
+    ]
+  },
+  {
+    "day": 14,
+    "date": "2026-08-23",
+    "weekday": "Chủ Nhật",
+    "week": 2,
+    "phase": "Scaffolding",
+    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
+    "day_type": "webinar",
+    "title": "Trạm dừng gốc đa #2 — Ghép SDT và COM-B vào kịch bản tư vấn",
+    "body": "Trạm dừng thứ hai. Mình sẽ dựng một kịch bản tư vấn hoàn chỉnh dùng cả hai mô hình: COM-B để chẩn đoán rào cản, SDT để thiết kế phần giữ chân. Có phần chữa bài từ thử thách ngày 11 của các bạn.\n\nCuối buổi mình đọc **mã điểm danh** cho mảnh trăng \"Nhịp bước vững vàng\".",
+    "mechanic": "Tham dự = nhận Mảnh trăng \"Nhịp bước vững vàng\" + thỏ tới trạm dừng chân (+10đ)",
+    "webinar_at": "2026-08-23T20:00:00+07:00",
+    "questions": []
+  }
+]

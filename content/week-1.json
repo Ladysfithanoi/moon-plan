@@ -1,0 +1,189 @@
+[
+  {
+    "day": 1,
+    "date": "2026-08-10",
+    "weekday": "Thứ Hai",
+    "week": 1,
+    "phase": "Onboarding",
+    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
+    "day_type": "kien_thuc",
+    "title": "Vì sao khách biết mà vẫn không tập",
+    "body": "Bạn đã gặp kiểu khách này rồi: hỏi rất kỹ, gật đầu rất nhiệt, hiểu rõ mình cần giảm mỡ, rồi ba tuần sau vẫn chưa bước chân vào phòng tập. Phản xạ thường thấy của một PT trẻ là giải thích thêm — thêm bằng chứng, thêm số liệu, thêm ảnh trước sau. Và nó gần như không hiệu quả.\n\nLý do là kiến thức và hành vi nằm ở hai tầng khác nhau. Mô hình Xuyên lý thuyết (Transtheoretical Model — TTM) của Prochaska và DiClemente mô tả thay đổi hành vi như một chuỗi năm giai đoạn: **Precontemplation** (chưa nghĩ tới), **Contemplation** (đang cân nhắc), **Preparation** (đang chuẩn bị), **Action** (đang làm), **Maintenance** (đang duy trì). Người ở giai đoạn một cần thứ hoàn toàn khác với người ở giai đoạn ba.\n\nĐiều này đổi cách mình làm việc: trước khi bán một giáo án, mình xác định khách đang đứng ở đâu. Đưa kế hoạch tập 5 buổi/tuần cho một người còn đang cân nhắc thì không phải là tận tâm — đó là nhảy cóc. Tuần này mình sẽ đi lần lượt qua từng giai đoạn, và cuối tuần bạn sẽ có một cách đọc khách hàng thực dụng hơn hẳn.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Theo TTM, khi khách hàng nói \"em biết em cần tập, nhưng chắc để qua tháng sau\", họ đang ở giai đoạn nào?",
+        "options": ["Precontemplation", "Contemplation", "Action", "Maintenance"],
+        "correct_index": 1,
+        "explain": "Đã nhận ra vấn đề và có ý định thay đổi nhưng chưa đặt mốc cụ thể — đó là Contemplation. Precontemplation là còn chưa thấy mình có vấn đề gì."
+      }
+    ]
+  },
+  {
+    "day": 2,
+    "date": "2026-08-11",
+    "weekday": "Thứ Ba",
+    "week": 1,
+    "phase": "Scaffolding",
+    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
+    "day_type": "kien_thuc",
+    "title": "Hai giai đoạn đầu — khách chưa sẵn sàng",
+    "body": "**Precontemplation** là người chưa thấy mình có vấn đề, hoặc thấy rồi nhưng đã quen sống chung với nó. Họ tới phòng tập vì vợ giục, vì công ty tặng thẻ, vì bạn rủ. Dấu hiệu nhận ra: họ nói về mục tiêu bằng lời của người khác. \"Chồng em bảo em nên giảm cân.\"\n\n**Contemplation** là người đã thấy vấn đề và đang cân nhắc, nhưng bị kẹt giữa cái được và cái mất. Họ muốn giảm mỡ nhưng ngại đau, ngại mất thời gian, ngại người khác nhìn. Đặc trưng của giai đoạn này là sự lưỡng lự kéo dài — có người ở đây hàng năm trời.\n\nSai lầm phổ biến nhất là dùng cùng một kịch bản cho cả hai. Với Precontemplation, việc của bạn là gieo một câu hỏi chứ không phải một kế hoạch: \"Anh thấy sức khoẻ mình mấy năm nay thế nào?\" Với Contemplation, việc của bạn là giúp họ cân lại hai đầu — nói thẳng cái giá phải trả, và làm cho cái được trở nên cụ thể. Cả hai giai đoạn này đều chưa phải lúc đưa bảng giá.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Với khách đang ở Precontemplation, việc nào sau đây phù hợp nhất?",
+        "options": [
+          "Gửi ngay giáo án 12 tuần để họ thấy sự chuyên nghiệp",
+          "Đặt câu hỏi giúp họ tự nhìn lại tình trạng hiện tại",
+          "Cho xem ảnh trước–sau của khách cũ để tạo động lực",
+          "Chốt gói tập ngắn hạn cho họ thử"
+        ],
+        "correct_index": 1,
+        "explain": "Người chưa thấy mình có vấn đề thì mọi kế hoạch đều là nhảy cóc. Việc cần làm là gieo nhận thức bằng câu hỏi, không phải đẩy giải pháp."
+      }
+    ]
+  },
+  {
+    "day": 3,
+    "date": "2026-08-12",
+    "weekday": "Thứ Tư",
+    "week": 1,
+    "phase": "Scaffolding",
+    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
+    "day_type": "kien_thuc",
+    "title": "Preparation và Action — khách đã sẵn sàng",
+    "body": "**Preparation** là giai đoạn dễ nhận ra nhất, và cũng dễ bị bỏ lỡ nhất. Khách bắt đầu hỏi những câu rất cụ thể: tập mấy buổi, đi giờ nào được, có cần mua giày không. Họ đã ra quyết định trong đầu, đang tìm cách thực hiện. Khoảng cửa sổ này thường chỉ mở trong vài tuần — nếu bạn để họ chờ, họ trượt ngược về Contemplation.\n\n**Action** là sáu tháng đầu thực sự tập. Đây là lúc hành vi mới còn tốn ý chí, chưa thành nếp. Khách dễ bỏ nhất ở tuần thứ ba đến thứ sáu, khi cảm giác mới mẻ đã hết mà kết quả thì chưa thấy.\n\nĐiều mình muốn bạn nhớ: hai giai đoạn này cần hai loại hỗ trợ khác nhau. Preparation cần bạn gỡ rào cản — chốt lịch cụ thể, giảm số quyết định họ phải tự đưa ra. Action cần bạn thiết kế thắng lợi sớm — chọn bài tập họ tiến bộ nhanh, đo thứ tiến bộ được trong hai tuần thay vì chỉ cân nặng. Người ở Action cần thấy mình đang đi đúng, chứ chưa cần thấy đích.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Khách đang ở giai đoạn Action thường bỏ cuộc nhiều nhất vào lúc nào, và vì sao?",
+        "options": [
+          "Ngay buổi đầu, vì bài tập quá nặng",
+          "Tuần 3–6, khi cảm giác mới mẻ hết mà kết quả chưa thấy rõ",
+          "Sau 6 tháng, khi đã đạt mục tiêu",
+          "Không có thời điểm nào đặc biệt, tỉ lệ bỏ đều nhau"
+        ],
+        "correct_index": 1,
+        "explain": "Giai đoạn giữa là chỗ trũng: động lực ban đầu đã cạn, thay đổi hình thể thì chưa đủ rõ. Đây là lúc cần thắng lợi sớm đo được, không phải lúc tăng cường độ."
+      }
+    ]
+  },
+  {
+    "day": 4,
+    "date": "2026-08-13",
+    "weekday": "Thứ Năm",
+    "week": 1,
+    "phase": "Scaffolding",
+    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
+    "day_type": "thu_thach",
+    "title": "Thử thách áp dụng — đọc vị một khách hàng thật",
+    "body": "Đến lúc mang TTM ra khỏi trang giấy. Bài này không cần dài, cần đúng người thật việc thật.",
+    "prompt": "Chọn **một khách hàng bạn đang làm việc cùng** (hoặc một người quen đang cân nhắc tập luyện). Viết ra:\n\n1. Bạn đoán họ đang ở giai đoạn nào trong 5 giai đoạn TTM?\n2. Hai dấu hiệu cụ thể khiến bạn kết luận như vậy — trích đúng câu họ nói càng tốt.\n3. Một việc bạn sẽ làm khác đi trong buổi gặp tới, dựa trên giai đoạn đó.\n\nKhông cần viết hay. Cần viết thật. Nếu tiện, bạn đính kèm ảnh chụp đoạn tin nhắn (nhớ che tên khách).",
+    "mechanic": "Thỏ nhảy 2 bước khi nộp bài (+5đ) — có thể trúng Hộp quà bí ẩn",
+    "questions": []
+  },
+  {
+    "day": 5,
+    "date": "2026-08-14",
+    "weekday": "Thứ Sáu",
+    "week": 1,
+    "phase": "Scaffolding",
+    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
+    "day_type": "kien_thuc",
+    "title": "Maintenance và Relapse — vì sao khách bỏ giữa chừng",
+    "body": "**Maintenance** bắt đầu khi hành vi mới đã chạy được khoảng sáu tháng và tốn ít ý chí hơn hẳn. Nghe thì yên tâm, nhưng đây lại là giai đoạn PT hay buông tay sớm nhất — khách tập ổn rồi, mình chuyển sự chú ý sang người mới. Trong khi đó Maintenance vẫn cần được nuôi: đổi mục tiêu, đổi kích thích, cho họ vai trò mới.\n\n**Relapse** — tái phát — không phải một giai đoạn thất bại nằm ngoài mô hình. Prochaska mô tả nó là một phần bình thường của vòng thay đổi. Đa số người thành công đều đi qua vòng này vài lần trước khi trụ được. Một chuyến công tác, một đợt ốm, một lần chuyển nhà là đủ để cắt chuỗi.\n\nVì vậy điều quan trọng nhất bạn làm cho khách không phải là ngăn tái phát, mà là rút ngắn thời gian quay lại. Nói trước với họ ngay từ đầu rằng sẽ có lúc đứt quãng, và thống nhất sẵn một kịch bản quay lại thật nhẹ: buổi đầu tiên sau khi nghỉ chỉ cần 20 phút, cường độ thấp. Khách bỏ hẳn thường không phải vì nghỉ một tuần — mà vì thấy xấu hổ khi quay lại.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Theo TTM, cách hiểu nào về Relapse (tái phát) là đúng?",
+        "options": [
+          "Là dấu hiệu khách không phù hợp với tập luyện",
+          "Là một phần bình thường của vòng thay đổi, cần chuẩn bị trước kịch bản quay lại",
+          "Chỉ xảy ra với người ở giai đoạn Precontemplation",
+          "Là lý do chính đáng để dừng hợp tác với khách"
+        ],
+        "correct_index": 1,
+        "explain": "Prochaska xem tái phát là một phần của vòng, không phải ngoại lệ. Việc của PT là rút ngắn thời gian quay lại, chứ không phải cố ngăn nó xảy ra."
+      }
+    ]
+  },
+  {
+    "day": 6,
+    "date": "2026-08-15",
+    "weekday": "Thứ Bảy",
+    "week": 1,
+    "phase": "Scaffolding",
+    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
+    "day_type": "quiz_tuan",
+    "title": "Quiz tổng hợp tuần 1 — Mô hình TTM",
+    "body": "Năm câu cho cả tuần. Đúng từ 4 câu trở lên bạn nhận thêm tia sáng bonus. Sai cũng không sao — thỏ vẫn đi tiếp, chỉ là chưa nhận được phần thưởng thêm.",
+    "mechanic": "Thỏ nhảy 1 bước; đạt ≥80% nhận thêm \"tia sáng\" bonus (+3đ)",
+    "questions": [
+      {
+        "prompt": "Thứ tự đúng của năm giai đoạn trong TTM là gì?",
+        "options": [
+          "Contemplation → Precontemplation → Preparation → Action → Maintenance",
+          "Precontemplation → Contemplation → Preparation → Action → Maintenance",
+          "Preparation → Contemplation → Precontemplation → Action → Maintenance",
+          "Precontemplation → Preparation → Contemplation → Maintenance → Action"
+        ],
+        "correct_index": 1,
+        "explain": "Chưa nghĩ tới → đang cân nhắc → đang chuẩn bị → đang làm → đang duy trì."
+      },
+      {
+        "prompt": "Khách nhắn: \"Chị ơi tuần sau em bắt đầu được không, em đi giờ nào thì phòng vắng?\" — đây là dấu hiệu của giai đoạn nào?",
+        "options": ["Precontemplation", "Contemplation", "Preparation", "Maintenance"],
+        "correct_index": 2,
+        "explain": "Câu hỏi đã chuyển từ \"có nên không\" sang \"làm thế nào\" — đặc trưng của Preparation. Đây là lúc cần chốt lịch ngay, đừng để nguội."
+      },
+      {
+        "prompt": "Vì sao đưa giáo án chi tiết cho khách ở giai đoạn Contemplation thường không hiệu quả?",
+        "options": [
+          "Vì giáo án đó chắc chắn sai về mặt khoa học",
+          "Vì họ chưa giải quyết xong sự lưỡng lự giữa cái được và cái mất",
+          "Vì họ không đủ tiền chi trả",
+          "Vì giai đoạn này khách không đọc tin nhắn"
+        ],
+        "correct_index": 1,
+        "explain": "Vấn đề của Contemplation là cân nhắc chưa ngã ngũ, không phải thiếu thông tin. Thêm chi tiết kỹ thuật chỉ làm cán cân nặng thêm về phía \"phức tạp quá\"."
+      },
+      {
+        "prompt": "Với khách đã vào Maintenance, sai lầm thường gặp của PT là gì?",
+        "options": [
+          "Tăng cường độ quá nhanh",
+          "Giảm sự quan tâm vì thấy khách đã ổn định",
+          "Đổi giáo án quá thường xuyên",
+          "Yêu cầu khách ghi nhật ký ăn uống"
+        ],
+        "correct_index": 1,
+        "explain": "Khách ổn định không có nghĩa là khách không cần gì. Maintenance vẫn cần mục tiêu mới và vai trò mới để không nguội dần."
+      },
+      {
+        "prompt": "Cách chuẩn bị tốt nhất cho khả năng khách tái phát là gì?",
+        "options": [
+          "Yêu cầu khách cam kết không nghỉ buổi nào",
+          "Thống nhất trước một kịch bản quay lại thật nhẹ khi có gián đoạn",
+          "Phạt tiền mỗi buổi khách vắng mặt",
+          "Không nhắc tới khả năng nghỉ để tránh gieo ý nghĩ"
+        ],
+        "correct_index": 1,
+        "explain": "Gián đoạn gần như chắc chắn xảy ra. Điều quyết định là buổi quay lại có dễ bước vào hay không — khách bỏ hẳn phần lớn vì ngại quay lại, không phải vì nghỉ."
+      }
+    ]
+  },
+  {
+    "day": 7,
+    "date": "2026-08-16",
+    "weekday": "Chủ Nhật",
+    "week": 1,
+    "phase": "Scaffolding",
+    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
+    "day_type": "webinar",
+    "title": "Trạm dừng gốc đa #1 — Áp dụng TTM vào buổi tư vấn đầu tiên",
+    "body": "Buổi đầu tiên trong sáu trạm dừng. Mình sẽ đi qua một kịch bản tư vấn hoàn chỉnh: hỏi gì trong ba phút đầu để định vị giai đoạn của khách, nói gì tiếp theo cho từng giai đoạn, và chỗ nào thì im lặng.\n\nCuối buổi mình đọc **mã điểm danh**. Bạn nhập mã đó vào ô bên dưới để nhận mảnh trăng đầu tiên — \"Tia sáng đầu tiên\".",
+    "mechanic": "Tham dự = nhận Mảnh trăng \"Tia sáng đầu tiên\" + thỏ tới trạm dừng chân (+10đ)",
+    "webinar_at": "2026-08-16T20:00:00+07:00",
+    "questions": []
+  }
+]

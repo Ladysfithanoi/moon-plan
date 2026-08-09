@@ -1,0 +1,199 @@
+[
+  {
+    "day": 15,
+    "date": "2026-08-24",
+    "weekday": "Thứ Hai",
+    "week": 3,
+    "phase": "Scaffolding",
+    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
+    "day_type": "kien_thuc",
+    "title": "Vì sao một giáo án cho tất cả là sai",
+    "body": "Hai tuần đầu là về đầu người khách. Từ tuần này mình quay về cơ thể.\n\nỞ cùng một mức phần trăm cường độ tối đa, nữ giới nhìn chung **chịu mỏi tốt hơn và hồi phục giữa các set nhanh hơn** nam. Nguyên nhân đến từ vài chỗ: tỉ lệ sợi cơ type I (chậm, bền, ưa oxy) thường cao hơn, mật độ mao mạch tương đối tốt hơn, và trong vận động dưới ngưỡng tối đa họ **oxy hoá mỡ nhiều hơn, dùng glycogen ít hơn** — một phần nhờ ảnh hưởng của estrogen lên chuyển hoá cơ chất.\n\nHệ quả rất thực tế với giáo án. Cùng một bài squat ở 70% 1RM, khách nữ của bạn thường làm được nhiều rep hơn tỉ lệ dự đoán, và nghỉ 90 giây có thể đã đủ trong khi khách nam cần 3 phút. Nếu bạn bê nguyên một mẫu giáo án viết cho nam sang, bạn thường **cho khách nữ nghỉ quá nhiều và tổng khối lượng quá thấp** — rồi kết luận là họ tiến bộ chậm.\n\nKhác biệt ở đây là khác biệt trung bình giữa hai nhóm, không phải luật áp cho từng cá nhân. Nhưng nó đủ lớn để đáng đưa vào lúc thiết kế.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Ở cùng mức phần trăm cường độ tối đa, đặc điểm nào thường đúng với nữ giới hơn?",
+        "options": [
+          "Mệt nhanh hơn và cần nghỉ lâu hơn giữa các set",
+          "Chịu mỏi tốt hơn và hồi phục giữa các set nhanh hơn",
+          "Sinh lực tối đa tuyệt đối cao hơn",
+          "Dùng glycogen nhiều hơn trong vận động dưới ngưỡng tối đa"
+        ],
+        "correct_index": 1,
+        "explain": "Tỉ lệ sợi type I cao hơn và xu hướng oxy hoá mỡ nhiều hơn giúp nữ giới bền hơn ở cùng cường độ tương đối. Điều này cho phép rút ngắn thời gian nghỉ và tăng tổng khối lượng."
+      }
+    ]
+  },
+  {
+    "day": 16,
+    "date": "2026-08-25",
+    "weekday": "Thứ Ba",
+    "week": 3,
+    "phase": "Scaffolding",
+    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
+    "day_type": "kien_thuc",
+    "title": "Chu kỳ nội tiết và hiệu suất — nói cho đúng mức",
+    "body": "Đây là chủ đề mà mạng xã hội nói quá tay nhất, nên mình muốn bạn nắm cho chuẩn.\n\nVề lý thuyết, estrogen và progesterone dao động qua chu kỳ có ảnh hưởng tới thân nhiệt, giữ nước, chuyển hoá cơ chất và có thể cả độ lỏng lẻo dây chằng. Nhiều bảng \"tập theo chu kỳ\" trên mạng dựa vào đó để chia bốn pha, mỗi pha một kiểu tập.\n\nNhưng bằng chứng thực nghiệm thì yếu hơn nhiều. Các tổng quan hệ thống lớn kết luận rằng ảnh hưởng của pha chu kỳ lên hiệu suất là **nhỏ và rất khác nhau giữa từng người**, và phần lớn nghiên cứu gốc có chất lượng thấp — cỡ mẫu nhỏ, cách xác định pha không chính xác. Nói cách khác: khác biệt giữa hai người phụ nữ thường lớn hơn khác biệt giữa hai pha của cùng một người.\n\nCách làm mình khuyên: **đừng lập trình cứng theo pha, hãy ghi nhận theo cá nhân.** Cho khách đánh dấu cảm nhận về sức lực và mức mệt mỗi buổi trong hai đến ba chu kỳ. Nếu xuất hiện một mẫu lặp lại rõ ràng ở riêng người đó, bạn điều chỉnh theo mẫu đó. Nếu không có mẫu, đừng tạo ra một cái. Và quan trọng không kém: chỉ riêng việc bạn hỏi tới đã là điều nhiều khách nữ chưa từng gặp ở một PT.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Cách tiếp cận nào phản ánh đúng nhất bằng chứng hiện có về chu kỳ kinh nguyệt và hiệu suất tập luyện?",
+        "options": [
+          "Lập trình cứng bốn pha, mỗi pha một kiểu tập cho mọi khách nữ",
+          "Bỏ qua hoàn toàn vì chu kỳ không ảnh hưởng gì",
+          "Theo dõi cảm nhận theo cá nhân qua vài chu kỳ, chỉ điều chỉnh khi thấy mẫu lặp lại rõ",
+          "Giảm cường độ toàn bộ trong nửa sau chu kỳ cho an toàn"
+        ],
+        "correct_index": 2,
+        "explain": "Ảnh hưởng trung bình là nhỏ và rất khác nhau giữa từng người, bằng chứng lại chất lượng thấp. Theo dõi cá nhân hoá vừa trung thực với khoa học vừa hữu ích hơn cho khách."
+      }
+    ]
+  },
+  {
+    "day": 17,
+    "date": "2026-08-26",
+    "weekday": "Thứ Tư",
+    "week": 3,
+    "phase": "Scaffolding",
+    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
+    "day_type": "kien_thuc",
+    "title": "Phân bổ mỡ và sức mạnh tương đối",
+    "body": "Hai khác biệt nữa có ảnh hưởng trực tiếp lên cách bạn đặt kỳ vọng cho khách.\n\n**Phân bổ mỡ.** Nam giới có xu hướng tích mỡ vùng bụng, trong đó có mỡ nội tạng — kiểu phân bố này liên quan chặt hơn tới rủi ro chuyển hoá. Nữ giới trước mãn kinh có xu hướng tích mỡ dưới da vùng mông đùi, ít liên quan tới rủi ro chuyển hoá hơn nhưng lại là vùng khách hay muốn giảm nhất và cũng là vùng giảm chậm nhất. Sau mãn kinh, kiểu phân bố dịch dần về phía bụng. Biết điều này giúp bạn nói trước với khách về thứ tự vùng giảm, thay vì để họ tự thất vọng.\n\n**Sức mạnh tương đối.** Về sinh lực tuyệt đối, nam cao hơn rõ rệt. Nhưng khi quy về khối lượng cơ nạc, khoảng cách thu hẹp đáng kể — và thu hẹp nhiều hơn ở **thân dưới** so với **thân trên**, nơi khác biệt về phân bố khối cơ lớn hơn. Trên thực tế, khách nữ của bạn thường tiến bộ ở squat và hip hinge nhanh hơn nhiều so với đẩy ngực hay kéo xà.\n\nỨng dụng: đừng để khách nữ đánh giá mình qua bài đẩy ngực trong tháng đầu. Chọn bài mà họ tiến bộ nhanh làm thước đo mở màn — đó chính là nuôi Competence trong SDT tuần trước.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Khi quy sức mạnh về khối lượng cơ nạc, khoảng cách nam–nữ thường thu hẹp nhiều nhất ở đâu?",
+        "options": [
+          "Thân trên (đẩy, kéo)",
+          "Thân dưới (squat, hip hinge)",
+          "Cả hai như nhau",
+          "Không có khác biệt nào giữa hai vùng"
+        ],
+        "correct_index": 1,
+        "explain": "Khác biệt phân bố khối cơ khiến khoảng cách ở thân trên lớn hơn. Vì vậy nên chọn bài thân dưới làm thước đo tiến bộ mở màn cho khách nữ mới tập."
+      }
+    ]
+  },
+  {
+    "day": 18,
+    "date": "2026-08-27",
+    "weekday": "Thứ Năm",
+    "week": 3,
+    "phase": "Scaffolding",
+    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
+    "day_type": "thu_thach",
+    "title": "Thử thách áp dụng — rà soát một giáo án của chính bạn",
+    "body": "Bài này hơi khó chịu một chút, vì bạn sẽ soi lại việc mình đã làm.",
+    "prompt": "Mở **một giáo án bạn đang dùng cho khách nữ**. Rà lại theo ba câu hỏi:\n\n1. Thời gian nghỉ giữa set bạn đang đặt là bao nhiêu? Nó được lấy từ đâu — từ đặc điểm của khách này, hay từ một mẫu bạn dùng cho mọi người?\n2. Thước đo tiến bộ trong tháng đầu là bài nào? Đó có phải là bài khách dễ thấy mình tiến bộ không?\n3. Có chỗ nào trong giáo án giả định khách luôn có sẵn thời gian và ý chí không?\n\nViết ra **một thay đổi cụ thể** bạn sẽ áp dụng ngay tuần này, kèm lý do. Có thể đính kèm ảnh chụp giáo án.",
+    "mechanic": "Thỏ nhảy 2 bước khi nộp bài (+5đ) — có thể trúng Hộp quà bí ẩn",
+    "questions": []
+  },
+  {
+    "day": 19,
+    "date": "2026-08-28",
+    "weekday": "Thứ Sáu",
+    "week": 3,
+    "phase": "Scaffolding",
+    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
+    "day_type": "kien_thuc",
+    "title": "\"Tập tạ làm phụ nữ to cơ\" — nói lại cho rõ",
+    "body": "Đây vẫn là câu phản đối bạn nghe nhiều nhất, và cách bạn trả lời nó quyết định khách có ở lại hay không.\n\nSự thật khoa học: khi tính theo **phần trăm tăng trưởng so với mức ban đầu**, nữ giới đáp ứng với tập kháng lực gần tương đương nam giới. Nhưng vì điểm xuất phát về khối cơ tuyệt đối thấp hơn, cùng một tỉ lệ tăng sẽ ra một lượng cơ tuyệt đối nhỏ hơn nhiều. Cộng thêm nồng độ testosterone lưu hành thấp hơn khoảng một bậc độ lớn, việc \"to cơ\" theo nghĩa khách đang sợ gần như không xảy ra một cách vô tình.\n\nĐiều khách thực sự nhìn thấy trong vài tuần đầu thường là **hai thứ khác bị nhầm với to cơ**: giữ nước và sưng nhẹ sau các buổi tập mới, và cảm giác quần áo chật hơn ở đùi khi cơ săn lại trong khi mỡ chưa kịp giảm. Cả hai đều tạm thời và đều nên được nói trước — nếu khách gặp chúng mà không được báo, họ sẽ tự kết luận là bạn nói sai.\n\nVà đây là chỗ ghép về tuần 1: câu phản đối này thường xuất hiện ở khách giai đoạn Contemplation. Trả lời bằng nghiên cứu thì đúng, nhưng cái họ cần là được nói trước về những gì sẽ thấy trong sáu tuần tới.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Phát biểu nào chính xác về đáp ứng tăng cơ ở nữ giới?",
+        "options": [
+          "Nữ giới hầu như không tăng cơ khi tập kháng lực",
+          "Tính theo phần trăm so với mức ban đầu, mức tăng gần tương đương nam, nhưng lượng tuyệt đối nhỏ hơn",
+          "Nữ giới tăng cơ nhanh hơn nam do hồi phục tốt hơn",
+          "Chỉ nữ giới dùng thực phẩm bổ sung mới tăng được cơ"
+        ],
+        "correct_index": 1,
+        "explain": "Đáp ứng tương đối là tương đương; khác biệt nằm ở điểm xuất phát tuyệt đối và nồng độ testosterone. Đó là lý do \"to cơ ngoài ý muốn\" gần như không xảy ra."
+      }
+    ]
+  },
+  {
+    "day": 20,
+    "date": "2026-08-29",
+    "weekday": "Thứ Bảy",
+    "week": 3,
+    "phase": "Scaffolding",
+    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
+    "day_type": "quiz_tuan",
+    "title": "Quiz tổng hợp tuần 3 — Sinh lý học nam–nữ",
+    "body": "Năm câu cho tuần thứ ba. Đúng từ 4 câu bạn nhận thêm tia sáng bonus.",
+    "mechanic": "Thỏ nhảy 1 bước; đạt ≥80% nhận thêm \"tia sáng\" bonus (+3đ)",
+    "questions": [
+      {
+        "prompt": "Khi bê nguyên mẫu giáo án viết cho nam sang cho khách nữ, sai lệch thường gặp nhất là gì?",
+        "options": [
+          "Cho nghỉ quá nhiều và tổng khối lượng quá thấp",
+          "Cường độ quá cao gây chấn thương",
+          "Quá nhiều bài thân dưới",
+          "Thiếu bài cardio"
+        ],
+        "correct_index": 0,
+        "explain": "Nữ giới hồi phục giữa set nhanh hơn ở cùng cường độ tương đối, nên khung nghỉ mượn từ giáo án nam thường dư, kéo tổng khối lượng xuống thấp."
+      },
+      {
+        "prompt": "Trong vận động dưới ngưỡng tối đa, nữ giới có xu hướng:",
+        "options": [
+          "Oxy hoá mỡ nhiều hơn và dùng glycogen ít hơn",
+          "Oxy hoá mỡ ít hơn và dùng glycogen nhiều hơn",
+          "Không dùng mỡ làm cơ chất",
+          "Chỉ dùng protein làm cơ chất"
+        ],
+        "correct_index": 0,
+        "explain": "Đây là một trong những khác biệt chuyển hoá rõ nhất, liên quan tới ảnh hưởng của estrogen lên lựa chọn cơ chất."
+      },
+      {
+        "prompt": "Về phân bổ mỡ, phát biểu nào đúng?",
+        "options": [
+          "Nam có xu hướng tích mỡ mông đùi, nữ tích mỡ bụng",
+          "Nam có xu hướng tích mỡ bụng gồm mỡ nội tạng; nữ trước mãn kinh tích mỡ dưới da vùng mông đùi",
+          "Không có khác biệt nào về vị trí tích mỡ",
+          "Mỡ mông đùi liên quan chặt tới rủi ro chuyển hoá hơn mỡ nội tạng"
+        ],
+        "correct_index": 1,
+        "explain": "Kiểu phân bố này cũng giải thích vì sao vùng khách nữ muốn giảm nhất lại thường là vùng giảm chậm nhất — nên nói trước với khách."
+      },
+      {
+        "prompt": "Khách nữ mới tập than \"em thấy đùi to ra\" sau ba tuần. Cách giải thích hợp lý nhất là gì?",
+        "options": [
+          "Cô ấy đã tăng cơ đáng kể, nên giảm tạ ngay",
+          "Nhiều khả năng là giữ nước, sưng nhẹ sau buổi tập mới và mỡ chưa kịp giảm — nên đã được báo trước từ đầu",
+          "Đó là do ăn quá nhiều protein",
+          "Cô ấy tưởng tượng ra, không cần bận tâm"
+        ],
+        "correct_index": 1,
+        "explain": "Ba tuần là quá sớm để tăng cơ đáng kể. Vấn đề thực sự không phải sinh lý mà là kỳ vọng — nếu không nói trước, khách sẽ kết luận bạn nói sai."
+      },
+      {
+        "prompt": "Vì sao nên chọn squat hoặc hip hinge làm thước đo tiến bộ mở màn cho khách nữ mới tập?",
+        "options": [
+          "Vì đó là bài an toàn nhất",
+          "Vì khoảng cách sức mạnh tương đối ở thân dưới nhỏ hơn, khách thấy mình tiến bộ nhanh hơn — nuôi cảm giác đủ năng lực",
+          "Vì bài thân trên không cần thiết cho nữ",
+          "Vì bài thân dưới đốt nhiều calo hơn"
+        ],
+        "correct_index": 1,
+        "explain": "Đây là chỗ sinh lý học gặp SDT: chọn thước đo mà khách tiến bộ được nhanh chính là thiết kế cho nhu cầu Competence."
+      }
+    ]
+  },
+  {
+    "day": 21,
+    "date": "2026-08-30",
+    "weekday": "Chủ Nhật",
+    "week": 3,
+    "phase": "Scaffolding",
+    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
+    "day_type": "webinar",
+    "title": "Trạm dừng gốc đa #3 — Giáo án tôn trọng sinh lý học nữ giới",
+    "body": "Trạm dừng thứ ba, và là buổi thực hành nhiều nhất từ đầu tới giờ. Mình sẽ viết trực tiếp một tuần giáo án cho khách nữ mới tập, giải thích từng lựa chọn: khung nghỉ, thứ tự bài, thước đo tháng đầu, và cách nói trước về những gì khách sẽ thấy trong sáu tuần.\n\nCuối buổi có **mã điểm danh** cho mảnh trăng \"Góc nhìn khác biệt\".",
+    "mechanic": "Tham dự = nhận Mảnh trăng \"Góc nhìn khác biệt\" + thỏ tới trạm dừng chân (+10đ)",
+    "webinar_at": "2026-08-30T20:00:00+07:00",
+    "questions": []
+  }
+]

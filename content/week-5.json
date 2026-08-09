@@ -1,0 +1,199 @@
+[
+  {
+    "day": 29,
+    "date": "2026-09-07",
+    "weekday": "Thứ Hai",
+    "week": 5,
+    "phase": "Scaffolding",
+    "week_theme": "Sức mạnh chuyển hoá (metabolic strength) vs cardio",
+    "day_type": "kien_thuc",
+    "title": "Sức mạnh chuyển hoá — mạnh ở chỗ nào",
+    "body": "\"Metabolic strength training\" là cách gọi các buổi tập kháng lực được tổ chức sao cho vừa giữ được tải đủ nặng, vừa duy trì nhịp làm việc liên tục — thường qua superset, circuit hoặc khung nghỉ có kiểm soát.\n\nMình muốn nói thẳng về lý do nó hiệu quả trong pha giảm mỡ, vì phần này hay bị nói sai. Lợi thế **không** nằm chủ yếu ở chuyện đốt thêm calo sau buổi tập — phần đó có thật nhưng khiêm tốn, mai mình sẽ nói kỹ. Lợi thế thật nằm ở ba chỗ:\n\n**Một, giữ khối cơ nạc.** Tuần trước bạn đã thấy: trong pha thiếu hụt năng lượng, đây là việc quan trọng nhất của buổi tập. Cardio thuần không làm được việc này.\n\n**Hai, hiệu suất thời gian.** Khách của bạn có 50 phút. Một buổi kháng lực tổ chức tốt cho cả kích thích giữ cơ lẫn tiêu hao năng lượng đáng kể trong cùng khoảng thời gian đó.\n\n**Ba, thứ khách giữ lại được.** Sau ba tháng, người tập kháng lực có thêm sức mạnh và mật độ xương tốt hơn — những thứ đi cùng họ kể cả khi ngừng tập một thời gian.\n\nCardio không phải kẻ xấu. Nó chỉ không nên là trục chính của một chương trình giảm mỡ.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Lợi thế lớn nhất của tập kháng lực so với cardio thuần trong pha giảm mỡ là gì?",
+        "options": [
+          "Đốt nhiều calo hơn trong lúc tập",
+          "Giữ khối cơ nạc, nên phần cân nặng mất đi chủ yếu là mỡ",
+          "Làm tăng vĩnh viễn tốc độ chuyển hoá lên gấp đôi",
+          "Không cần kiểm soát ăn uống nữa"
+        ],
+        "correct_index": 1,
+        "explain": "Về calo tiêu hao trong buổi, cardio nhiều khi còn nhỉnh hơn. Điều cardio không làm được là bảo vệ khối cơ khi đang thiếu hụt năng lượng."
+      }
+    ]
+  },
+  {
+    "day": 30,
+    "date": "2026-09-08",
+    "weekday": "Thứ Ba",
+    "week": 5,
+    "phase": "Scaffolding",
+    "week_theme": "Sức mạnh chuyển hoá (metabolic strength) vs cardio",
+    "day_type": "kien_thuc",
+    "title": "EPOC — nói cho đúng cỡ",
+    "body": "EPOC (excess post-exercise oxygen consumption) là lượng oxy cơ thể tiêu thụ thêm sau buổi tập để trả lại trạng thái ban đầu: bù kho phosphocreatine, dọn lactate, hạ thân nhiệt, sửa chữa mô. Vì tiêu thụ oxy đi kèm tiêu hao năng lượng, EPOC đúng là có đốt thêm calo sau khi buổi tập kết thúc.\n\nVấn đề là con số. Marketing phòng tập hay nói \"đốt mỡ suốt 48 giờ sau buổi tập\", gợi ý một khoản khổng lồ. Thực tế, với buổi tập điển hình, phần EPOC thường chỉ **quanh mức vài phần trăm đến hơn mười phần trăm** so với năng lượng tiêu hao trong chính buổi tập đó — nghĩa là vài chục calo, không phải vài trăm. Nó lớn hơn khi buổi tập cường độ cao và kéo dài, nhưng vẫn không phải cơ chế chính của việc giảm mỡ.\n\nMình dạy bạn điều này không để bạn bỏ khái niệm đi, mà để bạn **đừng bán hàng bằng nó**. Nếu bạn hứa với khách rằng EPOC sẽ lo phần còn lại, hai tháng sau khi cân không nhúc nhích, thứ mất đi không chỉ là kết quả mà là lòng tin.\n\nCâu nói đúng và vẫn đủ hấp dẫn: \"Buổi tập này vừa giữ cơ cho chị, vừa tiêu hao tốt trong lúc tập, và còn kéo dài thêm một chút sau đó. Phần lớn kết quả vẫn quyết định ở bàn ăn.\"",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Phát biểu nào về EPOC là chính xác nhất?",
+        "options": [
+          "EPOC thường đóng góp phần lớn tổng năng lượng tiêu hao của một buổi tập",
+          "EPOC có thật nhưng đóng góp khiêm tốn, thường chỉ một phần nhỏ so với năng lượng tiêu hao trong buổi tập",
+          "EPOC chỉ xảy ra khi tập cardio",
+          "EPOC là hiện tượng đã bị bác bỏ hoàn toàn"
+        ],
+        "correct_index": 1,
+        "explain": "Hiện tượng là có thật, nhưng độ lớn bị thổi phồng trong quảng cáo. Dùng nó làm lời hứa chính là tự đặt bẫy cho mình sau vài tháng."
+      }
+    ]
+  },
+  {
+    "day": 31,
+    "date": "2026-09-09",
+    "weekday": "Thứ Tư",
+    "week": 5,
+    "phase": "Scaffolding",
+    "week_theme": "Sức mạnh chuyển hoá (metabolic strength) vs cardio",
+    "day_type": "kien_thuc",
+    "title": "Thiết kế circuit và superset không làm hỏng tải",
+    "body": "Cái bẫy của buổi tập kiểu chuyển hoá là: để giữ nhịp liên tục, người ta hạ tạ xuống rất nhẹ — và thế là mất luôn tín hiệu giữ cơ, thứ duy nhất khiến buổi tập này đáng làm.\n\nCách tránh bẫy đó nằm ở **cách ghép bài**. Nguyên tắc gọn: ghép hai bài **không tranh nhau cùng một nhóm cơ hoặc cùng một hệ thống**, để trong lúc bài này làm việc thì nhóm cơ của bài kia đang hồi phục.\n\nBa kiểu ghép dùng được ngay:\n\n**Đối kháng** — đẩy ghép với kéo (ví dụ chest press và chèo tay). Nhóm cơ nghỉ luân phiên, nên tải giữ được gần như nguyên.\n\n**Trên ghép dưới** — squat ghép với một bài thân trên. Tim vẫn làm việc liên tục, nhưng mỗi nhóm cơ được nghỉ gấp đôi thời gian.\n\n**Bài chính ghép bài phụ nhẹ** — giữ bài chính ở tải nặng và nghỉ đủ, chỉ nhét bài phụ ít tốn sức vào khoảng nghỉ.\n\nĐiều **không** nên ghép: hai bài nặng dùng chung nhóm cơ lớn, hoặc hai bài đều đòi hỏi kỹ thuật cao khi khách đang mệt. Bài kỹ thuật khó luôn đứng đầu buổi, lúc khách còn tỉnh táo.\n\nMột kiểm tra đơn giản: nếu tải bạn dùng trong circuit thấp hơn nhiều so với khi tập bài đó riêng lẻ, cấu trúc ghép của bạn đang sai.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Cặp bài nào phù hợp nhất để ghép superset mà vẫn giữ được mức tải?",
+        "options": [
+          "Back squat nặng ghép với lunge nặng",
+          "Chest press ghép với chèo tay (đẩy ghép kéo)",
+          "Deadlift nặng ghép với romanian deadlift nặng",
+          "Hai bài kỹ thuật khó liên tiếp khi khách đã mệt"
+        ],
+        "correct_index": 1,
+        "explain": "Đẩy ghép kéo cho hai nhóm cơ nghỉ luân phiên, nên tải giữ được gần như nguyên. Ba lựa chọn kia đều dồn tải lên cùng nhóm cơ hoặc dồn kỹ thuật vào lúc mệt."
+      }
+    ]
+  },
+  {
+    "day": 32,
+    "date": "2026-09-10",
+    "weekday": "Thứ Năm",
+    "week": 5,
+    "phase": "Scaffolding",
+    "week_theme": "Sức mạnh chuyển hoá (metabolic strength) vs cardio",
+    "day_type": "thu_thach",
+    "title": "Thử thách áp dụng — đổi một buổi cardio thành buổi chuyển hoá",
+    "body": "Bài này lấy đúng một buổi có thật trong lịch của bạn.",
+    "prompt": "Chọn **một buổi cardio bạn đang cho khách tập** (chạy bộ 45 phút, lớp đạp xe, máy elliptical — buổi nào cũng được). Viết lại nó thành một buổi kháng lực kiểu chuyển hoá cùng thời lượng:\n\n1. Buổi gốc: nội dung và thời lượng.\n2. Buổi mới: các cặp/vòng bài, số set, dải rep, khung nghỉ.\n3. Chỉ rõ **nguyên tắc ghép bài** bạn dùng cho từng cặp (đối kháng, trên–dưới, hay chính–phụ) và vì sao cặp đó không làm tụt tải.\n4. Bạn sẽ nói gì với khách nếu họ hỏi \"vậy em còn đốt mỡ được như chạy bộ không?\" — nhớ trả lời trung thực theo đúng bài hôm ngày 30.\n\nCó thể đính kèm ảnh giáo án.",
+    "mechanic": "Thỏ nhảy 2 bước khi nộp bài (+5đ) — có thể trúng Hộp quà bí ẩn",
+    "questions": []
+  },
+  {
+    "day": 33,
+    "date": "2026-09-11",
+    "weekday": "Thứ Sáu",
+    "week": 5,
+    "phase": "Scaffolding",
+    "week_theme": "Sức mạnh chuyển hoá (metabolic strength) vs cardio",
+    "day_type": "kien_thuc",
+    "title": "Khi nào cardio vẫn là lựa chọn đúng",
+    "body": "Sau ba ngày nói về ưu thế của tập kháng lực, hôm nay mình cân lại — vì một PT chỉ biết bênh một phía là một PT dễ đoán và dễ sai.\n\nCardio vẫn là lựa chọn đúng trong những trường hợp này:\n\n**Khi mục tiêu là sức khoẻ tim mạch.** Khả năng hấp thụ oxy tối đa là một trong những chỉ dấu mạnh nhất về nguy cơ tử vong do mọi nguyên nhân. Tập kháng lực có cải thiện nó, nhưng không hiệu quả bằng tập bền có cấu trúc.\n\n**Khi khách thích nó.** Quay lại SDT tuần 2: hình thức vận động khách tự chọn và thấy vui sẽ được duy trì lâu hơn hình thức tối ưu về lý thuyết mà họ chịu đựng. Một buổi chạy khách thật sự làm đều đặn thắng một buổi circuit hoàn hảo họ bỏ sau ba tuần.\n\n**Khi cần thêm tiêu hao mà không thêm mệt mỏi cho hệ thần kinh.** Đi bộ nhanh hay đạp xe nhẹ tăng tổng năng lượng tiêu hao mà gần như không ảnh hưởng tới chất lượng buổi tập tạ hôm sau.\n\n**Khi khách mới, quá cân, hoặc đang đau khớp** và chưa vào được các bài kháng lực có tải.\n\nCách nghĩ mình muốn bạn giữ: **tập kháng lực là trục, cardio là công cụ.** Không phải chọn một bỏ một — mà là biết mỗi thứ giải quyết việc gì.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Khách nữ 45 tuổi rất thích lớp đạp xe, đi đều 3 buổi/tuần suốt 2 năm, giờ muốn giảm mỡ. Cách xử lý hợp lý nhất?",
+        "options": [
+          "Bắt bỏ hẳn lớp đạp xe vì cardio không hiệu quả cho giảm mỡ",
+          "Giữ lớp đạp xe khách yêu thích, thêm 2 buổi kháng lực làm trục chính cho việc giữ cơ",
+          "Tăng lớp đạp xe lên 6 buổi/tuần",
+          "Bỏ tập tạ vì khách đã có thói quen vận động rồi"
+        ],
+        "correct_index": 1,
+        "explain": "Thói quen duy trì được 2 năm là tài sản, đừng phá. Việc cần thêm là trục kháng lực để bảo vệ khối cơ trong pha thiếu hụt năng lượng."
+      }
+    ]
+  },
+  {
+    "day": 34,
+    "date": "2026-09-12",
+    "weekday": "Thứ Bảy",
+    "week": 5,
+    "phase": "Scaffolding",
+    "week_theme": "Sức mạnh chuyển hoá (metabolic strength) vs cardio",
+    "day_type": "quiz_tuan",
+    "title": "Quiz tổng hợp tuần 5 — Sức mạnh chuyển hoá",
+    "body": "Năm câu cho tuần thứ năm. Đúng từ 4 câu bạn nhận thêm tia sáng bonus.",
+    "mechanic": "Thỏ nhảy 1 bước; đạt ≥80% nhận thêm \"tia sáng\" bonus (+3đ)",
+    "questions": [
+      {
+        "prompt": "Dấu hiệu nào cho thấy cấu trúc superset của bạn đang sai?",
+        "options": [
+          "Khách thở mạnh trong buổi tập",
+          "Mức tải dùng trong circuit thấp hơn nhiều so với khi tập bài đó riêng lẻ",
+          "Buổi tập kết thúc sớm hơn dự kiến 5 phút",
+          "Khách đổ mồ hôi nhiều"
+        ],
+        "correct_index": 1,
+        "explain": "Nếu phải hạ tải mạnh để giữ nhịp, buổi tập đã mất tín hiệu giữ cơ — thứ duy nhất khiến nó đáng làm trong pha giảm mỡ."
+      },
+      {
+        "prompt": "Bài đòi hỏi kỹ thuật cao nên đặt ở đâu trong buổi tập?",
+        "options": [
+          "Cuối buổi, khi cơ đã nóng hoàn toàn",
+          "Đầu buổi, khi khách còn tỉnh táo và chưa mệt",
+          "Giữa buổi, xen kẽ với bài nhẹ",
+          "Ở đâu cũng được, không quan trọng"
+        ],
+        "correct_index": 1,
+        "explain": "Kỹ thuật xuống rất nhanh khi mệt. Bài khó luôn đứng đầu buổi, sau phần khởi động."
+      },
+      {
+        "prompt": "Chỉ dấu nào mà tập bền có cấu trúc cải thiện hiệu quả hơn tập kháng lực?",
+        "options": [
+          "Khối lượng cơ nạc",
+          "Mật độ xương",
+          "Khả năng hấp thụ oxy tối đa",
+          "Sức mạnh tối đa"
+        ],
+        "correct_index": 2,
+        "explain": "Đây là lý do chính đáng nhất để giữ cardio trong chương trình — và nó là một chỉ dấu sức khoẻ rất mạnh, không chỉ là chuyện thể lực."
+      },
+      {
+        "prompt": "Bạn nên nói gì với khách hỏi \"buổi tập này đốt mỡ trong 48 giờ đúng không anh/chị?\"",
+        "options": [
+          "Đúng vậy, đó là ưu điểm lớn nhất của buổi tập này",
+          "Có phần đốt thêm sau buổi tập nhưng khiêm tốn; giá trị chính là giữ cơ và phần lớn kết quả vẫn quyết định ở ăn uống",
+          "Không, EPOC là chuyện bịa đặt hoàn toàn",
+          "Chỉ đúng nếu tập lúc bụng đói"
+        ],
+        "correct_index": 1,
+        "explain": "Trung thực về độ lớn của EPOC giúp bạn giữ được lòng tin của khách khi kết quả tới chậm hơn quảng cáo."
+      },
+      {
+        "prompt": "Cách ghép bài nào giúp giữ nguyên mức tải tốt nhất?",
+        "options": [
+          "Hai bài cùng nhóm cơ lớn, cùng nặng",
+          "Ghép nhóm cơ đối kháng hoặc ghép thân trên với thân dưới",
+          "Ba bài chân liên tiếp không nghỉ",
+          "Ghép hai bài kỹ thuật khó với nhau"
+        ],
+        "correct_index": 1,
+        "explain": "Nguyên tắc chung: trong lúc bài này làm việc, nhóm cơ của bài kia phải đang được hồi phục."
+      }
+    ]
+  },
+  {
+    "day": 35,
+    "date": "2026-09-13",
+    "weekday": "Chủ Nhật",
+    "week": 5,
+    "phase": "Scaffolding",
+    "week_theme": "Sức mạnh chuyển hoá (metabolic strength) vs cardio",
+    "day_type": "webinar",
+    "title": "Trạm dừng gốc đa #5 — Lập trình bốn tuần cho khách giảm mỡ",
+    "body": "Trạm dừng thứ năm. Mình sẽ lập trình trực tiếp một khối bốn tuần: buổi nào là buổi tải nặng, buổi nào là buổi chuyển hoá, cardio đặt ở đâu, và tuần thứ tư điều chỉnh những gì khi khách bắt đầu mệt.\n\nCuối buổi có **mã điểm danh** cho mảnh trăng \"Nhịp đập chuyển hoá\".",
+    "mechanic": "Tham dự = nhận Mảnh trăng \"Nhịp đập chuyển hoá\" + thỏ tới trạm dừng chân (+10đ)",
+    "webinar_at": "2026-09-13T20:00:00+07:00",
+    "questions": []
+  }
+]

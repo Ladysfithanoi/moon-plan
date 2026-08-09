@@ -1,0 +1,194 @@
+[
+  {
+    "day": 36,
+    "date": "2026-09-14",
+    "weekday": "Thứ Hai",
+    "week": 6,
+    "phase": "Scaffolding",
+    "week_theme": "Môi trường ăn uống, Nudge Theory & tốc độ giảm cân",
+    "day_type": "kien_thuc",
+    "title": "Môi trường ăn uống — vì sao ý chí không đủ",
+    "body": "Trụ cột cuối cùng, và là trụ cột mình thấy PT trẻ bỏ qua nhiều nhất.\n\nKhi khách ăn quá đà, phản xạ nghề nghiệp là siết kế hoạch: dặn kỹ hơn, ghi chép chặt hơn, nhắc nhiều hơn. Cách này đặt toàn bộ gánh nặng lên tự chủ của khách — thứ mà tuần 2 bạn đã thấy là không nên dựa vào.\n\nGóc nhìn thay thế gọi là **môi trường ăn uống**: tập hợp những gì có sẵn quanh người ta, ở khoảng cách nào, dễ lấy đến đâu, khẩu phần được dọn ra bao lớn, và ăn cùng ai. Phần lớn quyết định ăn uống trong ngày không đi qua khâu cân nhắc có ý thức — chúng chạy theo cái gì tiện nhất trong tầm với.\n\nĐiều này nghe hiển nhiên nhưng đổi hẳn cách bạn tư vấn. Câu hỏi không còn là \"chị có quyết tâm không\", mà là: **Nhà chị để sẵn gì trên bàn bếp? Bữa trưa chị đặt hay mang đi? Tối chị ăn cùng ai và ai nấu?** Ba câu đó cho bạn nhiều thông tin hành động hơn cả một tuần nhật ký ăn uống.\n\nVà nó khớp thẳng với COM-B: khi bạn thay đổi môi trường, bạn đang tác động vào **Opportunity** — mảnh mà mọi người hay bỏ qua vì mải chữa Motivation.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Cách tiếp cận \"môi trường ăn uống\" khác gì so với cách dặn dò truyền thống?",
+        "options": [
+          "Nó đặt nặng hơn vào quyết tâm và kỷ luật của khách",
+          "Nó thay đổi cái có sẵn quanh khách, giảm số quyết định phải dùng tự chủ",
+          "Nó yêu cầu khách ghi nhật ký ăn uống chi tiết hơn",
+          "Nó chỉ áp dụng được cho người tự nấu ăn"
+        ],
+        "correct_index": 1,
+        "explain": "Đây là tác động vào Opportunity trong COM-B. Kế hoạch đòi hỏi ít tự chủ hơn thì sống lâu hơn kế hoạch hoàn hảo trên giấy."
+      }
+    ]
+  },
+  {
+    "day": 37,
+    "date": "2026-09-15",
+    "weekday": "Thứ Ba",
+    "week": 6,
+    "phase": "Scaffolding",
+    "week_theme": "Môi trường ăn uống, Nudge Theory & tốc độ giảm cân",
+    "day_type": "kien_thuc",
+    "title": "Nudge — thiết kế lựa chọn thay vì dặn dò",
+    "body": "Nudge, theo Thaler và Sunstein, là một thay đổi trong **kiến trúc lựa chọn** khiến hành vi mong muốn dễ xảy ra hơn, mà không cấm đoán lựa chọn nào và không thay đổi đáng kể chi phí. Đó là hai điều kiện quan trọng: **vẫn tự do chọn**, và **không phải là cấm**.\n\nMột vài nudge dùng được ngay với khách:\n\n**Đổi cái mặc định.** Trái cây rửa sẵn để ngang tầm mắt trong tủ lạnh; bánh kẹo cất lên ngăn cao, trong hộp đục. Không cấm gì cả — chỉ đổi thứ tự dễ với.\n\n**Đổi cỡ đồ đựng.** Bát nhỏ hơn, đĩa nhỏ hơn cho món cần tiết chế; đĩa lớn cho rau. Khách vẫn được ăn thoải mái, nhưng khẩu phần mặc định đã khác.\n\n**Đổi ma sát.** Muốn tăng hành vi thì giảm ma sát (đặt sẵn túi đồ tập cạnh cửa). Muốn giảm hành vi thì thêm ma sát (không tích trữ sẵn ở nhà, phải đi mua mới có).\n\nMình cần nói thêm một điều cho trung thực: **độ lớn của hiệu ứng nudge đang được tranh luận** trong giới nghiên cứu — một số phân tích tổng hợp cho thấy hiệu ứng trung bình nhỏ hơn khi tính đến thiên lệch công bố. Nên đừng coi nudge là phép màu thay cho việc siết năng lượng. Hãy coi nó là cách làm cho kế hoạch dinh dưỡng của bạn ít phụ thuộc vào ý chí hơn — nhiều nudge nhỏ, đặt đúng chỗ.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Trường hợp nào sau đây KHÔNG phải là một nudge?",
+        "options": [
+          "Để trái cây rửa sẵn ngang tầm mắt trong tủ lạnh",
+          "Dùng bát nhỏ hơn cho món cần tiết chế",
+          "Cấm khách ăn tinh bột sau 6h tối",
+          "Đặt sẵn túi đồ tập cạnh cửa ra vào"
+        ],
+        "correct_index": 2,
+        "explain": "Nudge không cấm và không lấy đi lựa chọn nào. Một lệnh cấm là quy định, không phải kiến trúc lựa chọn."
+      }
+    ]
+  },
+  {
+    "day": 38,
+    "date": "2026-09-16",
+    "weekday": "Thứ Tư",
+    "week": 6,
+    "phase": "Scaffolding",
+    "week_theme": "Môi trường ăn uống, Nudge Theory & tốc độ giảm cân",
+    "day_type": "kien_thuc",
+    "title": "Giảm nhanh hay giảm từ từ",
+    "body": "Khách nào cũng muốn nhanh. Câu hỏi là bạn trả lời thế nào cho vừa đúng khoa học vừa giữ được họ.\n\nMức thường được khuyến nghị là **khoảng 0,5 đến 1% trọng lượng cơ thể mỗi tuần**. Người có tỉ lệ mỡ cao có thể ở cận trên mà vẫn an toàn; người đã gầy nên đi cận dưới.\n\nGiảm quá nhanh phải trả ba cái giá. **Một, mất nhiều khối cơ nạc hơn** — nghiên cứu so sánh hai tốc độ ở vận động viên cho thấy nhóm giảm chậm giữ được khối cơ và sức mạnh tốt hơn ở cùng mức mỡ mất đi. **Hai, thích nghi chuyển hoá và nội tiết** — tiêu hao khi nghỉ giảm nhiều hơn dự đoán, cảm giác đói tăng. **Ba, khả năng duy trì** — chế độ càng khắc nghiệt càng khó theo, và cái giá thật nằm ở tháng thứ tư chứ không phải tuần thứ hai.\n\nNhưng cũng đừng đi thái cực ngược lại. Mức thiếu hụt quá nhỏ khiến kết quả chậm tới mức khách không thấy gì trong sáu tuần — và bạn mất họ ở đúng chỗ trũng của giai đoạn Action tuần 1.\n\nCách mình nói với khách: \"Mình sẽ đi ở tốc độ mà chị giữ được cơ và vẫn thấy thay đổi mỗi tháng. Nhanh hơn thì phần mất đi có cả cơ, và ba tháng nữa chị sẽ phải giảm lại lần hai.\"",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "So với giảm cân từ từ, giảm cân quá nhanh có xu hướng dẫn tới điều gì?",
+        "options": [
+          "Giữ khối cơ nạc tốt hơn",
+          "Mất nhiều khối cơ nạc hơn ở cùng mức mỡ giảm được",
+          "Tăng tiêu hao năng lượng khi nghỉ",
+          "Cảm giác đói giảm đi"
+        ],
+        "correct_index": 1,
+        "explain": "Ở cùng lượng mỡ mất đi, tốc độ nhanh làm phần cơ mất theo lớn hơn, kèm thích nghi chuyển hoá và đói nhiều hơn — nên hay dẫn tới lần giảm cân thứ hai."
+      }
+    ]
+  },
+  {
+    "day": 39,
+    "date": "2026-09-17",
+    "weekday": "Thứ Năm",
+    "week": 6,
+    "phase": "Scaffolding",
+    "week_theme": "Môi trường ăn uống, Nudge Theory & tốc độ giảm cân",
+    "day_type": "thu_thach",
+    "title": "Thử thách áp dụng — một nudge cho khách của bạn",
+    "body": "Thử thách cuối trước tuần chung kết. Nhỏ thôi, nhưng phải dùng được ngay tuần này.",
+    "prompt": "Chọn **một khách hàng cụ thể** đang gặp khó ở phần ăn uống. Viết ra:\n\n1. Ba câu hỏi về môi trường ăn uống bạn sẽ hỏi họ (nhắc lại ngày 36: có sẵn gì, ai nấu, ăn cùng ai, mua ở đâu).\n2. **Một nudge duy nhất** bạn đề xuất — nhớ hai điều kiện: không cấm đoán, không đòi thêm ý chí.\n3. Cách bạn sẽ biết nudge đó có tác dụng sau hai tuần (đo bằng gì, quan sát cái gì).\n4. Vì sao bạn chọn nudge này thay vì đơn giản dặn khách \"cố gắng ăn ít lại\".\n\nMột nudge làm được còn hơn năm lời dặn.",
+    "mechanic": "Thỏ nhảy 2 bước khi nộp bài (+5đ) — có thể trúng Hộp quà bí ẩn",
+    "questions": []
+  },
+  {
+    "day": 40,
+    "date": "2026-09-18",
+    "weekday": "Thứ Sáu",
+    "week": 6,
+    "phase": "Scaffolding",
+    "week_theme": "Môi trường ăn uống, Nudge Theory & tốc độ giảm cân",
+    "day_type": "kien_thuc",
+    "title": "Ghép nudge vào kịch bản tư vấn dinh dưỡng",
+    "body": "Hôm nay mình ghép cả sáu tuần lại thành một buổi tư vấn dinh dưỡng thật.\n\n**Bước 1 — định vị.** Khách đang ở giai đoạn nào (tuần 1)? Người ở Contemplation mà bạn giao bảng thực đơn 7 ngày thì bảng đó nằm trong điện thoại tới lúc hết hạn gói tập.\n\n**Bước 2 — chẩn đoán bằng COM-B** (tuần 2). Khách thiếu kiến thức nấu nướng, thiếu thời gian, hay thiếu động lực? Đừng đoán, hãy hỏi.\n\n**Bước 3 — khảo sát môi trường** (ngày 36). Ba câu về bếp, bữa trưa, và người ăn cùng.\n\n**Bước 4 — chọn đúng một nudge** (ngày 37). Một, không phải năm. Nhắm vào rào cản lớn nhất bạn vừa tìm ra.\n\n**Bước 5 — đặt tốc độ và kỳ vọng** (ngày 38). Nói rõ mức giảm mỗi tuần, nói trước rằng sẽ có tuần cân đứng yên, nói trước thứ tự vùng giảm (tuần 3).\n\n**Bước 6 — chốt thước đo và lịch xem lại.** Hai tuần một lần, xem nudge còn chạy không, rồi mới thêm cái thứ hai.\n\nSáu bước này là thứ mình muốn bạn mang ra khỏi sự kiện. Nó không hào nhoáng, nhưng nó là cách một người làm nghề tử tế bắt đầu với một khách hàng thật.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Trong buổi tư vấn dinh dưỡng, nên đưa bao nhiêu nudge cùng lúc cho khách?",
+        "options": [
+          "Càng nhiều càng tốt, để khách có nhiều lựa chọn",
+          "Một, nhắm vào rào cản lớn nhất, rồi xem lại sau hai tuần",
+          "Ít nhất năm, để đảm bảo có cái hiệu quả",
+          "Không nudge nào, chỉ cần thực đơn chi tiết"
+        ],
+        "correct_index": 1,
+        "explain": "Nhiều thay đổi cùng lúc vừa quá tải vừa khiến bạn không biết cái nào có tác dụng. Một nudge, hai tuần, rồi mới thêm."
+      }
+    ]
+  },
+  {
+    "day": 41,
+    "date": "2026-09-19",
+    "weekday": "Thứ Bảy",
+    "week": 6,
+    "phase": "Scaffolding",
+    "week_theme": "Môi trường ăn uống, Nudge Theory & tốc độ giảm cân",
+    "day_type": "quiz_tuan",
+    "title": "Quiz tổng hợp tuần 6 — Môi trường ăn uống & Nudge",
+    "body": "Năm câu cuối cùng trước tuần chung kết. Đúng từ 4 câu bạn nhận thêm tia sáng bonus.",
+    "mechanic": "Thỏ nhảy 1 bước; đạt ≥80% nhận thêm \"tia sáng\" bonus (+3đ)",
+    "questions": [
+      {
+        "prompt": "Hai điều kiện để một can thiệp được gọi là nudge là gì?",
+        "options": [
+          "Rẻ tiền và dễ thực hiện",
+          "Không cấm lựa chọn nào và không thay đổi đáng kể chi phí",
+          "Có bằng chứng khoa học mạnh và được cơ quan y tế công nhận",
+          "Áp dụng cho số đông và có hiệu lực ngay lập tức"
+        ],
+        "correct_index": 1,
+        "explain": "Nudge đổi kiến trúc lựa chọn, giữ nguyên quyền tự do chọn. Cấm đoán hay đánh thuế nặng là công cụ khác."
+      },
+      {
+        "prompt": "Mức giảm cân thường được khuyến nghị là bao nhiêu mỗi tuần?",
+        "options": [
+          "Khoảng 0,5–1% trọng lượng cơ thể",
+          "Cố định 2kg cho mọi người",
+          "Khoảng 3–4% trọng lượng cơ thể",
+          "Càng nhanh càng tốt miễn là khách chịu được"
+        ],
+        "correct_index": 0,
+        "explain": "Tính theo phần trăm chứ không phải số ký cố định — người 90kg và người 50kg không thể dùng chung một con số."
+      },
+      {
+        "prompt": "Theo COM-B, thay đổi môi trường ăn uống chủ yếu tác động vào thành phần nào?",
+        "options": ["Capability", "Opportunity", "Motivation", "Không thành phần nào"],
+        "correct_index": 1,
+        "explain": "Môi trường là Opportunity — mảnh hay bị bỏ quên nhất vì ai cũng mải chữa Motivation."
+      },
+      {
+        "prompt": "Khách nói \"em không có thời gian nấu, trưa toàn đặt đồ ăn ngoài\". Nudge nào phù hợp nhất?",
+        "options": [
+          "Yêu cầu khách bắt đầu nấu ăn mỗi sáng",
+          "Cùng khách chọn sẵn 3 món quen ở các quán hay đặt, phù hợp mục tiêu, để lần sau khỏi phải cân nhắc",
+          "Cấm khách đặt đồ ăn ngoài",
+          "Gửi khách một thực đơn 7 ngày chi tiết"
+        ],
+        "correct_index": 1,
+        "explain": "Nudge tốt làm cho lựa chọn phù hợp trở thành lựa chọn mặc định, trong chính hoàn cảnh khách đang có — không đòi khách đổi cả nếp sống."
+      },
+      {
+        "prompt": "Vì sao không nên đặt mức thiếu hụt năng lượng quá nhỏ cho khách mới?",
+        "options": [
+          "Vì cơ thể sẽ tích trữ mỡ nhiều hơn",
+          "Vì kết quả tới quá chậm, khách dễ bỏ đúng vào chỗ trũng của giai đoạn Action",
+          "Vì đạm sẽ không đủ",
+          "Vì không có lý do nào, mức càng nhỏ càng tốt"
+        ],
+        "correct_index": 1,
+        "explain": "Đây là chỗ khoa học gặp tâm lý: mức tối ưu về sinh lý mà khách bỏ ngang thì không tối ưu chút nào."
+      }
+    ]
+  },
+  {
+    "day": 42,
+    "date": "2026-09-20",
+    "weekday": "Chủ Nhật",
+    "week": 6,
+    "phase": "Scaffolding",
+    "week_theme": "Môi trường ăn uống, Nudge Theory & tốc độ giảm cân",
+    "day_type": "webinar",
+    "title": "Trạm dừng gốc đa #6 — Môi trường ăn uống cho khách bận rộn",
+    "body": "Trạm dừng cuối cùng. Mình làm trực tiếp một ca khách bận rộn điển hình: đi làm 10 tiếng, ăn trưa ngoài, tối ăn cùng gia đình và không phải người nấu. Đi hết sáu bước của ngày 40 trên ca đó.\n\nCuối buổi mình đọc **mã điểm danh** cho mảnh trăng thứ sáu — \"Người dẫn đường tinh tế\" — và công bố đề case study chung kết.",
+    "mechanic": "Tham dự = nhận Mảnh trăng \"Người dẫn đường tinh tế\" + thỏ tới trạm dừng chân (+10đ)",
+    "webinar_at": "2026-09-20T20:00:00+07:00",
+    "questions": []
+  }
+]

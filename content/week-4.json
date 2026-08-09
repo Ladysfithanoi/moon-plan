@@ -1,0 +1,194 @@
+[
+  {
+    "day": 22,
+    "date": "2026-08-31",
+    "weekday": "Thứ Hai",
+    "week": 4,
+    "phase": "Scaffolding",
+    "week_theme": "Kiến trúc chương trình: Fat loss vs Hypertrophy",
+    "day_type": "kien_thuc",
+    "title": "Hai mục tiêu, hai kiến trúc khác nhau",
+    "body": "Nhiều PT viết giáo án giảm mỡ và giáo án tăng cơ giống hệt nhau, chỉ khác con số calo. Đó là chỗ sai gốc.\n\n**Giáo án giảm mỡ** không phải là giáo án đốt calo. Thứ tạo ra mỡ giảm là chênh lệch năng lượng, và phần lớn chênh lệch đó đến từ ăn uống cùng hoạt động thể chất ngoài buổi tập. Vai trò chính của buổi tập kháng lực trong pha này là **giữ lại khối cơ nạc** để cân nặng mất đi chủ yếu là mỡ. Nghĩa là: giữ cường độ, giữ tải, đừng biến buổi tập thành lớp cardio có tạ.\n\n**Giáo án tăng cơ** thì ngược lại, lấy khối lượng làm trung tâm — số set khó cho mỗi nhóm cơ mỗi tuần, mức độ tiến gần ngưỡng lực, và tiến bộ đều đặn theo thời gian. Nó cần năng lượng dư nhẹ và cần thời gian hồi phục đủ.\n\nMột câu để nhớ: **trong pha giảm mỡ, tập tạ là để bảo vệ; trong pha tăng cơ, tập tạ là để xây.** Cùng một động tác squat nhưng đứng ở hai vai trò khác hẳn nhau, và điều đó quyết định bạn cắt gì khi khách hết thời gian.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Vai trò chính của tập kháng lực trong pha giảm mỡ là gì?",
+        "options": [
+          "Đốt càng nhiều calo trong buổi tập càng tốt",
+          "Giữ lại khối cơ nạc để phần cân nặng mất đi chủ yếu là mỡ",
+          "Tăng cơ nhanh nhất có thể",
+          "Thay thế hoàn toàn cho việc kiểm soát ăn uống"
+        ],
+        "correct_index": 1,
+        "explain": "Chênh lệch năng lượng tạo ra việc giảm mỡ; tập tạ quyết định phần mất đi là mỡ hay là cơ. Vì vậy pha này phải giữ cường độ và tải."
+      }
+    ]
+  },
+  {
+    "day": 23,
+    "date": "2026-09-01",
+    "weekday": "Thứ Ba",
+    "week": 4,
+    "phase": "Scaffolding",
+    "week_theme": "Kiến trúc chương trình: Fat loss vs Hypertrophy",
+    "day_type": "kien_thuc",
+    "title": "Khối lượng, cường độ, tần suất — ba nút vặn",
+    "body": "Ba biến này là toàn bộ bộ điều khiển của bạn. Vấn đề là chúng không độc lập: vặn một cái là hai cái kia đổi theo.\n\n**Khối lượng** (số set khó cho mỗi nhóm cơ mỗi tuần) là biến gắn chặt nhất với tăng cơ, theo quan hệ tăng dần rồi bão hoà — thêm set thì thêm kết quả, tới một ngưỡng thì lợi ích nhỏ dần và chi phí hồi phục lớn dần. Với người tập nghiêm túc, vùng làm việc thường nằm quanh khoảng mười tới hai mươi set mỗi nhóm cơ mỗi tuần.\n\n**Cường độ** hiểu theo hai nghĩa: phần trăm 1RM, và mức tiến gần ngưỡng lực. Với tăng cơ, dải rep khá rộng đều hiệu quả miễn là set được đẩy đủ gần ngưỡng. Với giữ cơ trong pha giảm mỡ, cường độ là thứ **cuối cùng** bạn được cắt.\n\n**Tần suất** chủ yếu là công cụ phân bổ: chia cùng một khối lượng ra nhiều buổi giúp mỗi buổi chất lượng hơn và dễ nhét vào lịch của khách hơn.\n\nQuy tắc thực dụng khi khách hết thời gian: **cắt khối lượng, giữ cường độ.** Ba buổi ngắn có tải nặng giữ cơ tốt hơn hẳn ba buổi dài toàn tạ nhẹ.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Khách đang giảm mỡ, tuần này chỉ còn 40 phút mỗi buổi thay vì 70. Bạn nên làm gì?",
+        "options": [
+          "Giữ nguyên số set, giảm tải xuống để tập nhanh hơn",
+          "Cắt bớt khối lượng, giữ nguyên cường độ và mức tải",
+          "Đổi hẳn sang cardio cho tiết kiệm thời gian",
+          "Bỏ buổi tập tuần này"
+        ],
+        "correct_index": 1,
+        "explain": "Cường độ là tín hiệu giữ cơ trong pha thiếu hụt năng lượng. Cắt set thì mất một ít kích thích; hạ tải thì mất chính thứ đang bảo vệ khối cơ."
+      }
+    ]
+  },
+  {
+    "day": 24,
+    "date": "2026-09-02",
+    "weekday": "Thứ Tư",
+    "week": 4,
+    "phase": "Scaffolding",
+    "week_theme": "Kiến trúc chương trình: Fat loss vs Hypertrophy",
+    "day_type": "kien_thuc",
+    "title": "Body recomposition — khi nào thật sự làm được",
+    "body": "Vừa giảm mỡ vừa tăng cơ cùng lúc là điều khách nào cũng muốn, và là điều bị hứa ẩu nhiều nhất.\n\nNó có thật, nhưng có điều kiện. Recomposition xảy ra rõ nhất ở ba nhóm: **người mới tập**, **người có tỉ lệ mỡ cơ thể cao**, và **người từng tập rồi quay lại sau thời gian nghỉ**. Ở ba nhóm này, kích thích tập luyện còn rất mới mẻ với cơ thể, và năng lượng để xây cơ có thể lấy một phần từ chính kho mỡ sẵn có.\n\nHai điều kiện đi kèm gần như bắt buộc: **đạm đủ cao** (thường khuyến nghị quanh mức 1,6 đến 2,2 gam trên mỗi kg cân nặng mỗi ngày trong pha thiếu hụt) và **tập kháng lực có tiến bộ đo được**. Thiếu hụt năng lượng nên ở mức vừa phải, không sâu.\n\nNgược lại, với người đã tập nhiều năm và tỉ lệ mỡ đã thấp, recomposition gần như không đáng kể — nhóm này nên tách pha rõ ràng.\n\nỨng dụng cho phòng tập: phần lớn khách mới của bạn **nằm đúng nhóm làm được**. Nên thay vì hứa \"giảm cân\", hãy đặt kỳ vọng vào số đo và ảnh chụp — vì cân nặng của họ có thể gần như đứng yên trong khi cơ thể đổi khá nhiều.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Nhóm nào KHÓ đạt được body recomposition rõ rệt nhất?",
+        "options": [
+          "Người mới tập hoàn toàn",
+          "Người có tỉ lệ mỡ cơ thể cao",
+          "Người từng tập lâu năm và đã có tỉ lệ mỡ thấp",
+          "Người quay lại tập sau thời gian dài nghỉ"
+        ],
+        "correct_index": 2,
+        "explain": "Ba nhóm còn lại đều có \"dư địa\" — kích thích mới hoặc kho mỡ dồi dào. Người đã tập lâu và gầy sẵn thì nên tách pha thay vì cố làm cả hai."
+      }
+    ]
+  },
+  {
+    "day": 25,
+    "date": "2026-09-03",
+    "weekday": "Thứ Năm",
+    "week": 4,
+    "phase": "Scaffolding",
+    "week_theme": "Kiến trúc chương trình: Fat loss vs Hypertrophy",
+    "day_type": "thu_thach",
+    "title": "Thử thách áp dụng — phác một tuần giáo án giảm mỡ",
+    "body": "Lần này bạn viết thật, không phải trả lời lý thuyết.",
+    "prompt": "Phác **một tuần giáo án giảm mỡ cho khách mới**, giả định: nữ, 32 tuổi, ngồi văn phòng, tập được 3 buổi/tuần, mỗi buổi 50 phút, chưa từng tập tạ.\n\nCần có:\n1. Ba buổi tập — bài, số set, dải rep, thời gian nghỉ.\n2. Một dòng giải thích **vì sao bạn chọn cấu trúc đó** cho mục tiêu giảm mỡ (nhắc lại: tập tạ ở đây đóng vai trò bảo vệ khối cơ).\n3. Thước đo tiến bộ bạn dùng trong 4 tuần đầu — và vì sao không chỉ dùng cân nặng.\n4. Một điều bạn sẽ nói trước với khách để họ không hoảng khi cân nặng đứng yên.\n\nCó thể viết trực tiếp hoặc đính kèm ảnh/PDF giáo án.",
+    "mechanic": "Thỏ nhảy 2 bước khi nộp bài (+5đ) — có thể trúng Hộp quà bí ẩn",
+    "questions": []
+  },
+  {
+    "day": 26,
+    "date": "2026-09-04",
+    "weekday": "Thứ Sáu",
+    "week": 4,
+    "phase": "Scaffolding",
+    "week_theme": "Kiến trúc chương trình: Fat loss vs Hypertrophy",
+    "day_type": "kien_thuc",
+    "title": "Cardio quá tay trong pha giảm mỡ",
+    "body": "Khi khách sốt ruột, phản xạ dễ nhất là thêm cardio. Đây là chỗ cần cẩn thận.\n\nHiện tượng gọi là **hiệu ứng nhiễu** trong tập luyện đồng thời: khối lượng bền quá lớn có thể làm giảm mức tăng sức mạnh và tăng cơ đạt được. Nhưng nó phụ thuộc liều lượng và hình thức chứ không phải cứ cardio là hại. Mức độ nhiễu tăng lên khi **khối lượng và tần suất bền cao**, và thường rõ hơn với **chạy** so với **đạp xe** — một phần vì thành phần co cơ ly tâm gây tổn thương cơ nhiều hơn, đúng vào nhóm cơ mà buổi tập chân cũng đang dùng.\n\nTrong pha giảm mỡ, vấn đề còn cộng thêm: khách đang thiếu hụt năng lượng, tức là đang ở trạng thái hồi phục kém hơn bình thường. Chồng thêm nhiều buổi chạy vào đó thì thứ bị hi sinh trước tiên là chất lượng buổi tập tạ — chính thứ đang bảo vệ khối cơ.\n\nCách làm gọn: **để chênh lệch năng lượng đến chủ yếu từ ăn uống và số bước đi hằng ngày**, dùng cardio như một liều bổ sung có kiểm soát. Nếu phải thêm, ưu tiên hình thức ít gây tổn thương cơ, và tách xa buổi tập chân nếu lịch cho phép.",
+    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "questions": [
+      {
+        "prompt": "Về hiệu ứng nhiễu khi tập đồng thời sức bền và sức mạnh, phát biểu nào đúng nhất?",
+        "options": [
+          "Bất kỳ hình thức cardio nào cũng làm mất cơ",
+          "Mức nhiễu phụ thuộc khối lượng và hình thức; chạy khối lượng lớn gây nhiễu nhiều hơn đạp xe",
+          "Cardio không bao giờ ảnh hưởng tới tăng cơ",
+          "Chỉ cardio cường độ cao mới gây nhiễu"
+        ],
+        "correct_index": 1,
+        "explain": "Đây là hiệu ứng phụ thuộc liều. Vấn đề nằm ở tổng khối lượng bền, mức tổn thương cơ của hình thức đó, và khả năng hồi phục — không phải ở bản thân việc làm cardio."
+      }
+    ]
+  },
+  {
+    "day": 27,
+    "date": "2026-09-05",
+    "weekday": "Thứ Bảy",
+    "week": 4,
+    "phase": "Scaffolding",
+    "week_theme": "Kiến trúc chương trình: Fat loss vs Hypertrophy",
+    "day_type": "quiz_tuan",
+    "title": "Quiz tổng hợp tuần 4 — Kiến trúc chương trình",
+    "body": "Năm câu cho tuần thứ tư. Đúng từ 4 câu bạn nhận thêm tia sáng bonus.",
+    "mechanic": "Thỏ nhảy 1 bước; đạt ≥80% nhận thêm \"tia sáng\" bonus (+3đ)",
+    "questions": [
+      {
+        "prompt": "Biến số nào gắn chặt nhất với mức tăng cơ, theo quan hệ tăng dần rồi bão hoà?",
+        "options": [
+          "Tần suất buổi tập",
+          "Khối lượng — số set khó cho mỗi nhóm cơ mỗi tuần",
+          "Thời gian nghỉ giữa set",
+          "Tốc độ thực hiện động tác"
+        ],
+        "correct_index": 1,
+        "explain": "Thêm set thì thêm kết quả tới một ngưỡng, sau đó lợi ích nhỏ dần trong khi chi phí hồi phục lớn dần."
+      },
+      {
+        "prompt": "Khách giảm mỡ than cân nặng đứng yên ba tuần dù số đo eo giảm 3cm. Điều gì nhiều khả năng đang xảy ra?",
+        "options": [
+          "Khách nói dối về chế độ ăn",
+          "Đang có recomposition — mỡ giảm, cơ giữ hoặc tăng nhẹ, nên cân ít đổi",
+          "Cân bị hỏng",
+          "Chuyển hoá đã ngừng hoạt động"
+        ],
+        "correct_index": 1,
+        "explain": "Đây chính là lý do không nên để cân nặng làm thước đo duy nhất — đặc biệt với khách mới, nhóm dễ recomposition nhất."
+      },
+      {
+        "prompt": "Trong pha giảm mỡ, thứ nào nên là thứ CUỐI CÙNG bị cắt khỏi giáo án?",
+        "options": ["Số bài phụ trợ", "Tổng số set", "Cường độ và mức tải", "Thời gian khởi động"],
+        "correct_index": 2,
+        "explain": "Cường độ là tín hiệu giữ cơ. Cắt khối lượng thì mất một phần kích thích, nhưng hạ tải thì mất chính thứ đang bảo vệ khối cơ nạc."
+      },
+      {
+        "prompt": "Điều kiện dinh dưỡng quan trọng nhất để recomposition xảy ra là gì?",
+        "options": [
+          "Cắt hoàn toàn tinh bột",
+          "Đạm đủ cao và mức thiếu hụt năng lượng vừa phải",
+          "Ăn nhiều bữa nhỏ trong ngày",
+          "Nhịn ăn gián đoạn 16 tiếng"
+        ],
+        "correct_index": 1,
+        "explain": "Đạm cao cùng thiếu hụt vừa phải cho phép cơ thể vừa lấy năng lượng từ kho mỡ vừa còn nguyên liệu và điều kiện để xây cơ."
+      },
+      {
+        "prompt": "Khách giảm mỡ đang tập tạ 3 buổi/tuần và muốn thêm cardio. Cách xử lý hợp lý nhất?",
+        "options": [
+          "Thêm 5 buổi chạy dài mỗi tuần cho nhanh",
+          "Ưu tiên tăng số bước đi hằng ngày và siết ăn uống, thêm cardio có kiểm soát, tránh xếp sát buổi tập chân",
+          "Bỏ tập tạ, chuyển hết sang cardio",
+          "Thêm cardio cường độ cao ngay sau mỗi buổi tập chân"
+        ],
+        "correct_index": 1,
+        "explain": "Chênh lệch năng lượng nên đến chủ yếu từ ăn uống và hoạt động hằng ngày. Cardio là liều bổ sung, và cần tránh chồng lên đúng nhóm cơ vừa tập nặng."
+      }
+    ]
+  },
+  {
+    "day": 28,
+    "date": "2026-09-06",
+    "weekday": "Chủ Nhật",
+    "week": 4,
+    "phase": "Scaffolding",
+    "week_theme": "Kiến trúc chương trình: Fat loss vs Hypertrophy",
+    "day_type": "webinar",
+    "title": "Trạm dừng gốc đa #4 — Chuyển khách từ giảm mỡ sang tăng cơ",
+    "body": "Trạm dừng thứ tư, và là buổi khó nhất về mặt nghề: thời điểm nào thì dừng pha giảm mỡ, nói với khách thế nào để họ không thấy như đang \"đi lùi\", và tuần đầu của pha mới trông ra sao.\n\nMình cũng chữa vài bài giáo án các bạn nộp ở ngày 25. Cuối buổi có **mã điểm danh** cho mảnh trăng \"Kiến trúc sư giáo án\".",
+    "mechanic": "Tham dự = nhận Mảnh trăng \"Kiến trúc sư giáo án\" + thỏ tới trạm dừng chân (+10đ)",
+    "webinar_at": "2026-09-06T20:00:00+07:00",
+    "questions": []
+  }
+]

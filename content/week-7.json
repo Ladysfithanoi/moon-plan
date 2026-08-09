@@ -1,0 +1,72 @@
+[
+  {
+    "day": 43,
+    "date": "2026-09-21",
+    "weekday": "Thứ Hai",
+    "week": 7,
+    "phase": "Scaffolding (chung kết)",
+    "week_theme": "Tuần chung kết — Case study tổng hợp",
+    "day_type": "case_study",
+    "title": "Đề bài chung kết — gặp chị Hà",
+    "body": "Bốn ngày cuối, một khách hàng, sáu trụ cột. Đây là phần bạn ghép tất cả lại.\n\n**Hồ sơ khách hàng — chị Hà, 38 tuổi.**\n\nNhân viên kế toán, làm 9 tiếng/ngày, hai con nhỏ (4 và 8 tuổi). Cao 1m58, nặng 68kg. Chưa từng tập tạ; hai năm trước có đi bộ buổi tối được ba tháng rồi nghỉ khi con ốm và không quay lại.\n\nChị tìm đến bạn sau khi khám sức khoẻ công ty có chỉ số mỡ máu bất thường. Câu chị nói trong buổi đầu: *\"Chị cũng biết là phải tập thôi, mà chị sợ tập tạ người to ra. Với lại chị bận lắm, không biết sắp xếp kiểu gì. Chồng chị bảo cứ ăn ít đi là được.\"*\n\nChị đặt bữa trưa ở văn phòng, tối ăn cùng gia đình do mẹ chồng nấu. Rảnh được khoảng 3 buổi/tuần, mỗi buổi tối đa 50 phút, sau 8h tối.\n\n**Hôm nay bạn nộp phần mở đầu.**",
+    "prompt": "Viết **phần 1 — đọc khách hàng và đặt khung làm việc**:\n\n1. Chị Hà đang ở giai đoạn nào trong TTM? Dẫn ra ít nhất hai chi tiết trong hồ sơ để chứng minh.\n2. Hai năm trước chị đã từng bắt đầu rồi nghỉ — bạn đọc lần đó thế nào theo mô hình TTM, và điều đó đổi gì trong cách bạn làm việc lần này?\n3. Buổi gặp đầu tiên bạn sẽ **không** làm gì (nêu rõ ít nhất một việc mà nhiều PT sẽ làm nhưng bạn thì không), và vì sao.\n4. Ba câu hỏi đầu tiên bạn sẽ hỏi chị Hà.",
+    "mechanic": "Nộp phần case study = thỏ nhảy 2 bước (+5đ)",
+    "questions": []
+  },
+  {
+    "day": 44,
+    "date": "2026-09-22",
+    "weekday": "Thứ Ba",
+    "week": 7,
+    "phase": "Scaffolding (chung kết)",
+    "week_theme": "Tuần chung kết — Case study tổng hợp",
+    "day_type": "case_study",
+    "title": "Phần 2 — phân tích tâm lý và rào cản",
+    "body": "Hôm qua bạn định vị chị Hà. Hôm nay bạn tìm ra thứ thật sự đang chặn chị lại — và thiết kế phần giữ chân.",
+    "prompt": "Viết **phần 2 — tâm lý và rào cản**:\n\n1. Chẩn đoán trường hợp chị Hà theo **COM-B**: đâu là rào cản ở Capability, ở Opportunity, ở Motivation? Xếp thứ tự cái nào cần xử lý trước.\n2. Trong ba nhu cầu của **SDT**, nhu cầu nào của chị Hà đang yếu nhất? Nêu **một cách cụ thể** bạn sẽ đáp ứng nhu cầu đó ngay trong bốn tuần đầu.\n3. Câu \"chị sợ tập tạ người to ra\" — viết ra **đúng những gì bạn sẽ nói**, tối đa 5 câu. Nhớ: trả lời bằng nghiên cứu thì đúng, nhưng cái chị cần là biết trước sẽ thấy gì trong sáu tuần tới.\n4. Chồng chị Hà nói \"cứ ăn ít đi là được\". Bạn xử lý yếu tố người thân này thế nào — đây là phần Opportunity mang tính xã hội.\n5. Kịch bản quay lại: chị Hà gần như chắc chắn sẽ có tuần gián đoạn vì con ốm. Bạn thống nhất trước với chị điều gì, ngay từ tuần đầu?",
+    "mechanic": "Nộp phần case study = thỏ nhảy 2 bước (+5đ)",
+    "questions": []
+  },
+  {
+    "day": 45,
+    "date": "2026-09-23",
+    "weekday": "Thứ Tư",
+    "week": 7,
+    "phase": "Scaffolding (chung kết)",
+    "week_theme": "Tuần chung kết — Case study tổng hợp",
+    "day_type": "case_study",
+    "title": "Phần 3 — thiết kế giáo án",
+    "body": "Phần kỹ thuật. 3 buổi/tuần, 50 phút, sau 8h tối, chưa từng tập tạ, nữ 38 tuổi.",
+    "prompt": "Viết **phần 3 — giáo án bốn tuần đầu**:\n\n1. Kiến trúc chương trình: mục tiêu chính của bốn tuần này là gì, và vai trò của tập kháng lực trong đó (nhắc lại tuần 4: bảo vệ hay xây?).\n2. Viết **một tuần giáo án cụ thể** — 3 buổi, đủ bài, set, dải rep, khung nghỉ.\n3. Chỉ ra ít nhất **hai lựa chọn bạn đã điều chỉnh vì đây là khách nữ** (nghĩ tới khung nghỉ, thước đo tiến bộ, thứ tự bài — tuần 3).\n4. Buổi tập của chị Hà diễn ra sau 8h tối, khi chị đã đi làm cả ngày và lo cho con. Bạn thiết kế thế nào để buổi tập đòi hỏi ít tự chủ nhất có thể (tuần 2, ngày 10)?\n5. Bạn có đưa cardio vào không? Nếu có thì hình thức nào, đặt ở đâu trong tuần, và vì sao (tuần 5).\n6. Thước đo tiến bộ trong 4 tuần đầu — và một câu bạn nói trước để chị không hoảng khi cân đứng yên.",
+    "mechanic": "Nộp phần case study = thỏ nhảy 2 bước (+5đ)",
+    "questions": []
+  },
+  {
+    "day": 46,
+    "date": "2026-09-24",
+    "weekday": "Thứ Năm",
+    "week": 7,
+    "phase": "Scaffolding (chung kết)",
+    "week_theme": "Tuần chung kết — Case study tổng hợp",
+    "day_type": "case_study",
+    "title": "Phần 4 — dinh dưỡng và môi trường ăn uống",
+    "body": "Phần cuối. Ngày mai là đêm rằm.\n\nNhớ lại hoàn cảnh: chị Hà đặt bữa trưa ở văn phòng, bữa tối do mẹ chồng nấu và chị không phải người quyết định thực đơn.",
+    "prompt": "Viết **phần 4 — dinh dưỡng và môi trường**:\n\n1. Đặt tốc độ giảm cân cho chị Hà: bao nhiêu mỗi tuần, và bạn giải thích với chị thế nào khi chị muốn nhanh hơn (tuần 6, ngày 38)?\n2. Ba câu hỏi khảo sát môi trường ăn uống bạn hỏi chị, và bạn dự đoán câu trả lời sẽ hé lộ điều gì.\n3. **Một nudge** cho bữa trưa và **một nudge** cho bữa tối. Nhớ ràng buộc thật của chị: không nấu bữa tối, không quyết thực đơn. Nudge phải chạy được trong hoàn cảnh đó.\n4. Bạn đo hiệu quả của hai nudge này bằng gì, sau bao lâu xem lại?\n5. **Kết**: viết 5–7 câu bạn sẽ nói với chị Hà ở cuối buổi tư vấn đầu tiên — tóm lại kế hoạch, đặt kỳ vọng đúng, và cho chị một lý do để quay lại buổi sau.\n\nĐây là phần mình chấm kỹ nhất. Case study xuất sắc nhất sẽ nhận một buổi mentor 1-1 riêng với mình.",
+    "mechanic": "Nộp phần case study = thỏ nhảy 2 bước (+5đ)",
+    "questions": []
+  },
+  {
+    "day": 47,
+    "date": "2026-09-25",
+    "weekday": "Thứ Sáu",
+    "week": 7,
+    "phase": "Endgame",
+    "week_theme": "Tuần chung kết — Case study tổng hợp",
+    "day_type": "dem_hoi",
+    "title": "Đêm hội trăng rằm",
+    "body": "Bốn mươi bảy ngày trước, bạn xuất phát từ điểm này. Tối nay vòng khép lại đúng chỗ nó bắt đầu, và trăng thì tròn.\n\nTối nay mình sẽ: tổng kết cả sáu trụ cột trong một khung duy nhất, công bố những người đi trọn vòng, trao phần thưởng lớn, và vinh danh case study xuất sắc nhất.\n\nCòn bây giờ, trước khi vào buổi — bạn kéo xuống dưới xem lại vòng trăng của mình. Sáu mảnh trăng bạn thu được, chuỗi ngày bạn giữ, những ngày bạn lỡ và vé cứu đã đỡ cho bạn. Nó là bản ghi trung thực của bốn mươi bảy ngày vừa rồi.\n\nCảm ơn bạn đã chạy cùng mình mùa này.",
+    "mechanic": "Tổng kết, trao quà lớn, vinh danh case study xuất sắc nhất",
+    "webinar_at": "2026-09-25T19:00:00+07:00",
+    "questions": []
+  }
+]
