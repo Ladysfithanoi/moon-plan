@@ -5,7 +5,14 @@ import { isAdmin } from '@/lib/session';
 import { db } from '@/lib/supabase';
 import { TOTAL_DAYS, currentDayNumber, fullDate } from '@/lib/event';
 import { DAY_TYPE_LABEL, type DayType } from '@/lib/scoring';
-import { updateDay, updateQuestions } from '../actions';
+import QuestionForm, { OPTION_LABELS, type QuestionDraft } from '@/components/QuestionForm';
+import {
+  createQuestion,
+  deleteQuestion,
+  importQuizExcel,
+  updateDay,
+  updateQuestion,
+} from '../actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,7 +46,11 @@ export default async function NoiDungPage({
   if (editing) {
     const [{ data: dayData }, { data: questionData }] = await Promise.all([
       supabase.from('days').select('*').eq('day', editing).maybeSingle(),
-      supabase.from('questions').select('prompt,options,correct_index,explain').eq('day', editing).order('ord'),
+      supabase
+        .from('questions')
+        .select('id,ord,prompt,options,correct_index,explain')
+        .eq('day', editing)
+        .order('ord'),
     ]);
 
     const d = dayData as DayRecord | null;
@@ -56,7 +67,7 @@ export default async function NoiDungPage({
       );
     }
 
-    const questionsJson = JSON.stringify(questionData ?? [], null, 2);
+    const questions = (questionData ?? []) as QuestionDraft[];
     const isWebinar = d.day_type === 'webinar' || d.day_type === 'dem_hoi';
 
     return (
@@ -136,26 +147,40 @@ export default async function NoiDungPage({
               <span className="rule" />
               <span>Câu hỏi quiz</span>
             </p>
-            <h2 className="section-title">{(questionData ?? []).length} câu</h2>
+            <h2 className="section-title">{questions.length} câu</h2>
             <p className="lede">
-              Sửa trực tiếp bằng JSON. <span className="mono">correct_index</span> đếm từ 0 — số 0 là
-              lựa chọn đầu tiên. Đáp án nằm ở máy chủ, người chơi không xem được kể cả khi mở mã nguồn
-              trang.
+              Mỗi câu đúng 4 lựa chọn và đúng 1 đáp án. Đáp án nằm ở máy chủ — người chơi không xem
+              được kể cả khi mở mã nguồn trang.
             </p>
-            <ActionForm action={updateQuestions} submitLabel="Lưu câu hỏi" style={{ maxWidth: 760 }}>
-              <input type="hidden" name="day" value={d.day} />
-              <div className="field">
-                <label htmlFor="questions">JSON câu hỏi</label>
-                <textarea
-                  id="questions"
-                  name="questions"
-                  rows={20}
-                  className="mono"
-                  style={{ fontSize: 13 }}
-                  defaultValue={questionsJson}
-                />
+            <div className="btn-row" style={{ marginTop: 14 }}>
+              <a className="btn-ghost btn-small" href={`/admin/noi-dung/tai-quiz?ngay=${d.day}`}>
+                Tải Excel ngày này
+              </a>
+            </div>
+
+            {questions.map((q) => (
+              <div className="repeat-row" key={q.id} style={{ marginTop: 26 }}>
+                <div className="repeat-head">
+                  <span className="repeat-index">Câu {q.ord}</span>
+                  <span className="hint">
+                    đáp án đúng: {OPTION_LABELS[q.correct_index] ?? '?'}
+                  </span>
+                </div>
+                <QuestionForm action={updateQuestion} submitLabel="Lưu câu này" question={q} />
+                <ActionForm
+                  action={deleteQuestion}
+                  submitLabel="Xoá câu này"
+                  busyLabel="Đang xoá…"
+                  ghost
+                >
+                  <input type="hidden" name="id" value={q.id} />
+                </ActionForm>
               </div>
-            </ActionForm>
+            ))}
+
+            <hr className="divider" />
+            <h3 className="card-title">Thêm câu hỏi</h3>
+            <QuestionForm action={createQuestion} submitLabel="Thêm câu hỏi" day={d.day} />
           </div>
         </section>
       </>
@@ -176,23 +201,79 @@ export default async function NoiDungPage({
     'day' | 'date' | 'weekday' | 'week' | 'day_type' | 'title' | 'webinar_code'
   >[];
 
+  const totalQuestions = (questions ?? []).length;
+
   return (
-    <section className="fade-in">
-      <div className="wrap-wide">
-        <p className="eyebrow">
-          <span className="rule" />
-          <span>{list.length}/47 ngày đã có nội dung</span>
-        </p>
-        <h1 className="display">Nội dung 47 ngày</h1>
-
-        {list.length < TOTAL_DAYS ? (
-          <p className="notice err">
-            Thiếu {TOTAL_DAYS - list.length} ngày. Chạy <span className="mono">npm run seed</span> để nạp
-            từ thư mục content/.
+    <>
+      <section className="fade-in">
+        <div className="wrap-wide">
+          <p className="eyebrow">
+            <span className="rule" />
+            <span>{list.length}/47 ngày đã có nội dung</span>
           </p>
-        ) : null}
+          <h1 className="display">Nội dung 47 ngày</h1>
 
-        <div className="table-scroll">
+          {list.length < TOTAL_DAYS ? (
+            <p className="notice err">
+              Thiếu {TOTAL_DAYS - list.length} ngày. Chạy <span className="mono">npm run seed</span>{' '}
+              để nạp từ thư mục content/.
+            </p>
+          ) : null}
+        </div>
+      </section>
+
+      <section className="fade-in">
+        <div className="wrap-wide">
+          <p className="eyebrow">
+            <span className="rule" />
+            <span>Quiz bằng Excel</span>
+          </p>
+          <h2 className="section-title">Sửa hàng loạt {totalQuestions} câu hỏi</h2>
+          <p className="lede">
+            Tải file về, sửa trong Excel, rồi nạp ngược lại. Cùng một bộ cột nên đi vòng tròn được.
+            Cột <span className="mono">Đáp án đúng</span> ghi 1, 2, 3 hoặc 4.
+          </p>
+
+          <div className="btn-row" style={{ marginTop: 16 }}>
+            <a className="btn-ghost btn-small" href="/admin/noi-dung/tai-quiz">
+              Tải toàn bộ quiz (.xlsx)
+            </a>
+          </div>
+
+          <div style={{ maxWidth: 520, marginTop: 24 }}>
+            <ActionForm
+              action={importQuizExcel}
+              submitLabel="Nhập từ Excel"
+              busyLabel="Đang đọc file…"
+            >
+              <div className="field">
+                <label htmlFor="file">Chọn file .xlsx</label>
+                <input
+                  id="file"
+                  name="file"
+                  type="file"
+                  accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                  required
+                />
+              </div>
+            </ActionForm>
+          </div>
+
+          <p className="coach-note" style={{ marginTop: 18 }}>
+            Chỉ những ngày có trong file mới bị đụng tới. Trong mỗi ngày, câu thứ nhất của file ghi
+            đè lên câu thứ nhất đang có, thừa thì xoá, thiếu thì thêm. Sai một dòng là không ghi gì
+            cả — báo lỗi kèm số dòng để sửa.
+          </p>
+        </div>
+      </section>
+
+      <section className="fade-in">
+        <div className="wrap-wide">
+          <p className="eyebrow">
+            <span className="rule" />
+            <span>Từng ngày</span>
+          </p>
+          <div className="table-scroll">
           <table className="data">
             <thead>
               <tr>
@@ -234,8 +315,9 @@ export default async function NoiDungPage({
               ))}
             </tbody>
           </table>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

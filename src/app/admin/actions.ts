@@ -8,6 +8,7 @@ import { checkAdminPassword, endAdminSession, isAdmin, startAdminSession } from 
 import { drawHonorRoll } from '@/lib/game';
 import { FREEZES_PER_PLAYER } from '@/lib/scoring';
 import { SETTING_KEYS, saveSetting } from '@/lib/settings';
+import { OPTION_COUNT, parseQuizWorkbook } from '@/lib/quiz-excel';
 
 export type ActionState = { ok?: boolean; message?: string };
 
@@ -76,7 +77,10 @@ export async function updatePlayer(_prev: ActionState, formData: FormData): Prom
   const contact = formData.get('contact');
   if (contact !== null) patch.contact = String(contact).trim() || null;
 
-  if (formData.get('is_active') !== null) {
+  // Checkbox không được tick thì trình duyệt không gửi gì cả, nên phải có ô ẩn
+  // đi kèm để biết form này *có* quản lý trường is_active hay không. Thiếu nó
+  // thì bỏ tick sẽ không bao giờ khoá được người chơi.
+  if (formData.get('is_active_present') !== null) {
     patch.is_active = formData.get('is_active') === 'on';
   }
 
@@ -91,6 +95,56 @@ export async function updatePlayer(_prev: ActionState, formData: FormData): Prom
 
   revalidatePath('/admin/nguoi-choi');
   return { ok: true, message: 'Đã lưu.' };
+}
+
+/**
+ * Xoá hẳn một người chơi.
+ *
+ * Mọi bảng con đều `on delete cascade` theo players(id) — checkins, answers,
+ * fragments, submissions, rewards, honor_roll, carrot_gifts. Nghĩa là xoá là
+ * mất sạch lịch sử, không khôi phục được. Vì vậy bắt gõ đúng mã để xác nhận;
+ * muốn tạm dừng một người thì bỏ tick "đang hoạt động" chứ đừng xoá.
+ */
+export async function deletePlayer(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  await requireAdmin();
+
+  const id = String(formData.get('id') ?? '');
+  const typed = String(formData.get('confirm_code') ?? '').trim().toUpperCase();
+  if (!id) return { ok: false, message: 'Thiếu người chơi cần xoá.' };
+
+  const supabase = db();
+  const { data: player } = await supabase
+    .from('players')
+    .select('code,display_name')
+    .eq('id', id)
+    .maybeSingle();
+
+  if (!player) return { ok: false, message: 'Không tìm thấy người chơi này.' };
+  if (typed !== player.code) {
+    return { ok: false, message: `Gõ đúng mã ${player.code} vào ô xác nhận rồi mới xoá được.` };
+  }
+
+  // File đính kèm nằm trong storage, khoá ngoại không với tới — phải dọn tay
+  // trước, nếu không bucket sẽ đầy dần những file không còn ai sở hữu.
+  const { data: subs } = await supabase.from('submissions').select('files').eq('player_id', id);
+  const paths = ((subs ?? []) as { files: { path: string }[] | null }[])
+    .flatMap((s) => s.files ?? [])
+    .map((f) => f.path)
+    .filter(Boolean);
+  if (paths.length) await supabase.storage.from(CASE_STUDY_BUCKET).remove(paths);
+
+  const { error } = await supabase.from('players').delete().eq('id', id);
+  if (error) return { ok: false, message: error.message };
+
+  revalidatePath('/admin/nguoi-choi');
+  revalidatePath('/admin');
+  revalidatePath('/vinh-danh');
+  return {
+    ok: true,
+    message: `Đã xoá ${player.display_name} (${player.code}) cùng toàn bộ lịch sử${
+      paths.length ? ` và ${paths.length} file đính kèm` : ''
+    }.`,
+  };
 }
 
 // ─── Nội dung ngày ──────────────────────────────────────────────────────────
@@ -125,61 +179,236 @@ export async function updateDay(_prev: ActionState, formData: FormData): Promise
   return { ok: true, message: `Đã lưu nội dung ngày ${day}.` };
 }
 
-/**
- * Sửa toàn bộ câu hỏi của một ngày bằng JSON.
- * Định dạng: [{ "prompt": "...", "options": ["a","b"], "correct_index": 0, "explain": "..." }]
- */
-export async function updateQuestions(_prev: ActionState, formData: FormData): Promise<ActionState> {
+// ─── Câu hỏi quiz ───────────────────────────────────────────────────────────
+
+function revalidateQuizConsumers(day?: number): void {
+  revalidatePath('/admin/noi-dung');
+  revalidatePath('/chang-duong');
+  if (day) revalidatePath(`/ngay/${day}`);
+}
+
+type QuestionInput = {
+  prompt: string;
+  options: string[];
+  correct_index: number;
+  explain: string | null;
+};
+
+/** Đọc một câu hỏi từ form và soát luật "đúng 4 lựa chọn, đúng 1 đáp án". */
+function readQuestionForm(formData: FormData): QuestionInput | { error: string } {
+  const prompt = String(formData.get('prompt') ?? '').trim();
+  if (!prompt) return { error: 'Cần có nội dung câu hỏi.' };
+
+  const options: string[] = [];
+  for (let i = 1; i <= OPTION_COUNT; i++) {
+    const v = String(formData.get(`option_${i}`) ?? '').trim();
+    if (!v) return { error: `Đáp án ${i} còn trống — cần đủ ${OPTION_COUNT} lựa chọn.` };
+    options.push(v);
+  }
+
+  const dup = options.findIndex(
+    (o, i) => options.findIndex((x) => x.toLowerCase() === o.toLowerCase()) !== i,
+  );
+  if (dup >= 0) return { error: `Đáp án ${dup + 1} trùng nội dung với một đáp án phía trên.` };
+
+  const correct = Number(formData.get('correct'));
+  if (!Number.isInteger(correct) || correct < 1 || correct > OPTION_COUNT) {
+    return { error: 'Chọn một đáp án đúng.' };
+  }
+
+  const explain = String(formData.get('explain') ?? '').trim();
+  return { prompt, options, correct_index: correct - 1, explain: explain || null };
+}
+
+export async function createQuestion(_prev: ActionState, formData: FormData): Promise<ActionState> {
   await requireAdmin();
 
   const day = Number(formData.get('day'));
-  const raw = String(formData.get('questions') ?? '').trim();
   if (!Number.isInteger(day)) return { ok: false, message: 'Ngày không hợp lệ.' };
 
-  let parsed: unknown;
-  try {
-    parsed = raw ? JSON.parse(raw) : [];
-  } catch {
-    return { ok: false, message: 'JSON chưa đúng cú pháp — kiểm tra lại dấu phẩy và ngoặc.' };
-  }
-  if (!Array.isArray(parsed)) return { ok: false, message: 'Phải là một danh sách [ ... ].' };
+  const parsed = readQuestionForm(formData);
+  if ('error' in parsed) return { ok: false, message: parsed.error };
 
-  const rows = [];
-  for (const [i, item] of parsed.entries()) {
-    const q = item as Record<string, unknown>;
-    const options = q.options;
-    if (typeof q.prompt !== 'string' || !q.prompt.trim()) {
-      return { ok: false, message: `Câu ${i + 1}: thiếu "prompt".` };
-    }
-    if (!Array.isArray(options) || options.length < 2) {
-      return { ok: false, message: `Câu ${i + 1}: cần ít nhất 2 lựa chọn trong "options".` };
-    }
-    const ci = Number(q.correct_index);
-    if (!Number.isInteger(ci) || ci < 0 || ci >= options.length) {
-      return { ok: false, message: `Câu ${i + 1}: "correct_index" nằm ngoài danh sách lựa chọn.` };
-    }
-    rows.push({
-      day,
-      ord: i + 1,
-      prompt: q.prompt.trim(),
-      options,
-      correct_index: ci,
-      explain: typeof q.explain === 'string' ? q.explain : null,
-    });
+  const supabase = db();
+  const { data: last } = await supabase
+    .from('questions')
+    .select('ord')
+    .eq('day', day)
+    .order('ord', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const { error } = await supabase
+    .from('questions')
+    .insert({ day, ord: (last?.ord ?? 0) + 1, ...parsed });
+  if (error) return { ok: false, message: error.message };
+
+  revalidateQuizConsumers(day);
+  return { ok: true, message: 'Đã thêm câu hỏi.' };
+}
+
+/**
+ * Sửa một câu hỏi tại chỗ.
+ *
+ * Cố tình update chứ không xoá rồi chèn lại: bảng `answers` trỏ vào
+ * questions(id) với `on delete cascade`, nên chèn lại sẽ sinh id mới và cuốn
+ * theo toàn bộ câu trả lời học viên đã nộp cho câu đó.
+ */
+export async function updateQuestion(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  await requireAdmin();
+
+  const id = String(formData.get('id') ?? '');
+  if (!id) return { ok: false, message: 'Thiếu câu hỏi cần sửa.' };
+
+  const parsed = readQuestionForm(formData);
+  if ('error' in parsed) return { ok: false, message: parsed.error };
+
+  const supabase = db();
+  const { data: row } = await supabase.from('questions').select('day').eq('id', id).maybeSingle();
+
+  const { error } = await supabase.from('questions').update(parsed).eq('id', id);
+  if (error) return { ok: false, message: error.message };
+
+  revalidateQuizConsumers(row?.day);
+  return { ok: true, message: 'Đã lưu câu hỏi.' };
+}
+
+/** Xoá một câu hỏi rồi đánh lại STT cho liền mạch. */
+export async function deleteQuestion(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  await requireAdmin();
+
+  const id = String(formData.get('id') ?? '');
+  if (!id) return { ok: false, message: 'Thiếu câu hỏi cần xoá.' };
+
+  const supabase = db();
+  const { data: row } = await supabase.from('questions').select('day,ord').eq('id', id).maybeSingle();
+  if (!row) return { ok: false, message: 'Câu hỏi này không còn nữa.' };
+
+  const { error } = await supabase.from('questions').delete().eq('id', id);
+  if (error) return { ok: false, message: error.message };
+
+  await resequence(row.day);
+  revalidateQuizConsumers(row.day);
+  return { ok: true, message: `Đã xoá câu ${row.ord}. Các câu sau được đánh lại số.` };
+}
+
+/**
+ * Đánh lại ord thành 1..n cho một ngày.
+ *
+ * Chạy theo thứ tự tăng dần nên số đích luôn ≤ số hiện tại, không bao giờ đụng
+ * ràng buộc unique(day, ord) giữa chừng.
+ */
+async function resequence(day: number): Promise<void> {
+  const supabase = db();
+  const { data } = await supabase.from('questions').select('id,ord').eq('day', day).order('ord');
+  for (const [i, q] of (data ?? []).entries()) {
+    if (q.ord !== i + 1) await supabase.from('questions').update({ ord: i + 1 }).eq('id', q.id);
+  }
+}
+
+/**
+ * Nhập bộ câu hỏi từ file Excel.
+ *
+ * Chỉ đụng tới những ngày có mặt trong file. Trong mỗi ngày, câu thứ i của file
+ * ghi đè lên câu thứ i đang có (update tại chỗ, giữ nguyên câu trả lời đã nộp),
+ * dư thì xoá, thiếu thì thêm.
+ *
+ * File sai một dòng là không ghi gì cả — thà báo lỗi còn hơn nhập nửa chừng
+ * rồi không biết dữ liệu đang ở trạng thái nào.
+ */
+export async function importQuizExcel(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  await requireAdmin();
+
+  const file = formData.get('file');
+  if (!(file instanceof File) || file.size === 0) {
+    return { ok: false, message: 'Chưa chọn file. Cần một file .xlsx.' };
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    return { ok: false, message: 'File lớn hơn 5MB — nhiều khả năng không phải file quiz.' };
+  }
+
+  const parsed = await parseQuizWorkbook(await file.arrayBuffer());
+  if (!parsed.ok) {
+    const shown = parsed.errors.slice(0, 6);
+    const rest = parsed.errors.length - shown.length;
+    return {
+      ok: false,
+      message:
+        `Chưa nhập gì cả — file có ${parsed.errors.length} lỗi. ` +
+        shown.join(' ') +
+        (rest > 0 ? ` …và ${rest} lỗi nữa.` : ''),
+    };
   }
 
   const supabase = db();
-  const { error: delErr } = await supabase.from('questions').delete().eq('day', day);
-  if (delErr) return { ok: false, message: delErr.message };
+  const daysInFile = [...new Set(parsed.rows.map((r) => r.day))].sort((a, b) => a - b);
 
-  if (rows.length) {
-    const { error } = await supabase.from('questions').insert(rows);
-    if (error) return { ok: false, message: error.message };
+  const { data: known } = await supabase.from('days').select('day').in('day', daysInFile);
+  const knownDays = new Set((known ?? []).map((d) => d.day));
+  const unknown = daysInFile.filter((d) => !knownDays.has(d));
+  if (unknown.length) {
+    return {
+      ok: false,
+      message: `Chưa có ngày ${unknown.join(', ')} trong cơ sở dữ liệu. Chạy npm run seed trước đã.`,
+    };
   }
 
-  revalidatePath('/admin/noi-dung');
-  revalidatePath('/chang-duong');
-  return { ok: true, message: `Đã lưu ${rows.length} câu hỏi cho ngày ${day}.` };
+  let inserted = 0;
+  let updated = 0;
+  let removed = 0;
+
+  for (const day of daysInFile) {
+    const rows = parsed.rows
+      .filter((r) => r.day === day)
+      .sort((a, b) => (a.ord ?? Number.MAX_SAFE_INTEGER) - (b.ord ?? Number.MAX_SAFE_INTEGER)
+        || a.excelRow - b.excelRow);
+
+    const { data: existingData } = await supabase
+      .from('questions')
+      .select('id,ord')
+      .eq('day', day)
+      .order('ord');
+    const existing = existingData ?? [];
+
+    // Xoá phần dư trước khi đánh lại số, tránh đụng unique(day, ord).
+    const extras = existing.slice(rows.length);
+    if (extras.length) {
+      const { error } = await supabase
+        .from('questions')
+        .delete()
+        .in('id', extras.map((e) => e.id));
+      if (error) return { ok: false, message: `Ngày ${day}: ${error.message}` };
+      removed += extras.length;
+    }
+
+    for (const [i, row] of rows.entries()) {
+      const payload = {
+        day,
+        ord: i + 1,
+        prompt: row.prompt,
+        options: row.options,
+        correct_index: row.correctIndex,
+        explain: row.explain,
+      };
+      const target = existing[i];
+      const { error } = target
+        ? await supabase.from('questions').update(payload).eq('id', target.id)
+        : await supabase.from('questions').insert(payload);
+      if (error) return { ok: false, message: `Ngày ${day}, câu ${i + 1}: ${error.message}` };
+      if (target) updated++;
+      else inserted++;
+    }
+  }
+
+  revalidateQuizConsumers();
+  for (const day of daysInFile) revalidatePath(`/ngay/${day}`);
+
+  return {
+    ok: true,
+    message:
+      `Đã nhập ${parsed.rows.length} câu cho ${daysInFile.length} ngày ` +
+      `(${updated} sửa, ${inserted} thêm mới, ${removed} xoá bớt).`,
+  };
 }
 
 // ─── Bài nộp ────────────────────────────────────────────────────────────────

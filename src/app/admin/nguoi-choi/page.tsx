@@ -3,32 +3,111 @@ import ActionForm from '@/components/ActionForm';
 import { isAdmin } from '@/lib/session';
 import { db } from '@/lib/supabase';
 import { TOTAL_DAYS, currentDayNumber } from '@/lib/event';
-import { createPlayer, updatePlayer } from '../actions';
+import { createPlayer, deletePlayer, updatePlayer } from '../actions';
 import type { PlayerRow } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
-export default async function NguoiChoiPage() {
+/** Mỗi trang 5 người — vừa một màn hình, không phải cuộn khi sửa. */
+const PAGE_SIZE = 5;
+
+/** Số nút trang hiện cùng lúc trên thanh phân trang. */
+const PAGER_WINDOW = 7;
+
+type Status = 'hoat_dong' | 'khoa';
+
+/**
+ * PostgREST tách các nhánh của or() bằng dấu phẩy và ngoặc đơn, còn % và * là
+ * ký tự đại diện của ilike. Người dùng gõ mấy ký tự đó vào ô tìm kiếm thì câu
+ * truy vấn vỡ, nên bỏ hết ra trước khi ghép chuỗi.
+ */
+function sanitize(raw: string): string {
+  return raw
+    .replace(/[,()*%\\"']/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 60);
+}
+
+export default async function NguoiChoiPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; loc?: string; trang?: string }>;
+}) {
   if (!(await isAdmin())) redirect('/admin/vao');
+
+  const sp = await searchParams;
+  const rawQuery = (sp.q ?? '').trim();
+  const term = sanitize(rawQuery);
+  const status: Status | null =
+    sp.loc === 'hoat_dong' || sp.loc === 'khoa' ? (sp.loc as Status) : null;
+  const filtering = Boolean(term || status);
 
   const supabase = db();
   const today = currentDayNumber() ?? 0;
 
-  const [{ data: players }, { data: checkins }, { data: fragments }] = await Promise.all([
-    supabase.from('players').select('*').order('points', { ascending: false }),
-    supabase.from('checkins').select('player_id,by_freeze'),
-    supabase.from('fragments').select('player_id'),
-  ]);
+  /** Cùng bộ điều kiện dùng cho cả lần đếm lẫn lần lấy dữ liệu. */
+  const filtered = (select: string, head = false) => {
+    let q = supabase.from('players').select(select, { count: 'exact', head });
+    if (term) {
+      q = q.or(
+        `code.ilike.%${term}%,display_name.ilike.%${term}%,contact.ilike.%${term}%`,
+      );
+    }
+    if (status) q = q.eq('is_active', status === 'hoat_dong');
+    return q;
+  };
 
+  // Đếm trước để biết có bao nhiêu trang, rồi mới kẹp số trang vào khoảng hợp
+  // lệ — tránh trang trắng khi xoá người cuối cùng của trang cuối.
+  const { count } = await filtered('id', true);
+  const totalCount = count ?? 0;
+  const pageCount = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
+  const page = Math.min(Math.max(1, Number(sp.trang) || 1), pageCount);
+  const from = (page - 1) * PAGE_SIZE;
+
+  const { data: players } = await filtered('*')
+    // Sắp xếp phụ theo mã: khi hai người bằng điểm, thứ tự phải cố định giữa
+    // các lần truy vấn, nếu không sẽ có người bị nhảy trang hoặc hiện hai lần.
+    .order('points', { ascending: false })
+    .order('code', { ascending: true })
+    .range(from, from + PAGE_SIZE - 1);
+
+  const list = (players ?? []) as unknown as PlayerRow[];
+  const ids = list.map((p) => p.id);
+
+  // Chỉ đếm check-in và mảnh trăng cho 5 người đang hiện, không kéo cả bảng về.
   const doneBy = new Map<string, number>();
-  for (const c of checkins ?? []) {
-    if (c.by_freeze) continue;
-    doneBy.set(c.player_id, (doneBy.get(c.player_id) ?? 0) + 1);
-  }
   const fragBy = new Map<string, number>();
-  for (const f of fragments ?? []) fragBy.set(f.player_id, (fragBy.get(f.player_id) ?? 0) + 1);
+  if (ids.length) {
+    const [{ data: checkins }, { data: fragments }] = await Promise.all([
+      supabase.from('checkins').select('player_id,by_freeze').in('player_id', ids),
+      supabase.from('fragments').select('player_id').in('player_id', ids),
+    ]);
+    for (const c of checkins ?? []) {
+      if (c.by_freeze) continue;
+      doneBy.set(c.player_id, (doneBy.get(c.player_id) ?? 0) + 1);
+    }
+    for (const f of fragments ?? []) fragBy.set(f.player_id, (fragBy.get(f.player_id) ?? 0) + 1);
+  }
 
-  const list = (players ?? []) as PlayerRow[];
+  /** Giữ nguyên bộ lọc khi chuyển trang. */
+  const hrefFor = (n: number) => {
+    const p = new URLSearchParams();
+    if (rawQuery) p.set('q', rawQuery);
+    if (status) p.set('loc', status);
+    if (n > 1) p.set('trang', String(n));
+    const qs = p.toString();
+    return qs ? `/admin/nguoi-choi?${qs}` : '/admin/nguoi-choi';
+  };
+
+  let windowStart = Math.max(1, page - Math.floor(PAGER_WINDOW / 2));
+  const windowEnd = Math.min(pageCount, windowStart + PAGER_WINDOW - 1);
+  windowStart = Math.max(1, windowEnd - PAGER_WINDOW + 1);
+  const pageNumbers = Array.from(
+    { length: windowEnd - windowStart + 1 },
+    (_, i) => windowStart + i,
+  );
 
   return (
     <>
@@ -36,7 +115,7 @@ export default async function NguoiChoiPage() {
         <div className="wrap-wide">
           <p className="eyebrow">
             <span className="rule" />
-            <span>{list.length} người có mã</span>
+            <span>{totalCount} người có mã</span>
           </p>
           <h1 className="display">Người chơi</h1>
 
@@ -68,8 +147,50 @@ export default async function NguoiChoiPage() {
             <span className="rule" />
             <span>Danh sách</span>
           </p>
+
+          {/* Form GET: không cần JS, và bỏ qua "trang" nên tìm xong luôn về trang 1. */}
+          <form method="get" className="filter-bar">
+            <div className="field" style={{ marginBottom: 0, flex: '1 1 260px' }}>
+              <label htmlFor="q">Tìm người chơi</label>
+              <input
+                id="q"
+                name="q"
+                type="text"
+                defaultValue={rawQuery}
+                placeholder="mã, tên hoặc liên hệ"
+                autoComplete="off"
+              />
+            </div>
+            <div className="field" style={{ marginBottom: 0, flex: '0 1 180px' }}>
+              <label htmlFor="loc">Trạng thái</label>
+              <select id="loc" name="loc" defaultValue={status ?? ''}>
+                <option value="">Tất cả</option>
+                <option value="hoat_dong">Đang hoạt động</option>
+                <option value="khoa">Đã khoá</option>
+              </select>
+            </div>
+            <div className="btn-row" style={{ paddingBottom: 2 }}>
+              <button type="submit" className="btn-primary btn-small">
+                Tìm
+              </button>
+              {filtering ? (
+                <a href="/admin/nguoi-choi" className="btn-ghost btn-small">
+                  Xoá lọc
+                </a>
+              ) : null}
+            </div>
+          </form>
+
+          {filtering ? (
+            <p className="notice ok">
+              {totalCount} kết quả
+              {term ? <> cho “{term}”</> : null}
+              {status ? <> · {status === 'hoat_dong' ? 'đang hoạt động' : 'đã khoá'}</> : null}
+            </p>
+          ) : null}
+
           <div className="table-scroll">
-            <table className="data">
+            <table className="data wide">
               <thead>
                 <tr>
                   <th>Mã</th>
@@ -81,6 +202,7 @@ export default async function NguoiChoiPage() {
                   <th>Mảnh</th>
                   <th>Vé cứu</th>
                   <th>Sửa</th>
+                  <th>Xoá</th>
                 </tr>
               </thead>
               <tbody>
@@ -104,6 +226,7 @@ export default async function NguoiChoiPage() {
                       <td>
                         <ActionForm action={updatePlayer} submitLabel="Lưu" ghost>
                           <input type="hidden" name="id" value={p.id} />
+                          <input type="hidden" name="is_active_present" value="1" />
                           <div className="field">
                             <input
                               name="display_name"
@@ -143,17 +266,81 @@ export default async function NguoiChoiPage() {
                           </label>
                         </ActionForm>
                       </td>
+                      <td>
+                        <ActionForm
+                          action={deletePlayer}
+                          submitLabel="Xoá"
+                          busyLabel="Đang xoá…"
+                          ghost
+                        >
+                          <input type="hidden" name="id" value={p.id} />
+                          <div className="field">
+                            <input
+                              name="confirm_code"
+                              type="text"
+                              placeholder={p.code}
+                              autoComplete="off"
+                              aria-label={`Gõ mã ${p.code} để xác nhận xoá`}
+                            />
+                            <span className="hint">gõ mã để xác nhận</span>
+                          </div>
+                        </ActionForm>
+                      </td>
                     </tr>
                   );
                 })}
                 {!list.length ? (
                   <tr>
-                    <td colSpan={9}>Chưa có ai. Tạo mã ở khung phía trên.</td>
+                    <td colSpan={10}>
+                      {filtering
+                        ? 'Không có ai khớp bộ lọc này.'
+                        : 'Chưa có ai. Tạo mã ở khung phía trên.'}
+                    </td>
                   </tr>
                 ) : null}
               </tbody>
             </table>
           </div>
+
+          {pageCount > 1 ? (
+            <nav className="pager" aria-label="Phân trang danh sách người chơi">
+              {page > 1 ? (
+                <a href={hrefFor(page - 1)} rel="prev">
+                  ← Trước
+                </a>
+              ) : (
+                <span className="off">← Trước</span>
+              )}
+
+              {windowStart > 1 ? <span className="gap">…</span> : null}
+
+              {pageNumbers.map((n) =>
+                n === page ? (
+                  <span key={n} className="here" aria-current="page">
+                    {n}
+                  </span>
+                ) : (
+                  <a key={n} href={hrefFor(n)}>
+                    {n}
+                  </a>
+                ),
+              )}
+
+              {windowEnd < pageCount ? <span className="gap">…</span> : null}
+
+              {page < pageCount ? (
+                <a href={hrefFor(page + 1)} rel="next">
+                  Sau →
+                </a>
+              ) : (
+                <span className="off">Sau →</span>
+              )}
+
+              <span className="pager-info">
+                Trang {page}/{pageCount} · {totalCount} người
+              </span>
+            </nav>
+          ) : null}
         </div>
       </section>
     </>
