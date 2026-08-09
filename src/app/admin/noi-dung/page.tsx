@@ -3,12 +3,15 @@ import { redirect } from 'next/navigation';
 import ActionForm from '@/components/ActionForm';
 import { isAdmin } from '@/lib/session';
 import { db } from '@/lib/supabase';
-import { TOTAL_DAYS, currentDayNumber, fullDate } from '@/lib/event';
+import { TOTAL_DAYS, currentDayNumber, dateForDay, fullDate } from '@/lib/event';
 import { DAY_TYPE_LABEL, type DayType } from '@/lib/scoring';
 import QuestionForm, { OPTION_LABELS, type QuestionDraft } from '@/components/QuestionForm';
 import {
+  createDay,
   createQuestion,
+  deleteDay,
   deleteQuestion,
+  importDaysExcel,
   importQuizExcel,
   updateDay,
   updateQuestion,
@@ -21,10 +24,13 @@ type DayRecord = {
   date: string;
   weekday: string;
   week: number;
+  phase: string;
+  week_theme: string;
   day_type: DayType;
   title: string;
   body: string;
   prompt: string | null;
+  mechanic: string | null;
   webinar_code: string | null;
   webinar_link: string | null;
 };
@@ -92,6 +98,29 @@ export default async function NoiDungPage({
           <div className="wrap-wide">
             <ActionForm action={updateDay} submitLabel="Lưu nội dung ngày" style={{ maxWidth: 760 }}>
               <input type="hidden" name="day" value={d.day} />
+
+              <div className="settings-grid">
+                <div className="field">
+                  <label htmlFor="day_type">Loại ngày</label>
+                  <select id="day_type" name="day_type" defaultValue={d.day_type}>
+                    {Object.entries(DAY_TYPE_LABEL).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="hint">Quyết định điểm và cơ chế của ngày.</span>
+                </div>
+                <div className="field">
+                  <label htmlFor="phase">Giai đoạn</label>
+                  <input id="phase" name="phase" type="text" defaultValue={d.phase} />
+                </div>
+              </div>
+
+              <div className="field">
+                <label htmlFor="week_theme">Chủ đề tuần</label>
+                <input id="week_theme" name="week_theme" type="text" defaultValue={d.week_theme} />
+              </div>
               <div className="field">
                 <label htmlFor="title">Tiêu đề</label>
                 <input id="title" name="title" type="text" defaultValue={d.title} required />
@@ -106,6 +135,10 @@ export default async function NoiDungPage({
               <div className="field">
                 <label htmlFor="prompt">Đề bài (chỉ dùng cho ngày thử thách / case study)</label>
                 <textarea id="prompt" name="prompt" rows={8} defaultValue={d.prompt ?? ''} />
+              </div>
+              <div className="field">
+                <label htmlFor="mechanic">Cơ chế (dòng mô tả luật chơi hiện cho người chơi)</label>
+                <input id="mechanic" name="mechanic" type="text" defaultValue={d.mechanic ?? ''} />
               </div>
 
               {isWebinar ? (
@@ -137,6 +170,32 @@ export default async function NoiDungPage({
                   </div>
                 </>
               ) : null}
+            </ActionForm>
+
+            <div className="btn-row" style={{ marginTop: 22 }}>
+              <a className="btn-ghost btn-small" href={`/admin/noi-dung/tai-noi-dung?ngay=${d.day}`}>
+                Tải nội dung ngày này (.xlsx)
+              </a>
+            </div>
+
+            <hr className="divider" />
+            <h3 className="card-title">Xoá ngày này</h3>
+            <p className="hint" style={{ maxWidth: 620, marginBottom: 12 }}>
+              Xoá ngày {d.day} sẽ cuốn theo toàn bộ câu hỏi, lượt check-in và bài nộp của ngày đó —
+              không khôi phục được. Muốn tạm ẩn thì sửa nội dung, đừng xoá.
+            </p>
+            <ActionForm action={deleteDay} submitLabel="Xoá ngày" busyLabel="Đang xoá…" ghost>
+              <input type="hidden" name="day" value={d.day} />
+              <div className="field" style={{ maxWidth: 220 }}>
+                <input
+                  name="confirm_day"
+                  type="text"
+                  placeholder={String(d.day)}
+                  autoComplete="off"
+                  aria-label={`Gõ số ${d.day} để xác nhận xoá`}
+                />
+                <span className="hint">gõ số {d.day} để xác nhận</span>
+              </div>
             </ActionForm>
           </div>
         </section>
@@ -202,6 +261,10 @@ export default async function NoiDungPage({
   >[];
 
   const totalQuestions = (questions ?? []).length;
+  const present = new Set(list.map((d) => d.day));
+  const missingDays = Array.from({ length: TOTAL_DAYS }, (_, i) => i + 1).filter(
+    (n) => !present.has(n),
+  );
 
   return (
     <>
@@ -213,12 +276,99 @@ export default async function NoiDungPage({
           </p>
           <h1 className="display">Nội dung 47 ngày</h1>
 
-          {list.length < TOTAL_DAYS ? (
+          {missingDays.length ? (
             <p className="notice err">
-              Thiếu {TOTAL_DAYS - list.length} ngày. Chạy <span className="mono">npm run seed</span>{' '}
-              để nạp từ thư mục content/.
+              Thiếu {missingDays.length} ngày: {missingDays.slice(0, 12).join(', ')}
+              {missingDays.length > 12 ? '…' : ''}. Chạy{' '}
+              <span className="mono">npm run seed</span> để nạp cả loạt từ thư mục content/, hoặc
+              tạo tay ở khung bên dưới.
             </p>
           ) : null}
+        </div>
+      </section>
+
+      <section className="fade-in">
+        <div className="wrap-wide">
+          <p className="eyebrow">
+            <span className="rule" />
+            <span>Nội dung bằng Excel</span>
+          </p>
+          <h2 className="section-title">Sửa hàng loạt {list.length} ngày</h2>
+          <p className="lede">
+            Tải file về, sửa trong Excel, rồi nạp ngược lại. Ngày nào có trong file thì ghi đè, chưa
+            có thì tạo mới; ngày không xuất hiện trong file được để yên.
+          </p>
+
+          <div className="btn-row" style={{ marginTop: 16 }}>
+            <a className="btn-ghost btn-small" href="/admin/noi-dung/tai-noi-dung">
+              Tải toàn bộ nội dung (.xlsx)
+            </a>
+          </div>
+
+          <div style={{ maxWidth: 520, marginTop: 24 }}>
+            <ActionForm
+              action={importDaysExcel}
+              submitLabel="Nhập nội dung từ Excel"
+              busyLabel="Đang đọc file…"
+            >
+              <div className="field">
+                <label htmlFor="file-days">Chọn file .xlsx</label>
+                <input
+                  id="file-days"
+                  name="file"
+                  type="file"
+                  accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                  required
+                />
+              </div>
+            </ActionForm>
+          </div>
+
+          <p className="coach-note" style={{ marginTop: 18 }}>
+            Cột <span className="mono">Ngày dương lịch</span> và <span className="mono">Thứ</span>{' '}
+            chỉ để đối chiếu — nhập vào sẽ bị bỏ qua và tính lại từ mốc khởi động, tránh lệch với
+            phép tính “hôm nay là ngày thứ mấy”. Cột <span className="mono">Mã điểm danh</span> chứa
+            mã thật của webinar, đừng gửi file này cho học viên.
+          </p>
+
+          <hr className="divider" />
+          <h3 className="card-title">Thêm một ngày còn trống</h3>
+          {missingDays.length ? (
+            <ActionForm action={createDay} submitLabel="Tạo ngày" style={{ maxWidth: 620 }}>
+              <div className="settings-grid">
+                <div className="field">
+                  <label htmlFor="new-day">Số ngày</label>
+                  <select id="new-day" name="day" defaultValue={String(missingDays[0])}>
+                    {missingDays.map((n) => (
+                      <option key={n} value={n}>
+                        Ngày {n} · {fullDate(dateForDay(n))}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="field">
+                  <label htmlFor="new-type">Loại ngày</label>
+                  <select id="new-type" name="day_type" defaultValue="kien_thuc">
+                    {Object.entries(DAY_TYPE_LABEL).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="field">
+                <label htmlFor="new-title">Tiêu đề</label>
+                <input id="new-title" name="title" type="text" required />
+              </div>
+              <div className="field">
+                <label htmlFor="new-body">Bài đọc</label>
+                <textarea id="new-body" name="body" rows={6} required />
+              </div>
+            </ActionForm>
+          ) : (
+            <p className="hint">Đủ cả {TOTAL_DAYS} ngày, không thiếu ngày nào.</p>
+          )}
         </div>
       </section>
 

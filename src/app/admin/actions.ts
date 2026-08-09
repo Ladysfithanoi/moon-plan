@@ -6,9 +6,11 @@ import { randomInt } from 'node:crypto';
 import { db, CASE_STUDY_BUCKET } from '@/lib/supabase';
 import { checkAdminPassword, endAdminSession, isAdmin, startAdminSession } from '@/lib/session';
 import { drawHonorRoll } from '@/lib/game';
-import { FREEZES_PER_PLAYER } from '@/lib/scoring';
+import { DAY_TYPE_LABEL, FREEZES_PER_PLAYER } from '@/lib/scoring';
 import { SETTING_KEYS, saveSetting } from '@/lib/settings';
 import { OPTION_COUNT, parseQuizWorkbook } from '@/lib/quiz-excel';
+import { parseDayWorkbook, weekForDay, weekdayForDay } from '@/lib/day-excel';
+import { TOTAL_DAYS, WEEK_THEMES, dateForDay, fullDate } from '@/lib/event';
 
 export type ActionState = { ok?: boolean; message?: string };
 
@@ -149,18 +151,43 @@ export async function deletePlayer(_prev: ActionState, formData: FormData): Prom
 
 // ─── Nội dung ngày ──────────────────────────────────────────────────────────
 
-export async function updateDay(_prev: ActionState, formData: FormData): Promise<ActionState> {
-  await requireAdmin();
+function revalidateDayConsumers(day?: number): void {
+  revalidatePath('/admin/noi-dung');
+  revalidatePath('/chang-duong');
+  revalidatePath('/chung-ket');
+  if (day) revalidatePath(`/ngay/${day}`);
+}
 
-  const day = Number(formData.get('day'));
-  if (!Number.isInteger(day)) return { ok: false, message: 'Ngày không hợp lệ.' };
+/** Các trường nội dung sửa được từ form. Ngày/thứ/tuần suy ra từ số ngày. */
+function readDayForm(formData: FormData): Record<string, unknown> | { error: string } {
+  const title = String(formData.get('title') ?? '').trim();
+  const body = String(formData.get('body') ?? '');
+  if (!title) return { error: 'Cần có tiêu đề.' };
+  if (!body.trim()) return { error: 'Cần có bài đọc.' };
 
   const patch: Record<string, unknown> = {
-    title: String(formData.get('title') ?? '').trim(),
-    body: String(formData.get('body') ?? ''),
+    title,
+    body,
     prompt: String(formData.get('prompt') ?? '').trim() || null,
     updated_at: new Date().toISOString(),
   };
+
+  // Chỉ ghi đè trường nào form thực sự gửi lên — form sửa nhanh không có đủ ô.
+  for (const key of ['phase', 'week_theme', 'mechanic'] as const) {
+    const v = formData.get(key);
+    if (v !== null) {
+      const s = String(v).trim();
+      if (key === 'mechanic') patch[key] = s || null;
+      else if (s) patch[key] = s;
+    }
+  }
+
+  const dayType = formData.get('day_type');
+  if (dayType !== null) {
+    const t = String(dayType);
+    if (!(t in DAY_TYPE_LABEL)) return { error: `Loại ngày "${t}" không hợp lệ.` };
+    patch.day_type = t;
+  }
 
   const webinarCode = formData.get('webinar_code');
   if (webinarCode !== null) {
@@ -169,14 +196,170 @@ export async function updateDay(_prev: ActionState, formData: FormData): Promise
   const webinarLink = formData.get('webinar_link');
   if (webinarLink !== null) patch.webinar_link = String(webinarLink).trim() || null;
 
-  if (!patch.title) return { ok: false, message: 'Cần có tiêu đề.' };
+  return patch;
+}
+
+export async function updateDay(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  await requireAdmin();
+
+  const day = Number(formData.get('day'));
+  if (!Number.isInteger(day)) return { ok: false, message: 'Ngày không hợp lệ.' };
+
+  const patch = readDayForm(formData);
+  if ('error' in patch) return { ok: false, message: patch.error as string };
 
   const { error } = await db().from('days').update(patch).eq('day', day);
   if (error) return { ok: false, message: error.message };
 
-  revalidatePath('/admin/noi-dung');
-  revalidatePath('/chang-duong');
+  revalidateDayConsumers(day);
   return { ok: true, message: `Đã lưu nội dung ngày ${day}.` };
+}
+
+/**
+ * Tạo nội dung cho một ngày còn trống.
+ *
+ * Chỉ tạo được trong khung 1–47: ngày dương lịch, thứ và tuần đều suy ra từ
+ * EVENT_START chứ không nhập tay, nếu không sẽ lệch với phép tính "hôm nay là
+ * ngày thứ mấy" ở khắp app.
+ */
+export async function createDay(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  await requireAdmin();
+
+  const day = Number(formData.get('day'));
+  if (!Number.isInteger(day) || day < 1 || day > TOTAL_DAYS) {
+    return { ok: false, message: `Số ngày phải nằm trong khoảng 1–${TOTAL_DAYS}.` };
+  }
+
+  const patch = readDayForm(formData);
+  if ('error' in patch) return { ok: false, message: patch.error as string };
+
+  const supabase = db();
+  const { data: existing } = await supabase.from('days').select('day').eq('day', day).maybeSingle();
+  if (existing) {
+    return { ok: false, message: `Ngày ${day} đã có nội dung rồi — bấm vào tiêu đề để sửa.` };
+  }
+
+  const week = weekForDay(day);
+  const { error } = await supabase.from('days').insert({
+    day,
+    date: dateForDay(day),
+    weekday: weekdayForDay(day),
+    week,
+    phase: 'Scaffolding',
+    week_theme: WEEK_THEMES[week - 1] ?? `Tuần ${week}`,
+    day_type: 'kien_thuc',
+    ...patch,
+  });
+  if (error) return { ok: false, message: error.message };
+
+  revalidateDayConsumers(day);
+  return { ok: true, message: `Đã tạo ngày ${day} (${fullDate(dateForDay(day))}).` };
+}
+
+/**
+ * Xoá hẳn nội dung một ngày.
+ *
+ * Cực kỳ nặng tay: questions, checkins, submissions và secret_days đều
+ * `on delete cascade` theo days(day), nên xoá là cuốn theo toàn bộ câu hỏi,
+ * lượt check-in và bài nộp của ngày đó. Bắt gõ lại số ngày để xác nhận.
+ */
+export async function deleteDay(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  await requireAdmin();
+
+  const day = Number(formData.get('day'));
+  const typed = String(formData.get('confirm_day') ?? '').trim();
+  if (!Number.isInteger(day)) return { ok: false, message: 'Ngày không hợp lệ.' };
+  if (typed !== String(day)) {
+    return { ok: false, message: `Gõ đúng số ${day} vào ô xác nhận rồi mới xoá được.` };
+  }
+
+  const supabase = db();
+  const [{ count: qCount }, { count: cCount }, { count: sCount }] = await Promise.all([
+    supabase.from('questions').select('id', { count: 'exact', head: true }).eq('day', day),
+    supabase.from('checkins').select('id', { count: 'exact', head: true }).eq('day', day),
+    supabase.from('submissions').select('id', { count: 'exact', head: true }).eq('day', day),
+  ]);
+
+  const { error } = await supabase.from('days').delete().eq('day', day);
+  if (error) return { ok: false, message: error.message };
+
+  revalidateDayConsumers(day);
+  return {
+    ok: true,
+    message:
+      `Đã xoá ngày ${day} cùng ${qCount ?? 0} câu hỏi, ${cCount ?? 0} lượt check-in và ` +
+      `${sCount ?? 0} bài nộp. Chạy npm run seed để nạp lại từ file content/.`,
+  };
+}
+
+/**
+ * Nhập nội dung 47 ngày từ Excel.
+ *
+ * Ngày nào có trong file thì ghi đè, chưa có thì tạo mới. Ngày không xuất hiện
+ * trong file được để yên — xoá hàng loạt qua Excel quá nguy hiểm, muốn xoá thì
+ * dùng nút xoá của từng ngày.
+ */
+export async function importDaysExcel(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  await requireAdmin();
+
+  const file = formData.get('file');
+  if (!(file instanceof File) || file.size === 0) {
+    return { ok: false, message: 'Chưa chọn file. Cần một file .xlsx.' };
+  }
+  if (file.size > 10 * 1024 * 1024) {
+    return { ok: false, message: 'File lớn hơn 10MB — nhiều khả năng không phải file nội dung.' };
+  }
+
+  const parsed = await parseDayWorkbook(await file.arrayBuffer());
+  if (!parsed.ok) {
+    const shown = parsed.errors.slice(0, 6);
+    const rest = parsed.errors.length - shown.length;
+    return {
+      ok: false,
+      message:
+        `Chưa nhập gì cả — file có ${parsed.errors.length} lỗi. ` +
+        shown.join(' ') +
+        (rest > 0 ? ` …và ${rest} lỗi nữa.` : ''),
+    };
+  }
+
+  const supabase = db();
+  const { data: existingData } = await supabase.from('days').select('day');
+  const existing = new Set((existingData ?? []).map((d) => d.day));
+
+  let created = 0;
+  let updated = 0;
+
+  for (const row of parsed.rows) {
+    const { excelRow, day, ...content } = row;
+    const week = weekForDay(day);
+
+    if (existing.has(day)) {
+      const { error } = await supabase
+        .from('days')
+        .update({ ...content, updated_at: new Date().toISOString() })
+        .eq('day', day);
+      if (error) return { ok: false, message: `Dòng ${excelRow} (ngày ${day}): ${error.message}` };
+      updated++;
+    } else {
+      const { error } = await supabase.from('days').insert({
+        day,
+        date: dateForDay(day),
+        weekday: weekdayForDay(day),
+        week,
+        ...content,
+      });
+      if (error) return { ok: false, message: `Dòng ${excelRow} (ngày ${day}): ${error.message}` };
+      created++;
+    }
+    revalidatePath(`/ngay/${day}`);
+  }
+
+  revalidateDayConsumers();
+  return {
+    ok: true,
+    message: `Đã nhập ${parsed.rows.length} ngày (${updated} sửa, ${created} tạo mới).`,
+  };
 }
 
 // ─── Câu hỏi quiz ───────────────────────────────────────────────────────────

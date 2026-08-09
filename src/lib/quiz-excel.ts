@@ -1,6 +1,7 @@
 import 'server-only';
 import ExcelJS from 'exceljs';
 import { TOTAL_DAYS } from './event';
+import { addRangeValidation, findColumns, readCell, styleSheet } from './excel-io';
 
 /**
  * Đọc và ghi bộ câu hỏi quiz bằng file Excel.
@@ -50,20 +51,6 @@ export type QuizExportRow = {
   explain: string | null;
 };
 
-/**
- * Bỏ dấu và ký tự lạ để dò tên cột. Chú ý "đ" không tách ra được bằng NFD nên
- * phải thay tay, nếu không "đáp án 1" sẽ thành "đapan1" và dò trượt.
- */
-function normalizeHeader(raw: string): string {
-  return raw
-    .replace(/đ/g, 'd')
-    .replace(/Đ/g, 'D')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, '');
-}
-
 /** Tên cột được chấp nhận cho mỗi trường, đã chuẩn hoá. */
 const HEADER_ALIASES: Record<ColumnKey, string[]> = {
   day: ['ngay', 'day'],
@@ -76,23 +63,6 @@ const HEADER_ALIASES: Record<ColumnKey, string[]> = {
   correct: ['dapandung', 'dapandung14', 'correct', 'dung'],
   explain: ['giaithich', 'explain', 'giaithichdapan'],
 };
-
-/** Ô Excel có thể là số, chuỗi, rich text, công thức… — quy hết về chuỗi. */
-function cellText(value: ExcelJS.CellValue): string {
-  if (value === null || value === undefined) return '';
-  if (typeof value === 'string') return value.trim();
-  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
-  if (value instanceof Date) return value.toISOString();
-  if (typeof value === 'object') {
-    const v = value as unknown as Record<string, unknown>;
-    if (Array.isArray(v.richText)) {
-      return (v.richText as { text: string }[]).map((t) => t.text).join('').trim();
-    }
-    if ('result' in v) return cellText(v.result as ExcelJS.CellValue);
-    if ('text' in v) return String(v.text).trim();
-  }
-  return '';
-}
 
 export type ParseResult =
   | { ok: true; rows: QuizExcelRow[] }
@@ -116,15 +86,7 @@ export async function parseQuizWorkbook(buffer: ArrayBuffer): Promise<ParseResul
   const sheet = wb.getWorksheet(QUIZ_SHEET) ?? wb.worksheets[0];
   if (!sheet) return { ok: false, errors: ['File không có sheet nào.'] };
 
-  // ─── Dò cột theo tiêu đề ──────────────────────────────────────────────────
-  const headerRow = sheet.getRow(1);
-  const colOf = {} as Record<ColumnKey, number>;
-  headerRow.eachCell((cell, colNumber) => {
-    const norm = normalizeHeader(cellText(cell.value));
-    for (const [key, aliases] of Object.entries(HEADER_ALIASES) as [ColumnKey, string[]][]) {
-      if (colOf[key] === undefined && aliases.includes(norm)) colOf[key] = colNumber;
-    }
-  });
+  const colOf = findColumns(sheet, HEADER_ALIASES);
 
   const required: ColumnKey[] = ['day', 'prompt', 'opt1', 'opt2', 'opt3', 'opt4', 'correct'];
   const missing = required.filter((k) => colOf[k] === undefined);
@@ -141,8 +103,7 @@ export async function parseQuizWorkbook(buffer: ArrayBuffer): Promise<ParseResul
   // ─── Đọc từng dòng ────────────────────────────────────────────────────────
   const rows: QuizExcelRow[] = [];
   const errors: string[] = [];
-  const at = (row: ExcelJS.Row, key: ColumnKey) =>
-    colOf[key] === undefined ? '' : cellText(row.getCell(colOf[key]).value);
+  const at = (row: ExcelJS.Row, key: ColumnKey) => readCell(row, colOf[key]);
 
   for (let r = 2; r <= sheet.rowCount; r++) {
     const row = sheet.getRow(r);
@@ -226,15 +187,8 @@ export async function buildQuizWorkbook(questions: QuizExportRow[]): Promise<Buf
   wb.creator = 'Chạy dần đến Trung Thu';
   wb.created = new Date();
 
-  const sheet = wb.addWorksheet(QUIZ_SHEET, {
-    views: [{ state: 'frozen', ySplit: 1 }],
-  });
+  const sheet = wb.addWorksheet(QUIZ_SHEET);
   sheet.columns = COLUMNS.map((c) => ({ header: c.header, key: c.key, width: c.width }));
-
-  const header = sheet.getRow(1);
-  header.font = { bold: true };
-  header.alignment = { vertical: 'middle' };
-  header.height = 22;
 
   for (const q of questions) {
     const opts = [...q.options, '', '', '', ''].slice(0, OPTION_COUNT);
@@ -251,25 +205,13 @@ export async function buildQuizWorkbook(questions: QuizExportRow[]): Promise<Buf
     });
   }
 
-  sheet.eachRow((row, i) => {
-    if (i === 1) return;
-    row.alignment = { vertical: 'top', wrapText: true };
-  });
+  styleSheet(sheet);
 
   // Chỉ cho nhập 1–4 ở cột đáp án đúng, chặn sai ngay trong Excel.
-  //
-  // Gán theo vùng chứ không lặp qua getCell: đụng vào một ô là exceljs tạo thật
-  // dòng đó, nên cách kia sẽ nhét vào file hàng trăm dòng rỗng.
   const correctCol = COLUMNS.findIndex((c) => c.key === 'correct') + 1;
   const colLetter = sheet.getColumn(correctCol).letter;
   const lastRow = Math.max(sheet.rowCount, 1) + 200; // chừa chỗ cho câu thêm tay
-
-  // exceljs có sẵn API gán theo vùng lúc chạy nhưng quên khai trong file .d.ts,
-  // nên phải ép kiểu ở đúng một chỗ này.
-  const ranged = sheet as unknown as {
-    dataValidations: { add(range: string, validation: ExcelJS.DataValidation): void };
-  };
-  ranged.dataValidations.add(`${colLetter}2:${colLetter}${lastRow}`, {
+  addRangeValidation(sheet, `${colLetter}2:${colLetter}${lastRow}`, {
     type: 'whole',
     operator: 'between',
     formulae: [1, OPTION_COUNT],
