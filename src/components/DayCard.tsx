@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
+import Modal from './Modal';
 import RichText from './RichText';
 import { doCheckIn, doSubmitWork } from '@/app/chang-duong/actions';
 import type { CheckinResult, PublicQuestion } from '@/lib/types';
@@ -38,6 +39,38 @@ function Submit({ label, busyLabel }: { label: string; busyLabel: string }) {
 
 const EMPTY: CheckinResult = { ok: false, message: '' };
 
+/** Thông báo sau khi ghi nhận: điểm, mảnh trăng, quà, vé cứu. */
+function Feedback({ state }: { state: CheckinResult }) {
+  return (
+    <>
+      {state.message ? (
+        <p className={`notice ${state.ok ? 'ok' : 'err'}`}>
+          {state.message}
+          {state.ok && state.pointsAwarded ? ` (+${state.pointsAwarded}đ)` : ''}
+        </p>
+      ) : null}
+
+      {state.ok && state.fragmentAwarded ? (
+        <p className="notice ok">Bạn vừa thu được mảnh trăng &quot;{state.fragmentAwarded}&quot;.</p>
+      ) : null}
+
+      {(state.gifts ?? []).map((g, i) => (
+        <div className="gift-card" key={i} style={{ marginTop: 18 }}>
+          <h4>{g.title}</h4>
+          <p>{g.detail}</p>
+          {g.points ? <p className="gift-points mono">+{g.points}đ</p> : null}
+        </div>
+      ))}
+
+      {(state.freezesUsed ?? 0) > 0 ? (
+        <p className="notice info">
+          Bạn lỡ mất {state.freezesUsed} ngày — vé cứu đã tự bù vào để chuỗi của bạn không đứt.
+        </p>
+      ) : null}
+    </>
+  );
+}
+
 export default function DayCard(props: DayCardProps) {
   const {
     day,
@@ -59,6 +92,7 @@ export default function DayCard(props: DayCardProps) {
   const [checkinState, checkinAction] = useActionState<CheckinResult, FormData>(doCheckIn, EMPTY);
   const [submitState, submitAction] = useActionState<CheckinResult, FormData>(doSubmitWork, EMPTY);
   const [picked, setPicked] = useState<Record<string, number>>({});
+  const [quizOpen, setQuizOpen] = useState(false);
 
   // Đáp án chỉ lộ ra sau khi người chơi đã nộp bài ngày đó.
   const reveal: Reveal[] | null = checkinState.ok && checkinState.reveal ? checkinState.reveal : props.reveal;
@@ -69,6 +103,8 @@ export default function DayCard(props: DayCardProps) {
     savedAnswers[qid]?.chosen ?? picked[qid];
 
   const isSubmission = dayType === 'thu_thach' || dayType === 'case_study';
+  const hasQuiz = questions.length > 0;
+  const answered = questions.filter((q) => chosenOf(q.id) !== undefined).length;
 
   return (
     <div className="today-card">
@@ -132,67 +168,120 @@ export default function DayCard(props: DayCardProps) {
       ) : null}
 
       {/* ─── Quiz ──────────────────────────────────────────────────────── */}
-      {questions.length > 0 ? (
-        <form action={checkinAction}>
-          <input type="hidden" name="day" value={day} />
-
-          {questions.map((q, qi) => {
-            const rv = revealMap.get(q.id);
-            const chosen = chosenOf(q.id);
-
-            return (
-              <div className="quiz" key={q.id}>
-                <p className="quiz-q">
-                  {questions.length > 1 ? <span className="qn mono">{qi + 1}.</span> : null}
-                  {q.prompt}
-                </p>
-                <div className="quiz-opts">
-                  {q.options.map((opt, oi) => {
-                    const isChosen = chosen === oi;
-                    let cls = 'quiz-opt';
-                    if (locked) {
-                      cls += ' locked';
-                      if (rv && oi === rv.correctIndex) cls += ' right';
-                      else if (isChosen) cls += ' wrong';
-                    } else if (isChosen) {
-                      cls += ' selected';
-                    }
-
-                    return (
-                      <button
-                        type="button"
-                        key={oi}
-                        className={cls}
-                        aria-pressed={isChosen}
-                        disabled={locked}
-                        onClick={() => setPicked((p) => ({ ...p, [q.id]: oi }))}
-                      >
-                        {opt}
-                      </button>
-                    );
-                  })}
-                </div>
-                {chosen !== undefined ? (
-                  <input type="hidden" name={`answer:${q.id}`} value={chosen} />
-                ) : null}
-                {locked && rv?.explain ? (
-                  <p className={`quiz-fb ${chosen === rv.correctIndex ? 'correct' : 'incorrect'}`}>
-                    {rv.explain}
-                  </p>
-                ) : null}
-              </div>
-            );
-          })}
-
-          {!locked ? (
+      {/* Bài đọc trước, quiz sau — mở trong modal để không vừa đọc vừa làm. */}
+      {hasQuiz ? (
+        <div className="quiz-cta">
+          <hr className="divider" />
+          {done || checkinState.ok ? (
+            <>
+              <p className="notice ok">Bạn đã làm bài quiz của ngày này.</p>
+              <button type="button" className="btn-ghost" onClick={() => setQuizOpen(true)}>
+                Xem lại bài quiz
+              </button>
+            </>
+          ) : readOnly ? (
+            <>
+              <p className="coach-note">Ngày này đã qua — xem lại đề được, nhưng không ghi điểm nữa.</p>
+              <button type="button" className="btn-ghost" onClick={() => setQuizOpen(true)}>
+                Xem bài quiz
+              </button>
+            </>
+          ) : (
             <>
               <p className="coach-note">
-                Sai cũng không sao — thỏ vẫn đi tiếp, chỉ là chưa nhận được phần điểm thưởng.
+                Đọc xong rồi thì thử sức nhé — {questions.length} câu, làm trong một lượt.
               </p>
-              <Submit label="Đánh dấu hoàn thành hôm nay" busyLabel="Đang ghi…" />
+              <button type="button" className="btn-primary" onClick={() => setQuizOpen(true)}>
+                Làm quiz
+              </button>
             </>
+          )}
+        </div>
+      ) : null}
+
+      {hasQuiz ? (
+        <Modal
+          open={quizOpen}
+          onClose={() => setQuizOpen(false)}
+          title={`Quiz ngày ${day}`}
+          subtitle={
+            locked
+              ? `${questions.length} câu · đã khoá`
+              : `${questions.length} câu · đã chọn ${answered}/${questions.length}`
+          }
+        >
+          <form action={checkinAction}>
+            <input type="hidden" name="day" value={day} />
+
+            {questions.map((q, qi) => {
+              const rv = revealMap.get(q.id);
+              const chosen = chosenOf(q.id);
+
+              return (
+                <div className="quiz" key={q.id}>
+                  <p className="quiz-q">
+                    {questions.length > 1 ? <span className="qn mono">{qi + 1}.</span> : null}
+                    {q.prompt}
+                  </p>
+                  <div className="quiz-opts">
+                    {q.options.map((opt, oi) => {
+                      const isChosen = chosen === oi;
+                      let cls = 'quiz-opt';
+                      if (locked) {
+                        cls += ' locked';
+                        if (rv && oi === rv.correctIndex) cls += ' right';
+                        else if (isChosen) cls += ' wrong';
+                      } else if (isChosen) {
+                        cls += ' selected';
+                      }
+
+                      return (
+                        <button
+                          type="button"
+                          key={oi}
+                          className={cls}
+                          aria-pressed={isChosen}
+                          disabled={locked}
+                          onClick={() => setPicked((p) => ({ ...p, [q.id]: oi }))}
+                        >
+                          {opt}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {chosen !== undefined ? (
+                    <input type="hidden" name={`answer:${q.id}`} value={chosen} />
+                  ) : null}
+                  {locked && rv?.explain ? (
+                    <p className={`quiz-fb ${chosen === rv.correctIndex ? 'correct' : 'incorrect'}`}>
+                      {rv.explain}
+                    </p>
+                  ) : null}
+                </div>
+              );
+            })}
+
+            {!locked ? (
+              <div className="modal-foot">
+                <p className="coach-note">
+                  Sai cũng không sao — thỏ vẫn đi tiếp, chỉ là chưa nhận được phần điểm thưởng.
+                </p>
+                <Submit label="Nộp bài quiz" busyLabel="Đang ghi…" />
+              </div>
+            ) : null}
+          </form>
+
+          {/* Kết quả hiện ngay trong modal, nơi người chơi đang nhìn. */}
+          <Feedback state={checkinState} />
+
+          {locked ? (
+            <div className="modal-foot">
+              <button type="button" className="btn-ghost" onClick={() => setQuizOpen(false)}>
+                Đóng
+              </button>
+            </div>
           ) : null}
-        </form>
+        </Modal>
       ) : null}
 
       {/* Ngày không có quiz (kể cả đêm hội) vẫn cần một nút để khép lại */}
@@ -273,41 +362,11 @@ export default function DayCard(props: DayCardProps) {
       ) : null}
 
       {/* ─── Phản hồi ──────────────────────────────────────────────────── */}
-      {checkinState.message ? (
-        <p className={`notice ${checkinState.ok ? 'ok' : 'err'}`}>
-          {checkinState.message}
-          {checkinState.ok && checkinState.pointsAwarded ? ` (+${checkinState.pointsAwarded}đ)` : ''}
-        </p>
-      ) : null}
-      {submitState.message ? (
-        <p className={`notice ${submitState.ok ? 'ok' : 'err'}`}>
-          {submitState.message}
-          {submitState.ok && submitState.pointsAwarded ? ` (+${submitState.pointsAwarded}đ)` : ''}
-        </p>
-      ) : null}
+      {/* Ngày có quiz thì phản hồi điểm danh đã nằm trong modal rồi. */}
+      {hasQuiz ? null : <Feedback state={checkinState} />}
+      <Feedback state={submitState} />
 
-      {checkinState.ok && checkinState.fragmentAwarded ? (
-        <p className="notice ok">
-          Bạn vừa thu được mảnh trăng &quot;{checkinState.fragmentAwarded}&quot;.
-        </p>
-      ) : null}
-
-      {[...(checkinState.gifts ?? []), ...(submitState.gifts ?? [])].map((g, i) => (
-        <div className="gift-card" key={i} style={{ marginTop: 18 }}>
-          <h4>{g.title}</h4>
-          <p>{g.detail}</p>
-          {g.points ? <p className="gift-points mono">+{g.points}đ</p> : null}
-        </div>
-      ))}
-
-      {(checkinState.freezesUsed ?? 0) > 0 || (submitState.freezesUsed ?? 0) > 0 ? (
-        <p className="notice info">
-          Bạn lỡ mất {(checkinState.freezesUsed ?? 0) + (submitState.freezesUsed ?? 0)} ngày — vé cứu
-          đã tự bù vào để chuỗi của bạn không đứt.
-        </p>
-      ) : null}
-
-      {done && !checkinState.ok && !isSubmission ? (
+      {done && !checkinState.ok && !isSubmission && !hasQuiz ? (
         <p className="notice ok" style={{ marginTop: 18 }}>
           Bạn đã hoàn thành ngày này rồi. Mai gặp lại nhé.
         </p>
