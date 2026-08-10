@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import ActionForm from '@/components/ActionForm';
 import { isAdmin } from '@/lib/session';
-import { db } from '@/lib/supabase';
+import { db, describeSupabaseConfig } from '@/lib/supabase';
 import { TOTAL_DAYS, currentDayNumber, dateForDay, fullDate } from '@/lib/event';
 import { DAY_TYPE_LABEL, type DayType } from '@/lib/scoring';
 import QuestionForm, { OPTION_LABELS, type QuestionDraft } from '@/components/QuestionForm';
@@ -247,7 +247,7 @@ export default async function NoiDungPage({
   }
 
   // ─── Danh sách 47 ngày ─────────────────────────────────────────────────
-  const [{ data: days }, { data: questions }] = await Promise.all([
+  const [{ data: days, error: daysError }, { data: questions }] = await Promise.all([
     supabase.from('days').select('day,date,weekday,week,day_type,title,webinar_code').order('day'),
     supabase.from('questions').select('day'),
   ]);
@@ -261,6 +261,7 @@ export default async function NoiDungPage({
   >[];
 
   const totalQuestions = (questions ?? []).length;
+  const config = describeSupabaseConfig();
   const present = new Set(list.map((d) => d.day));
   const missingDays = Array.from({ length: TOTAL_DAYS }, (_, i) => i + 1).filter(
     (n) => !present.has(n),
@@ -276,13 +277,42 @@ export default async function NoiDungPage({
           </p>
           <h1 className="display">Nội dung 47 ngày</h1>
 
-          {missingDays.length ? (
-            <p className="notice err">
-              Thiếu {missingDays.length} ngày: {missingDays.slice(0, 12).join(', ')}
-              {missingDays.length > 12 ? '…' : ''}. Chạy{' '}
-              <span className="mono">npm run seed</span> để nạp cả loạt từ thư mục content/, hoặc
-              tạo tay ở khung bên dưới.
-            </p>
+          {/*
+            Phân biệt hai chuyện rất khác nhau mà trước đây hiện giống hệt: cơ sở
+            dữ liệu thật sự chưa có nội dung, hay là không kết nối được. Kết nối
+            hỏng mà báo "thiếu 47 ngày" thì càng chạy seed càng không ra.
+          */}
+          {daysError ? (
+            <div className="notice err">
+              <p>Không đọc được bảng nội dung: {daysError.message}</p>
+              <p style={{ marginTop: 6 }}>
+                Supabase đang trỏ tới <span className="mono">{config.host}</span>
+              </p>
+              {config.problem ? (
+                <p style={{ marginTop: 6 }}>{config.problem}</p>
+              ) : (
+                <p style={{ marginTop: 6 }}>
+                  Cấu hình trông đúng dạng — kiểm tra service_role key và xem project Supabase này
+                  đã chạy migration chưa.
+                </p>
+              )}
+            </div>
+          ) : missingDays.length ? (
+            <div className="notice err">
+              <p>
+                Thiếu {missingDays.length} ngày: {missingDays.slice(0, 12).join(', ')}
+                {missingDays.length > 12 ? '…' : ''}. Chạy{' '}
+                <span className="mono">npm run seed</span> để nạp cả loạt từ thư mục content/, hoặc
+                tạo tay ở khung bên dưới.
+              </p>
+              {missingDays.length === TOTAL_DAYS ? (
+                <p style={{ marginTop: 6 }}>
+                  Trống sạch cả {TOTAL_DAYS} ngày thường là do bản deploy trỏ nhầm project
+                  Supabase. Bản này đang dùng <span className="mono">{config.host}</span>
+                  {config.problem ? ` — ${config.problem}` : ''}
+                </p>
+              ) : null}
+            </div>
           ) : null}
         </div>
       </section>
