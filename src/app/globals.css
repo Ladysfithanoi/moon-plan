@@ -193,9 +193,17 @@ input.code-input {
 /* ─── Modal ──────────────────────────────────────────────────────────────── */
 .modal-backdrop {
   position: fixed; inset: 0; z-index: 50;
+  /* Trình duyệt không làm mờ được thì nền tối đậm hơn để vẫn tách lớp. */
   background: rgba(20, 17, 14, 0.55);
   display: flex; align-items: center; justify-content: center;
   padding: 24px; overflow-y: auto;
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .modal-backdrop {
+    background: rgba(20, 17, 14, 0.34);
+    -webkit-backdrop-filter: blur(7px) saturate(0.9);
+    backdrop-filter: blur(7px) saturate(0.9);
+  }
 }
 .modal {
   background: var(--paper); color: var(--ink);
@@ -222,7 +230,17 @@ input.code-input {
 .modal-foot { margin-top: 22px; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .modal-backdrop { animation: fadeIn 0.18s ease-out both; }
+  /* Nền mờ dần, thẻ nổi lên — không dùng fadeIn vì transform làm hở mép nền. */
+  .modal-backdrop { animation: modalVeilIn 0.22s ease-out both; }
+  .modal { animation: modalPanelIn 0.26s cubic-bezier(0.2, 0.8, 0.3, 1) both; }
+}
+@keyframes modalVeilIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modalPanelIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.99); }
+  to { opacity: 1; transform: none; }
 }
 
 @media (max-width: 560px) {
