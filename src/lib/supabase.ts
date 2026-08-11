@@ -30,6 +30,28 @@ export function db(): SupabaseClient {
 
 export const CASE_STUDY_BUCKET = 'case-study';
 
+const PAGE_ROWS = 1000;
+
+/**
+ * Kéo hết một bảng, đi từng khúc 1000 dòng.
+ *
+ * PostgREST mặc định cắt ở 1000 dòng và không báo gì cả. Bảng `answers` hay
+ * `checkins` của cả mùa vượt ngưỡng đó rất nhanh (mỗi người ~100 câu trả lời),
+ * nên trang tổng quan mà gọi select() một phát là thống kê âm thầm sai.
+ */
+export async function fetchAllRows<T>(
+  page: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>,
+): Promise<T[]> {
+  const out: T[] = [];
+  for (let from = 0; ; from += PAGE_ROWS) {
+    const { data, error } = await page(from, from + PAGE_ROWS - 1);
+    if (error || !data) break;
+    out.push(...data);
+    if (data.length < PAGE_ROWS) break;
+  }
+  return out;
+}
+
 export type SupabaseConfigNote = {
   /** Host đang dùng, để đối chiếu nhanh giữa máy nhà và bản deploy. */
   host: string;

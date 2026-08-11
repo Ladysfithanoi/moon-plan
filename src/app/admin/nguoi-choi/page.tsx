@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import ActionForm from '@/components/ActionForm';
 import PlayerRowActions from '@/components/PlayerRowActions';
@@ -149,6 +150,9 @@ export default async function NguoiChoiPage({
             <span className="rule" />
             <span>Danh sách</span>
           </p>
+          <p className="coach-note" style={{ marginBottom: 0 }}>
+            Bấm vào tên để xem hành trình học tập chi tiết của từng người.
+          </p>
 
           {/* Form GET: không cần JS, và bỏ qua "trang" nên tìm xong luôn về trang 1. */}
           <form method="get" className="filter-bar">
@@ -213,7 +217,9 @@ export default async function NguoiChoiPage({
                     <tr key={p.id}>
                       <td className="num">{p.code}</td>
                       <td>
-                        {p.display_name}
+                        <Link href={`/admin/nguoi-choi/${p.id}`} className="player-link">
+                          {p.display_name}
+                        </Link>
                         {!p.is_active ? <> · <span className="tag bad">khoá</span></> : null}
                       </td>
                       <td>{p.contact ?? '—'}</td>
