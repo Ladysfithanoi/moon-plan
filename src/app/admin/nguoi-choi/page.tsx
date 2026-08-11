@@ -1,15 +1,17 @@
 import { redirect } from 'next/navigation';
 import ActionForm from '@/components/ActionForm';
+import PlayerRowActions from '@/components/PlayerRowActions';
 import { isAdmin } from '@/lib/session';
 import { db } from '@/lib/supabase';
 import { TOTAL_DAYS, currentDayNumber } from '@/lib/event';
-import { createPlayer, deletePlayer, updatePlayer } from '../actions';
+import { createPlayer } from '../actions';
 import type { PlayerRow } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
-/** Mỗi trang 5 người — vừa một màn hình, không phải cuộn khi sửa. */
-const PAGE_SIZE = 5;
+/** Mỗi dòng giờ chỉ cao một hàng (form sửa nằm trong modal) nên xem 10 người
+ *  một trang vẫn gọn trong một màn hình. */
+const PAGE_SIZE = 10;
 
 /** Số nút trang hiện cùng lúc trên thanh phân trang. */
 const PAGER_WINDOW = 7;
@@ -201,8 +203,7 @@ export default async function NguoiChoiPage({
                   <th>Xong</th>
                   <th>Mảnh</th>
                   <th>Vé cứu</th>
-                  <th>Sửa</th>
-                  <th>Xoá</th>
+                  <th>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
@@ -224,74 +225,14 @@ export default async function NguoiChoiPage({
                       <td className="num">{fragBy.get(p.id) ?? 0}/6</td>
                       <td className="num">{p.freezes_left}</td>
                       <td>
-                        <ActionForm action={updatePlayer} submitLabel="Lưu" ghost>
-                          <input type="hidden" name="id" value={p.id} />
-                          <input type="hidden" name="is_active_present" value="1" />
-                          <div className="field">
-                            <input
-                              name="display_name"
-                              type="text"
-                              defaultValue={p.display_name}
-                              aria-label={`Tên của ${p.code}`}
-                            />
-                          </div>
-                          <div className="field">
-                            <input
-                              name="contact"
-                              type="text"
-                              defaultValue={p.contact ?? ''}
-                              placeholder="liên hệ"
-                              aria-label={`Liên hệ của ${p.code}`}
-                            />
-                          </div>
-                          <div className="field">
-                            <input
-                              name="freezes_left"
-                              type="number"
-                              min={0}
-                              max={10}
-                              defaultValue={p.freezes_left}
-                              aria-label={`Vé cứu của ${p.code}`}
-                            />
-                            <span className="hint">vé cứu còn lại</span>
-                          </div>
-                          <label style={{ fontSize: 13, display: 'block', marginBottom: 10 }}>
-                            <input
-                              type="checkbox"
-                              name="is_active"
-                              defaultChecked={p.is_active}
-                              style={{ width: 'auto', marginRight: 6 }}
-                            />
-                            đang hoạt động
-                          </label>
-                        </ActionForm>
-                      </td>
-                      <td>
-                        <ActionForm
-                          action={deletePlayer}
-                          submitLabel="Xoá"
-                          busyLabel="Đang xoá…"
-                          ghost
-                        >
-                          <input type="hidden" name="id" value={p.id} />
-                          <div className="field">
-                            <input
-                              name="confirm_code"
-                              type="text"
-                              placeholder={p.code}
-                              autoComplete="off"
-                              aria-label={`Gõ mã ${p.code} để xác nhận xoá`}
-                            />
-                            <span className="hint">gõ mã để xác nhận</span>
-                          </div>
-                        </ActionForm>
+                        <PlayerRowActions player={p} />
                       </td>
                     </tr>
                   );
                 })}
                 {!list.length ? (
                   <tr>
-                    <td colSpan={10}>
+                    <td colSpan={9}>
                       {filtering
                         ? 'Không có ai khớp bộ lọc này.'
                         : 'Chưa có ai. Tạo mã ở khung phía trên.'}

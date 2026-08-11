@@ -8,10 +8,12 @@ export type ModalProps = {
   onClose: () => void;
   title: string;
   subtitle?: string;
+  /** "danger" đổi viền trên sang màu clay cho việc không hoàn lại được. */
+  tone?: 'default' | 'danger';
   children: ReactNode;
 };
 
-export default function Modal({ open, onClose, title, subtitle, children }: ModalProps) {
+export default function Modal({ open, onClose, title, subtitle, tone, children }: ModalProps) {
   const [mounted, setMounted] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +52,14 @@ export default function Modal({ open, onClose, title, subtitle, children }: Moda
         if (e.target === e.currentTarget) closeRef.current();
       }}
     >
-      <div className="modal" role="dialog" aria-modal="true" aria-label={title} tabIndex={-1} ref={panelRef}>
+      <div
+        className={`modal${tone === 'danger' ? ' modal-danger' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        tabIndex={-1}
+        ref={panelRef}
+      >
         <div className="modal-head">
           <div>
             <h3 className="modal-title">{title}</h3>
