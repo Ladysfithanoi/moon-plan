@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import ActionForm from '@/components/ActionForm';
 import { isAdmin } from '@/lib/session';
 import { db, describeSupabaseConfig } from '@/lib/supabase';
-import { TOTAL_DAYS, currentDayNumber, dateForDay, fullDate } from '@/lib/event';
+import { TOTAL_DAYS, currentDayNumber, dateForDay, fullDate, vnDateTimeInput } from '@/lib/event';
 import { DAY_TYPE_LABEL, type DayType } from '@/lib/scoring';
 import QuestionForm, { OPTION_LABELS, type QuestionDraft } from '@/components/QuestionForm';
 import {
@@ -33,6 +33,7 @@ type DayRecord = {
   mechanic: string | null;
   webinar_code: string | null;
   webinar_link: string | null;
+  webinar_at: string | null;
 };
 
 export default async function NoiDungPage({
@@ -143,6 +144,19 @@ export default async function NoiDungPage({
 
               {isWebinar ? (
                 <>
+                  <div className="field">
+                    <label htmlFor="webinar_at">Giờ vào phòng</label>
+                    <input
+                      id="webinar_at"
+                      name="webinar_at"
+                      type="datetime-local"
+                      defaultValue={d.webinar_at ? vnDateTimeInput(d.webinar_at) : ''}
+                    />
+                    <span className="hint">
+                      Giờ Việt Nam. Người chơi thấy giờ này trên thẻ ngày, và được nhắc bằng một
+                      dải báo từ sáng hôm trước cho tới khi buổi kết thúc.
+                    </span>
+                  </div>
                   <div className="field">
                     <label htmlFor="webinar_code">Mã điểm danh</label>
                     <input

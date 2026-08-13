@@ -10,7 +10,7 @@ import { DAY_TYPE_LABEL, FREEZES_PER_PLAYER } from '@/lib/scoring';
 import { SETTING_KEYS, saveSetting } from '@/lib/settings';
 import { OPTION_COUNT, parseQuizWorkbook } from '@/lib/quiz-excel';
 import { parseDayWorkbook, weekForDay, weekdayForDay } from '@/lib/day-excel';
-import { TOTAL_DAYS, WEEK_THEMES, dateForDay, fullDate } from '@/lib/event';
+import { TOTAL_DAYS, WEEK_THEMES, dateForDay, fullDate, vnDateTimeToIso } from '@/lib/event';
 
 export type ActionState = { ok?: boolean; message?: string };
 
@@ -195,6 +195,17 @@ function readDayForm(formData: FormData): Record<string, unknown> | { error: str
   }
   const webinarLink = formData.get('webinar_link');
   if (webinarLink !== null) patch.webinar_link = String(webinarLink).trim() || null;
+
+  const webinarAt = formData.get('webinar_at');
+  if (webinarAt !== null) {
+    const raw = String(webinarAt).trim();
+    if (!raw) patch.webinar_at = null;
+    else {
+      const iso = vnDateTimeToIso(raw);
+      if (!iso) return { error: 'Giờ buổi học không hợp lệ.' };
+      patch.webinar_at = iso;
+    }
+  }
 
   return patch;
 }

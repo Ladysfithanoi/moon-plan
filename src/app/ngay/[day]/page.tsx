@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import TopBar from '@/components/TopBar';
 import DayCard from '@/components/DayCard';
+import WebinarBanner from '@/components/WebinarBanner';
 import { getPlayerSession } from '@/lib/session';
 import { TOTAL_DAYS, dateForDay, fullDate, maxUnlockedDay } from '@/lib/event';
 import {
@@ -36,6 +37,7 @@ export default async function NgayPage({ params }: { params: Promise<{ day: stri
     return (
       <>
         <TopBar nav={NAV} />
+        <WebinarBanner />
         <section className="fade-in">
           <div className="wrap">
             <p className="eyebrow">
@@ -74,6 +76,7 @@ export default async function NgayPage({ params }: { params: Promise<{ day: stri
   return (
     <>
       <TopBar nav={NAV} />
+      <WebinarBanner />
 
       <section className="fade-in">
         <div className="wrap">

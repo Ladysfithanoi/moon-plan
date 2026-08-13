@@ -28,7 +28,7 @@ Mỗi người chơi là một chú thỏ chạy trên một vòng cung khép k�
 | `/admin` | Số người tham gia, tỉ lệ hoàn thành, bốc bảng vinh danh mỗi tuần |
 | `/admin/nguoi-choi` | Tạo mã, sửa tên/liên hệ, cấp thêm vé cứu, khoá mã |
 | `/admin/bai-nop` | Đọc bài, duyệt, **nhận xét gửi học viên** + ghi chú riêng, chọn case study xuất sắc nhất |
-| `/admin/noi-dung` | Sửa bài đọc, đề bài, câu hỏi quiz, **đặt mã điểm danh webinar** |
+| `/admin/noi-dung` | Sửa bài đọc, đề bài, câu hỏi quiz, **đặt giờ + link + mã điểm danh webinar** |
 | `/admin/cai-dat` | Bậc thưởng cuối sự kiện, chủ đề 6 tuần, tên mảnh trăng, quà hộp bí ẩn, bảng điểm |
 
 ---
@@ -136,6 +136,13 @@ Vercel chạy theo UTC vẫn hiển thị đúng ngày.
 đặt **mã điểm danh** và link phòng họp. Cuối buổi đọc mã lên cho học viên nhập.
 Chưa đặt mã thì không ai điểm danh được.
 
+Giờ buổi học đã seed sẵn 20:00 mỗi Chủ Nhật (đêm hội 25/09 là 19:00). Cần dời
+giờ thì sửa ô **Giờ vào phòng** ở cùng trang đó — người chơi được nhắc bằng một
+dải báo trên đầu mọi trang, từ sáng hôm trước cho tới khi buổi tan.
+
+Dải báo chỉ hiện trong app, không tự gửi ra Messenger hay email — nó lo phần
+người hay quên, còn tin nhắn nhóm vẫn nên gửi như thường.
+
 **Cuối mỗi tuần** — vào `/admin`, bấm **Bốc** cho tuần vừa xong để cập nhật bảng
 vinh danh mềm.
 
@@ -212,7 +219,7 @@ chứ không chỉ ở code:
 | Muốn đổi | Vào đâu |
 |---|---|
 | Bài đọc, đề bài, câu hỏi quiz của một ngày | `/admin/noi-dung` → chọn ngày |
-| Mã điểm danh, link webinar | `/admin/noi-dung` → chọn ngày webinar |
+| Giờ vào phòng, mã điểm danh, link webinar | `/admin/noi-dung` → chọn ngày webinar |
 | Bậc thưởng cuối sự kiện | `/admin/cai-dat` |
 | Chủ đề 6 tuần, tên 6 mảnh trăng | `/admin/cai-dat` |
 | Quà trong hộp quà bí ẩn | `/admin/cai-dat` |

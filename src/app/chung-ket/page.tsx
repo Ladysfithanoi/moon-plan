@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import TopBar from '@/components/TopBar';
+import WebinarBanner from '@/components/WebinarBanner';
 import RichText from '@/components/RichText';
 import { getPlayerSession } from '@/lib/session';
 import { fullDate, maxUnlockedDay } from '@/lib/event';
@@ -38,6 +39,7 @@ export default async function ChungKetPage() {
   return (
     <>
       <TopBar nav={NAV} />
+      <WebinarBanner />
 
       <section className="fade-in">
         <div className="wrap">

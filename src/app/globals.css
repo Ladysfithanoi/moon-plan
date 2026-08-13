@@ -293,6 +293,30 @@ input.code-input {
 .ladder-check { color: var(--herb); font-family: var(--mono); font-size: 13px; white-space: nowrap; }
 .ladder-current { color: var(--amber); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
 
+/* ─── Dải nhắc trạm dừng gốc đa ──────────────────────────────────────────── */
+.webinar-banner {
+  background: var(--amber-10); border-bottom: 1px solid var(--ink-15);
+  padding: 11px 0; font-size: 14px;
+}
+.webinar-banner .wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.webinar-banner .wb-moon { color: var(--amber); font-size: 15px; line-height: 1; }
+.webinar-banner .wb-text { color: var(--ink-70); }
+.webinar-banner .wb-text strong { color: var(--ink); font-weight: 600; }
+.webinar-banner .wb-link {
+  margin-left: auto; font-weight: 600; text-decoration: none; white-space: nowrap;
+}
+.webinar-banner .wb-link:hover { text-decoration: underline; }
+/* Đang diễn ra thì đậm hơn hẳn — lúc này mới thực sự cần bấm vào. */
+.webinar-banner.live { background: var(--ink); border-bottom-color: var(--ink); }
+.webinar-banner.live .wb-text { color: rgba(246, 242, 234, 0.75); }
+.webinar-banner.live .wb-text strong, .webinar-banner.live .wb-moon { color: var(--paper); }
+.webinar-banner.live .wb-link { color: var(--paper); }
+
+@media (max-width: 640px) {
+  .webinar-banner { font-size: 13px; }
+  .webinar-banner .wb-link { margin-left: 0; width: 100%; }
+}
+
 /* ─── Kết quả chấm bài nộp ───────────────────────────────────────────────── */
 .review-box {
   margin-top: 22px; padding: 16px 18px;

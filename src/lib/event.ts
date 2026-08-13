@@ -88,6 +88,50 @@ export function fullDate(dateStr: string): string {
   return `${d}/${m}/${y}`;
 }
 
+const VN_CLOCK = new Intl.DateTimeFormat('vi-VN', {
+  timeZone: TZ,
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false,
+});
+
+/** Mốc thời gian ISO → "20:00" theo giờ VN. */
+export function vnClock(iso: string): string {
+  return VN_CLOCK.format(new Date(iso));
+}
+
+/** Giờ VN của một mốc, dạng số 0–23 — dùng để chọn "sáng/chiều/tối". */
+export function vnHour(iso: string): number {
+  return Number(vnClock(iso).slice(0, 2));
+}
+
+const VN_PARTS = new Intl.DateTimeFormat('en-CA', {
+  timeZone: TZ,
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false,
+});
+
+/**
+ * Mốc ISO → "2026-08-16T20:00" theo giờ VN, đúng dạng <input type="datetime-local">.
+ * Phải quy đổi tay: cắt chuỗi ISO thẳng sẽ ra giờ UTC, lệch 7 tiếng.
+ */
+export function vnDateTimeInput(iso: string): string {
+  const p = Object.fromEntries(
+    VN_PARTS.formatToParts(new Date(iso)).map((x) => [x.type, x.value]),
+  );
+  return `${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}`;
+}
+
+/** Ngược lại: "2026-08-16T20:00" từ form → ISO có sẵn múi giờ VN. */
+export function vnDateTimeToIso(local: string): string | null {
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(local)) return null;
+  return `${local}:00+07:00`;
+}
+
 /** Tên 6 mảnh trăng theo tuần. */
 export const MOON_FRAGMENTS = [
   'Tia sáng đầu tiên',

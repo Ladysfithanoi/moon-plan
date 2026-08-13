@@ -5,6 +5,7 @@ import Countdown from '@/components/Countdown';
 import MoonRing from '@/components/MoonRing';
 import DayCard from '@/components/DayCard';
 import PastDays, { type PastDay } from '@/components/PastDays';
+import WebinarBanner from '@/components/WebinarBanner';
 import { getPlayerSession } from '@/lib/session';
 import {
   FESTIVAL_AT,
@@ -64,6 +65,7 @@ export default async function ChangDuongPage() {
     return (
       <>
         <TopBar nav={NAV} />
+        <WebinarBanner />
         <section className="fade-in">
           <div className="wrap">
             <p className="eyebrow">
@@ -127,6 +129,7 @@ export default async function ChangDuongPage() {
   return (
     <>
       <TopBar nav={NAV} />
+      <WebinarBanner />
 
       {/* ─── Vòng trăng ────────────────────────────────────────────────── */}
       <section className="moonpath fade-in">

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import TopBar from '@/components/TopBar';
+import WebinarBanner from '@/components/WebinarBanner';
 import { getPlayerSession } from '@/lib/session';
 import { currentDayNumber } from '@/lib/event';
 import { getSettings } from '@/lib/settings';
@@ -37,6 +38,7 @@ export default async function VinhDanhPage() {
   return (
     <>
       <TopBar nav={NAV} />
+      <WebinarBanner />
 
       <section className="fade-in">
         <div className="wrap">
