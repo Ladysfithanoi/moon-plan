@@ -15,7 +15,7 @@ Mỗi người chơi là một chú thỏ chạy trên một vòng cung khép k�
 |---|---|
 | `/` | Trang giới thiệu — luật chơi, 6 chặng, phần thưởng, đếm ngược |
 | `/vao` | Nhập mã cá nhân |
-| `/chang-duong` | Vòng trăng, điểm, chuỗi ngày, vé cứu, nội dung + quiz hôm nay |
+| `/chang-duong` | Vòng trăng, điểm, chuỗi ngày, vé cứu, nội dung + quiz hôm nay, danh sách ngày đã qua (lọc theo ngày/hạng mục, 10 ngày mỗi trang) |
 | `/ngay/[1-47]` | Xem lại một ngày đã qua (không ghi điểm lại) |
 | `/chung-ket` | 4 phần case study tuần chung kết |
 | `/vinh-danh` | Bảng vinh danh mềm + tặng cà rốt |

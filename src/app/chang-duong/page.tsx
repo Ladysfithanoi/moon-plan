@@ -4,18 +4,19 @@ import TopBar from '@/components/TopBar';
 import Countdown from '@/components/Countdown';
 import MoonRing from '@/components/MoonRing';
 import DayCard from '@/components/DayCard';
+import PastDays, { type PastDay } from '@/components/PastDays';
 import { getPlayerSession } from '@/lib/session';
 import {
   FESTIVAL_AT,
   KICKOFF_AT,
   TOTAL_DAYS,
   currentDayNumber,
-  dateForDay,
   eventStatus,
   shortDate,
 } from '@/lib/event';
 import { getSettings } from '@/lib/settings';
 import {
+  getAllDays,
   getAnswers,
   getCheckins,
   getDay,
@@ -26,7 +27,7 @@ import {
   getRewards,
   getSubmission,
 } from '@/lib/game';
-import type { DayType } from '@/lib/scoring';
+import { DAY_TYPE_LABEL, type DayType } from '@/lib/scoring';
 
 export const dynamic = 'force-dynamic';
 
@@ -90,11 +91,32 @@ export default async function ChangDuongPage() {
   const todayDay = currentDayNumber() ?? TOTAL_DAYS;
   const dayRow = await getDay(todayDay);
 
-  const [questions, savedAnswers, submission] = await Promise.all([
+  const [questions, savedAnswers, submission, allDays] = await Promise.all([
     getPublicQuestions(todayDay),
     getAnswers(session.pid, todayDay),
     getSubmission(session.pid, todayDay),
+    getAllDays(),
   ]);
+
+  // Chỉ những ngày đã mở, mới nhất lên trước. Cắt gọn còn đúng phần hiện ra —
+  // bài đọc và link webinar của ngày chưa tới không được xuống trình duyệt.
+  const pastDays: PastDay[] = allDays
+    .filter((d) => d.day <= todayDay)
+    .sort((a, b) => b.day - a.day)
+    .map((d) => {
+      const c = checkins.find((x) => x.day === d.day);
+      return {
+        day: d.day,
+        date: d.date,
+        dateLabel: shortDate(d.date),
+        title: d.title,
+        dayType: d.day_type,
+        typeLabel: DAY_TYPE_LABEL[d.day_type as DayType] ?? d.day_type,
+        week: d.week,
+        status: !c ? 'missed' : c.by_freeze ? 'freeze' : 'done',
+        points: c?.points_awarded ?? 0,
+      };
+    });
 
   const todayCheckin = checkins.find((c) => c.day === todayDay && !c.by_freeze);
   const done = Boolean(todayCheckin);
@@ -254,27 +276,7 @@ export default async function ChangDuongPage() {
             <span className="rule" />
             <span>Những ngày đã đi qua</span>
           </p>
-          <ol className="ladder-list">
-            {Array.from({ length: todayDay }, (_, i) => todayDay - i).map((d) => {
-              const c = checkins.find((x) => x.day === d);
-              return (
-                <li key={d} className={c && !c.by_freeze ? 'done' : ''}>
-                  <Link href={`/ngay/${d}`} style={{ color: 'inherit', textDecoration: 'none' }}>
-                    Ngày {d} · {shortDate(dateForDay(d))}
-                  </Link>
-                  {c ? (
-                    c.by_freeze ? (
-                      <span className="ladder-current">vé cứu</span>
-                    ) : (
-                      <span className="ladder-check">✓ +{c.points_awarded}đ</span>
-                    )
-                  ) : (
-                    <span className="ladder-current">chưa xong</span>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
+          <PastDays days={pastDays} />
         </div>
       </section>
 
