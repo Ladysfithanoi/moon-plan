@@ -12,7 +12,7 @@ import {
   TOTAL_DAYS,
   currentDayNumber,
   eventStatus,
-  shortDate,
+  fullDate,
 } from '@/lib/event';
 import { getSettings } from '@/lib/settings';
 import {
@@ -108,7 +108,7 @@ export default async function ChangDuongPage() {
       return {
         day: d.day,
         date: d.date,
-        dateLabel: shortDate(d.date),
+        dateLabel: fullDate(d.date),
         title: d.title,
         dayType: d.day_type,
         typeLabel: DAY_TYPE_LABEL[d.day_type as DayType] ?? d.day_type,

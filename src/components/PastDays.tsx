@@ -7,7 +7,7 @@ export type PastDay = {
   day: number;
   /** YYYY-MM-DD — dùng để lọc, so sánh chuỗi là đủ vì cùng định dạng. */
   date: string;
-  /** "10/08" — đã dựng sẵn ở server để client không phải gọi lịch. */
+  /** "10/08/2026" — đã dựng sẵn ở server để client không phải gọi lịch. */
   dateLabel: string;
   title: string;
   dayType: string;
@@ -37,10 +37,12 @@ export default function PastDays({ days }: { days: PastDay[] }) {
     return [...seen.entries()];
   }, [days]);
 
-  const bounds = useMemo(() => {
-    const dates = days.map((d) => d.date).sort();
-    return { min: dates[0] ?? '', max: dates[dates.length - 1] ?? '' };
-  }, [days]);
+  /**
+   * Danh sách ngày cho hai ô lọc, cũ nhất lên trước. Dùng dropdown thay cho
+   * <input type="date"> vì ô ngày của trình duyệt hiện theo locale của máy —
+   * máy đặt tiếng Anh sẽ ra mm/dd/yyyy, không ép về dd/mm/yyyy được.
+   */
+  const options = useMemo(() => [...days].sort((a, b) => a.day - b.day), [days]);
 
   const filtered = useMemo(
     () =>
@@ -90,26 +92,26 @@ export default function PastDays({ days }: { days: PastDay[] }) {
 
         <div className="filter-field">
           <label htmlFor="pd-from">Từ ngày</label>
-          <input
-            id="pd-from"
-            type="date"
-            value={from}
-            min={bounds.min}
-            max={bounds.max}
-            onChange={(e) => change(setFrom)(e.target.value)}
-          />
+          <select id="pd-from" value={from} onChange={(e) => change(setFrom)(e.target.value)}>
+            <option value="">Đầu chặng</option>
+            {options.map((d) => (
+              <option key={d.day} value={d.date} disabled={to !== '' && d.date > to}>
+                {d.dateLabel}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="filter-field">
           <label htmlFor="pd-to">Đến ngày</label>
-          <input
-            id="pd-to"
-            type="date"
-            value={to}
-            min={bounds.min}
-            max={bounds.max}
-            onChange={(e) => change(setTo)(e.target.value)}
-          />
+          <select id="pd-to" value={to} onChange={(e) => change(setTo)(e.target.value)}>
+            <option value="">Hôm nay</option>
+            {options.map((d) => (
+              <option key={d.day} value={d.date} disabled={from !== '' && d.date < from}>
+                {d.dateLabel}
+              </option>
+            ))}
+          </select>
         </div>
 
         {dirty ? (
