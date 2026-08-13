@@ -27,7 +27,7 @@ Mỗi người chơi là một chú thỏ chạy trên một vòng cung khép k�
 | `/admin/vao` | Đăng nhập bằng `ADMIN_PASSWORD` |
 | `/admin` | Số người tham gia, tỉ lệ hoàn thành, bốc bảng vinh danh mỗi tuần |
 | `/admin/nguoi-choi` | Tạo mã, sửa tên/liên hệ, cấp thêm vé cứu, khoá mã |
-| `/admin/bai-nop` | Đọc bài, duyệt, chọn case study xuất sắc nhất |
+| `/admin/bai-nop` | Đọc bài, duyệt, **nhận xét gửi học viên** + ghi chú riêng, chọn case study xuất sắc nhất |
 | `/admin/noi-dung` | Sửa bài đọc, đề bài, câu hỏi quiz, **đặt mã điểm danh webinar** |
 | `/admin/cai-dat` | Bậc thưởng cuối sự kiện, chủ đề 6 tuần, tên mảnh trăng, quà hộp bí ẩn, bảng điểm |
 
@@ -140,7 +140,8 @@ Chưa đặt mã thì không ai điểm danh được.
 vinh danh mềm.
 
 **Tuần chung kết (21–25/09)** — vào `/admin/bai-nop` đọc bài, duyệt, và chọn một
-bài là *case study xuất sắc nhất*.
+bài là *case study xuất sắc nhất*. Nhận xét viết ở ô **"Nhận xét gửi học viên"**
+sẽ hiện ở trang ngày đó của họ; ô **"Ghi chú riêng"** thì chỉ mình đọc.
 
 ---
 
@@ -200,6 +201,8 @@ chứ không chỉ ở code:
   không ai cần biết, kể cả Trung.
 - File đính kèm case study nằm trong bucket riêng tư; trang admin tạo link có hạn
   1 giờ mỗi lần xem.
+- Bài nộp có **hai ô nhận xét tách rời**: `player_note` gửi cho học viên đọc, còn
+  `admin_note` là ghi chú riêng của Trung và không bao giờ đi vào props client.
 - Trang giới thiệu đặt `robots: noindex` để sự kiện không bị Google lập chỉ mục.
 
 ---

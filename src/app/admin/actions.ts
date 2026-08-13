@@ -601,20 +601,42 @@ export async function reviewSubmission(_prev: ActionState, formData: FormData): 
 
   const id = String(formData.get('id') ?? '');
   const status = String(formData.get('status') ?? 'pending');
-  const note = String(formData.get('admin_note') ?? '').trim();
+  const adminNote = String(formData.get('admin_note') ?? '').trim();
+  const playerNote = String(formData.get('player_note') ?? '').trim();
 
   if (!['pending', 'approved', 'needs_work'].includes(status)) {
     return { ok: false, message: 'Trạng thái không hợp lệ.' };
   }
 
-  const { error } = await db()
+  const supabase = db();
+  const { data: row } = await supabase
     .from('submissions')
-    .update({ status, admin_note: note || null, updated_at: new Date().toISOString() })
+    .select('player_id,day')
+    .eq('id', id)
+    .maybeSingle();
+
+  const { error } = await supabase
+    .from('submissions')
+    .update({
+      status,
+      admin_note: adminNote || null,
+      player_note: playerNote || null,
+      updated_at: new Date().toISOString(),
+    })
     .eq('id', id);
   if (error) return { ok: false, message: error.message };
 
   revalidatePath('/admin/bai-nop');
-  return { ok: true, message: 'Đã lưu nhận xét.' };
+  // Học viên đọc nhận xét ở trang ngày đó — làm mới để họ thấy ngay.
+  if (row?.day) {
+    revalidatePath(`/ngay/${row.day}`);
+    revalidatePath('/chang-duong');
+    revalidatePath('/chung-ket');
+  }
+  return {
+    ok: true,
+    message: playerNote ? 'Đã lưu — học viên sẽ đọc được nhận xét này.' : 'Đã lưu nhận xét.',
+  };
 }
 
 /** Đánh dấu case study xuất sắc nhất — mỗi mùa chỉ một bài. */

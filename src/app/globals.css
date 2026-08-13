@@ -293,6 +293,17 @@ input.code-input {
 .ladder-check { color: var(--herb); font-family: var(--mono); font-size: 13px; white-space: nowrap; }
 .ladder-current { color: var(--amber); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
 
+/* ─── Kết quả chấm bài nộp ───────────────────────────────────────────────── */
+.review-box {
+  margin-top: 22px; padding: 16px 18px;
+  background: var(--ink-04); border-left: 2px solid var(--amber); border-radius: 2px;
+}
+.review-label {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--amber); margin: 14px 0 6px;
+}
+.review-box p:last-child { margin-bottom: 0; }
+
 /* ─── Lọc + chia trang những ngày đã qua ─────────────────────────────────── */
 .filter-bar {
   display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px;

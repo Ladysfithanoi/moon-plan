@@ -27,6 +27,7 @@ type Sub = {
   status: 'pending' | 'approved' | 'needs_work';
   body: string;
   admin_note: string | null;
+  player_note: string | null;
   is_best: boolean;
   created_at: string;
   files: { name: string }[];
@@ -122,7 +123,7 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
       fetchAllRows<Sub>((f, t) =>
         supabase
           .from('submissions')
-          .select('day,kind,status,body,admin_note,is_best,created_at,files')
+          .select('day,kind,status,body,admin_note,player_note,is_best,created_at,files')
           .eq('player_id', id)
           .order('day')
           .range(f, t),
@@ -381,7 +382,10 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
               {s.files?.length ? (
                 <p className="coach-note">Đính kèm: {s.files.map((f) => f.name).join(', ')}</p>
               ) : null}
-              {s.admin_note ? <p className="notice info">Nhận xét của mình: {s.admin_note}</p> : null}
+              {s.player_note ? (
+                <p className="notice ok">Đã gửi học viên: {s.player_note}</p>
+              ) : null}
+              {s.admin_note ? <p className="notice info">Ghi chú riêng: {s.admin_note}</p> : null}
             </article>
           ))}
           {!subs.length ? <p className="notice info">Chưa nộp bài nào.</p> : null}

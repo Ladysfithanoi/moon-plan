@@ -21,7 +21,13 @@ export type DayCardProps = {
   done: boolean;
   savedAnswers: Record<string, { chosen: number; correct: boolean }>;
   reveal: Reveal[] | null;
-  submission: { body: string; files: { name: string }[]; status: string } | null;
+  /** `note` là nhận xét Trung gửi riêng cho bài này — không phải ghi chú nội bộ. */
+  submission: {
+    body: string;
+    files: { name: string }[];
+    status: string;
+    note: string | null;
+  } | null;
   webinarAt: string | null;
   webinarLink: string | null;
   /** Xem lại ngày cũ — không cho thao tác nữa. */
@@ -38,6 +44,34 @@ function Submit({ label, busyLabel }: { label: string; busyLabel: string }) {
 }
 
 const EMPTY: CheckinResult = { ok: false, message: '' };
+
+const SUBMISSION_STATUS: Record<string, { className: string; text: string }> = {
+  pending: { className: 'info', text: 'Đã nhận bài của bạn — mình sẽ đọc và nhận xét.' },
+  approved: { className: 'ok', text: 'Bài của bạn đã được duyệt.' },
+  needs_work: { className: 'err', text: 'Bài này cần chỉnh lại một chút — đọc nhận xét bên dưới nhé.' },
+};
+
+/**
+ * Kết quả chấm bài: trạng thái và nhận xét Trung gửi riêng cho bài này. Chỉ
+ * `player_note` xuống tới đây — `admin_note` là ghi chú nội bộ, không bao giờ
+ * đi vào props của component này.
+ */
+function Review({ status, note }: { status: string; note: string | null }) {
+  const s = SUBMISSION_STATUS[status] ?? SUBMISSION_STATUS.pending;
+  return (
+    <div className="review-box">
+      <p className={`notice ${s.className}`} style={{ marginTop: 0 }}>
+        {s.text}
+      </p>
+      {note ? (
+        <>
+          <p className="review-label">Nhận xét của mình</p>
+          <RichText text={note} />
+        </>
+      ) : null}
+    </div>
+  );
+}
 
 /** Thông báo sau khi ghi nhận: điểm, mảnh trăng, quà, vé cứu. */
 function Feedback({ state }: { state: CheckinResult }) {
@@ -311,11 +345,13 @@ export default function DayCard(props: DayCardProps) {
             </>
           ) : null}
 
+          {submission ? <Review status={submission.status} note={submission.note} /> : null}
+
           {readOnly ? (
             submission ? (
               <>
                 <hr className="divider" />
-                <p className="notice ok">Bạn đã nộp bài này.</p>
+                <p className="coach-note">Bài bạn đã nộp</p>
                 <RichText text={submission.body} />
               </>
             ) : (

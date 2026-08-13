@@ -16,6 +16,7 @@ type Row = {
   files: { path: string; name: string; size: number }[];
   status: 'pending' | 'approved' | 'needs_work';
   admin_note: string | null;
+  player_note: string | null;
   is_best: boolean;
   created_at: string;
   players: { code: string; display_name: string } | null;
@@ -150,13 +151,28 @@ export default async function BaiNopPage({
                     </select>
                   </div>
                   <div className="field">
-                    <label htmlFor={`note-${r.id}`}>Nhận xét riêng</label>
+                    <label htmlFor={`pnote-${r.id}`}>Nhận xét gửi học viên</label>
+                    <textarea
+                      id={`pnote-${r.id}`}
+                      name="player_note"
+                      rows={4}
+                      defaultValue={r.player_note ?? ''}
+                      placeholder="Góp ý cho bài này — học viên đọc được ở trang ngày của họ."
+                    />
+                    <span className="hint">
+                      Học viên đọc được nguyên văn. Để trống thì họ chỉ thấy trạng thái.
+                    </span>
+                  </div>
+                  <div className="field">
+                    <label htmlFor={`note-${r.id}`}>Ghi chú riêng</label>
                     <textarea
                       id={`note-${r.id}`}
                       name="admin_note"
                       rows={3}
                       defaultValue={r.admin_note ?? ''}
+                      placeholder="Nhắc việc cho bản thân."
                     />
+                    <span className="hint">Chỉ mình đọc — không bao giờ hiện cho học viên.</span>
                   </div>
                 </ActionForm>
 

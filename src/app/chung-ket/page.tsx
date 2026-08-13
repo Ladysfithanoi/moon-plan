@@ -113,9 +113,14 @@ export default async function ChungKetPage() {
                     )}
                   </span>
                   {sub ? (
-                    <span className="ladder-check">
-                      ✓ {sub.status === 'approved' ? 'đã duyệt' : 'đã nộp'}
-                    </span>
+                    sub.status === 'needs_work' ? (
+                      <span className="ladder-current">cần sửa · có nhận xét</span>
+                    ) : (
+                      <span className="ladder-check">
+                        ✓ {sub.status === 'approved' ? 'đã duyệt' : 'đã nộp'}
+                        {sub.player_note ? ' · có nhận xét' : ''}
+                      </span>
+                    )
                   ) : open ? (
                     <span className="ladder-current">chưa nộp</span>
                   ) : (

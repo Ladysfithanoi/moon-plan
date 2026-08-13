@@ -69,7 +69,10 @@ export type SubmissionRow = {
   body: string;
   files: { path: string; name: string; size: number }[];
   status: 'pending' | 'approved' | 'needs_work';
+  /** Ghi chú riêng của Trung — không bao giờ đưa vào props của client component. */
   admin_note: string | null;
+  /** Nhận xét gửi cho học viên — hiện ở trang ngày của họ. */
+  player_note: string | null;
   is_best: boolean;
   created_at: string;
   updated_at: string;

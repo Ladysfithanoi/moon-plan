@@ -96,7 +96,12 @@ export default async function NgayPage({ params }: { params: Promise<{ day: stri
             reveal={reveal}
             submission={
               submission
-                ? { body: submission.body, files: submission.files, status: submission.status }
+                ? {
+                    body: submission.body,
+                    files: submission.files,
+                    status: submission.status,
+                    note: submission.player_note,
+                  }
                 : null
             }
             webinarAt={dayRow.webinar_at}
