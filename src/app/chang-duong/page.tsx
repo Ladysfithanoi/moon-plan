@@ -222,6 +222,8 @@ export default async function ChangDuongPage() {
               }
               webinarAt={dayRow.webinar_at}
               webinarLink={dayRow.webinar_link}
+              bonusThreshold={settings.scoring.quiz_tuan.threshold}
+              bonusPoints={settings.scoring.quiz_tuan.bonus}
             />
           ) : (
             <p className="notice info">Nội dung ngày hôm nay chưa được đăng. Bạn quay lại sau nhé.</p>

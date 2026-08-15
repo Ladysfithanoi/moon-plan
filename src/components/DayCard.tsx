@@ -30,9 +30,25 @@ export type DayCardProps = {
   } | null;
   webinarAt: string | null;
   webinarLink: string | null;
+  /**
+   * Luật thưởng của quiz tổng hợp tuần, lấy từ bảng điểm đang dùng. Truyền
+   * xuống để dòng "đúng từ mấy câu" được tính ra từ số câu thật của ngày —
+   * đừng bao giờ viết con số này thẳng vào bài đọc, thêm câu là nó sai ngay.
+   */
+  bonusThreshold?: number;
+  bonusPoints?: number;
   /** Xem lại ngày cũ — không cho thao tác nữa. */
   readOnly?: boolean;
 };
+
+/**
+ * Số câu đúng tối thiểu để chạm ngưỡng bonus. Trừ một lượng rất nhỏ trước khi
+ * làm tròn lên vì 5 × 0.8 trong dấu phẩy động ra 4.000000000000001 — không trừ
+ * thì 5 câu lại đòi đúng cả 5.
+ */
+function neededCorrect(total: number, threshold: number): number {
+  return Math.min(total, Math.max(1, Math.ceil(total * threshold - 1e-9)));
+}
 
 function Submit({ label, busyLabel }: { label: string; busyLabel: string }) {
   const { pending } = useFormStatus();
@@ -120,6 +136,8 @@ export default function DayCard(props: DayCardProps) {
     submission,
     webinarAt,
     webinarLink,
+    bonusThreshold,
+    bonusPoints,
     readOnly,
   } = props;
 
@@ -139,6 +157,12 @@ export default function DayCard(props: DayCardProps) {
   const isSubmission = dayType === 'thu_thach' || dayType === 'case_study';
   const hasQuiz = questions.length > 0;
   const answered = questions.filter((q) => chosenOf(q.id) !== undefined).length;
+
+  // Luật thưởng viết ra từ số câu thật của ngày, không phải từ bài đọc.
+  const bonusRule =
+    dayType === 'quiz_tuan' && hasQuiz && bonusThreshold && bonusPoints
+      ? `Đúng từ ${neededCorrect(questions.length, bonusThreshold)}/${questions.length} câu trở lên bạn nhận thêm ${bonusPoints}đ tia sáng bonus.`
+      : null;
 
   return (
     <div className="today-card">
@@ -224,6 +248,7 @@ export default function DayCard(props: DayCardProps) {
             <>
               <p className="coach-note">
                 Đọc xong rồi thì thử sức nhé — {questions.length} câu, làm trong một lượt.
+                {bonusRule ? ` ${bonusRule}` : ''}
               </p>
               <button type="button" className="btn-primary" onClick={() => setQuizOpen(true)}>
                 Làm quiz
@@ -298,6 +323,7 @@ export default function DayCard(props: DayCardProps) {
             {!locked ? (
               <div className="modal-foot">
                 <p className="coach-note">
+                  {bonusRule ? `${bonusRule} ` : ''}
                   Sai cũng không sao — thỏ vẫn đi tiếp, chỉ là chưa nhận được phần điểm thưởng.
                 </p>
                 <Submit label="Nộp bài quiz" busyLabel="Đang ghi…" />

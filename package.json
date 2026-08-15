@@ -10,6 +10,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "seed": "node scripts/seed.mjs",
+    "seed:noi-dung": "node scripts/seed.mjs --giu-cau-hoi",
     "make-codes": "node scripts/make-codes.mjs"
   },
   "dependencies": {

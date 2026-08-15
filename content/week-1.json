@@ -117,7 +117,7 @@
     "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
     "day_type": "quiz_tuan",
     "title": "Quiz tổng hợp tuần 1 — Mô hình TTM",
-    "body": "Năm câu cho cả tuần. Đúng từ 4 câu trở lên bạn nhận thêm tia sáng bonus. Sai cũng không sao — thỏ vẫn đi tiếp, chỉ là chưa nhận được phần thưởng thêm.",
+    "body": "Quiz tổng hợp cả tuần đầu tiên, làm trong một lượt. Sai cũng không sao — thỏ vẫn đi tiếp, chỉ là chưa nhận được phần thưởng thêm.",
     "mechanic": "Thỏ nhảy 1 bước; đạt ≥80% nhận thêm \"tia sáng\" bonus (+3đ)",
     "questions": [
       {

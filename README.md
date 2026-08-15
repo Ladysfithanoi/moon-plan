@@ -73,6 +73,15 @@ Script đọc `content/week-1.json` … `week-7.json` rồi ghi vào Supabase: 4
 Chạy lại `npm run seed` bất cứ lúc nào để cập nhật nội dung — mã điểm danh
 webinar và Ngày Thỏ Ngọc đã chọn sẽ không bị đụng tới.
 
+Lưu ý: `npm run seed` **xoá sạch câu hỏi rồi nạp lại** theo file. Nếu đã thêm
+hoặc sửa câu hỏi trong `/admin/noi-dung` mà chỉ muốn cập nhật phần chữ (tiêu đề,
+bài đọc, đề bài), chạy `npm run seed:noi-dung` — câu hỏi trong cơ sở dữ liệu
+được giữ nguyên. Thêm `-- --ngay 6,13` để chỉ nạp đúng vài ngày:
+
+```bash
+npm run seed:noi-dung -- --ngay 6,13,20,27,34,41   # 6 ngày quiz tổng hợp tuần
+```
+
 ### 4. Tạo mã cho học viên
 
 ```bash
@@ -250,8 +259,13 @@ Hai cách, dùng cách nào cũng được:
 lực ngay. Bài đọc nhận định dạng tối giản: dòng trống ngăn đoạn, `**chữ đậm**`.
 Không nhận thẻ HTML (cố ý, để nội dung không chèn được mã vào trang).
 
-**Trong file** — sửa `content/week-*.json` rồi `npm run seed`. Cách này hợp khi cần
-sửa nhiều ngày cùng lúc, và giữ được lịch sử trong git.
+**Trong file** — sửa `content/week-*.json` rồi `npm run seed` (hoặc
+`npm run seed:noi-dung` nếu muốn giữ nguyên câu hỏi đang có trong cơ sở dữ liệu).
+Cách này hợp khi cần sửa nhiều ngày cùng lúc, và giữ được lịch sử trong git.
+
+Đừng viết số câu quiz vào bài đọc ("năm câu", "đúng từ 4 câu…") — thêm một câu là
+dòng đó sai ngay. Số câu và ngưỡng nhận bonus được app tự tính từ số câu thật của
+ngày cộng với bảng điểm trong `/admin/cai-dat`.
 
 Cấu trúc một câu hỏi:
 
@@ -286,6 +300,7 @@ src/app/          các trang
 npm run dev          # chạy máy mình
 npm run build        # dựng bản production
 npm run typecheck    # kiểm tra kiểu
-npm run seed         # nạp nội dung 47 ngày
+npm run seed         # nạp nội dung 47 ngày (nạp lại cả câu hỏi)
+npm run seed:noi-dung # chỉ nạp phần chữ, giữ nguyên câu hỏi trong DB
 npm run make-codes -- 50
 ```

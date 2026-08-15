@@ -8,6 +8,15 @@
  * trong thư mục content/. Riêng hai thứ sau thì KHÔNG bị đụng tới nếu đã có:
  *   · mã điểm danh webinar (Trung đặt trong trang admin)
  *   · Ngày Thỏ Ngọc (chọn ngẫu nhiên đúng một lần, giữ kín)
+ *
+ * Câu hỏi thì bị xoá sạch rồi nạp lại — nên nếu đã thêm/sửa câu hỏi trong
+ * /admin/noi-dung mà chỉ muốn cập nhật phần chữ (tiêu đề, bài đọc, đề bài):
+ *
+ *   npm run seed:noi-dung        (= node scripts/seed.mjs --giu-cau-hoi)
+ *
+ * Thêm `--ngay 6,13` để chỉ nạp đúng vài ngày, những ngày còn lại để yên:
+ *
+ *   npm run seed:noi-dung -- --ngay 6,13,20,27,34,41
  */
 
 import { readFileSync, readdirSync } from 'node:fs';
@@ -31,6 +40,30 @@ if (!url || !key) {
 }
 
 const db = createClient(url, key, { auth: { persistSession: false } });
+
+const argv = process.argv.slice(2);
+
+/** Giữ nguyên bộ câu hỏi đang có trong cơ sở dữ liệu, chỉ nạp phần chữ. */
+const keepQuestions = argv.some((a) => a === '--giu-cau-hoi' || a === '--keep-questions');
+
+/**
+ * `--ngay 6,13` chỉ nạp đúng những ngày đó, những ngày khác để yên. Hợp khi cần
+ * sửa vài ngày mà không muốn ghi đè lên nội dung đã chỉnh trong trang admin.
+ */
+const onlyDays = (() => {
+  const i = argv.findIndex((a) => a === '--ngay' || a.startsWith('--ngay='));
+  if (i < 0) return null;
+  const raw = argv[i].includes('=') ? argv[i].split('=')[1] : argv[i + 1];
+  const list = String(raw ?? '')
+    .split(',')
+    .map((n) => Number(n.trim()))
+    .filter((n) => Number.isInteger(n) && n >= 1);
+  if (!list.length) {
+    console.error('✗ --ngay cần danh sách số ngày, ví dụ: --ngay 6,13,20');
+    process.exit(1);
+  }
+  return new Set(list);
+})();
 
 // ─── Đọc nội dung ───────────────────────────────────────────────────────────
 const contentDir = join(root, 'content');
@@ -60,9 +93,18 @@ for (const d of days) {
 }
 
 // ─── Nạp ngày ───────────────────────────────────────────────────────────────
-console.log(`→ Nạp ${days.length} ngày...`);
+if (onlyDays) {
+  const missing = [...onlyDays].filter((n) => !seen.has(n));
+  if (missing.length) {
+    console.error(`✗ content/ không có ngày ${missing.join(', ')}`);
+    process.exit(1);
+  }
+}
 
-const dayRows = days.map((d) => ({
+const chosen = onlyDays ? days.filter((d) => onlyDays.has(d.day)) : days;
+console.log(`→ Nạp ${chosen.length} ngày${onlyDays ? ` (${[...onlyDays].sort((a, b) => a - b).join(', ')})` : ''}...`);
+
+const dayRows = chosen.map((d) => ({
   day: d.day,
   date: d.date,
   weekday: d.weekday,
@@ -89,10 +131,14 @@ console.log(`✓ Đã nạp ${dayRows.length} ngày`);
 
 // ─── Nạp câu hỏi ────────────────────────────────────────────────────────────
 // Xoá rồi nạp lại để nội dung trong file luôn là bản đúng.
-console.log('→ Nạp câu hỏi quiz...');
+if (keepQuestions) {
+  console.log('· Giữ nguyên câu hỏi đang có trong cơ sở dữ liệu (--giu-cau-hoi)');
+} else {
+  console.log('→ Nạp câu hỏi quiz...');
+}
 
 const questionRows = [];
-for (const d of days) {
+for (const d of chosen) {
   (d.questions ?? []).forEach((q, i) => {
     if (!Array.isArray(q.options) || q.options.length < 2) {
       console.error(`✗ Ngày ${d.day}, câu ${i + 1}: thiếu danh sách lựa chọn`);
@@ -113,8 +159,9 @@ for (const d of days) {
   });
 }
 
-{
-  const { error: delErr } = await db.from('questions').delete().gte('day', 1);
+if (!keepQuestions) {
+  const del = db.from('questions').delete();
+  const { error: delErr } = await (onlyDays ? del.in('day', [...onlyDays]) : del.gte('day', 1));
   if (delErr) {
     console.error('✗ Không xoá được câu hỏi cũ:', delErr.message);
     process.exit(1);
@@ -124,8 +171,8 @@ for (const d of days) {
     console.error('✗ Nạp câu hỏi lỗi:', error.message);
     process.exit(1);
   }
+  console.log(`✓ Đã nạp ${questionRows.length} câu hỏi`);
 }
-console.log(`✓ Đã nạp ${questionRows.length} câu hỏi`);
 
 // ─── Ngày Thỏ Ngọc ──────────────────────────────────────────────────────────
 // Chọn ngẫu nhiên đúng một lần rồi giữ nguyên. Không in ra màn hình — chính
@@ -176,9 +223,11 @@ if ((secretCount ?? 0) > 0) {
 
 // ─── Tổng kết ───────────────────────────────────────────────────────────────
 const byType = {};
-for (const d of days) byType[d.day_type] = (byType[d.day_type] ?? 0) + 1;
+for (const d of chosen) byType[d.day_type] = (byType[d.day_type] ?? 0) + 1;
 
 console.log('\nTổng kết nội dung:');
 for (const [t, n] of Object.entries(byType)) console.log(`  ${t.padEnd(12)} ${n} ngày`);
-console.log(`  câu hỏi      ${questionRows.length}`);
+console.log(
+  keepQuestions ? '  câu hỏi      giữ nguyên' : `  câu hỏi      ${questionRows.length}`,
+);
 console.log('\nXong. Nhớ vào /admin/noi-dung đặt mã điểm danh cho 6 buổi webinar.');

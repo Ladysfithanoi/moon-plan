@@ -13,6 +13,7 @@ import {
   getReveal,
   getSubmission,
 } from '@/lib/game';
+import { getSettings } from '@/lib/settings';
 import type { DayType } from '@/lib/scoring';
 
 export const dynamic = 'force-dynamic';
@@ -62,11 +63,12 @@ export default async function NgayPage({ params }: { params: Promise<{ day: stri
 
   const isToday = day === unlocked;
 
-  const [questions, savedAnswers, submission, checkins] = await Promise.all([
+  const [questions, savedAnswers, submission, checkins, settings] = await Promise.all([
     getPublicQuestions(day),
     getAnswers(session.pid, day),
     getSubmission(session.pid, day),
     getCheckins(session.pid),
+    getSettings(),
   ]);
 
   const checkin = checkins.find((c) => c.day === day && !c.by_freeze);
@@ -109,6 +111,8 @@ export default async function NgayPage({ params }: { params: Promise<{ day: stri
             }
             webinarAt={dayRow.webinar_at}
             webinarLink={dayRow.webinar_link}
+            bonusThreshold={settings.scoring.quiz_tuan.threshold}
+            bonusPoints={settings.scoring.quiz_tuan.bonus}
             readOnly={!isToday}
           />
 
