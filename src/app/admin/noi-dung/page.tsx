@@ -134,8 +134,13 @@ export default async function NoiDungPage({
                 </span>
               </div>
               <div className="field">
-                <label htmlFor="prompt">Đề bài (chỉ dùng cho ngày thử thách / case study)</label>
+                <label htmlFor="prompt">Đề bài / case study</label>
                 <textarea id="prompt" name="prompt" rows={8} defaultValue={d.prompt ?? ''} />
+                <span className="hint">
+                  Ngày thử thách và case study chung kết: đây là đề để người chơi nộp bài. Các ngày
+                  còn lại — kể cả trạm dừng gốc đa: phần này hiện ngay dưới bài đọc, dùng để đặt
+                  tình huống case study cho buổi.
+                </span>
               </div>
               <div className="field">
                 <label htmlFor="mechanic">Cơ chế (dòng mô tả luật chơi hiện cho người chơi)</label>

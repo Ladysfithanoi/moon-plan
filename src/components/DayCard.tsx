@@ -176,6 +176,18 @@ export default function DayCard(props: DayCardProps) {
 
       <RichText text={body} />
 
+      {/*
+        Ô "Đề bài" của ngày không nộp bài — case study đọc trong buổi trạm dừng
+        gốc đa, tình huống kèm theo bài đọc. Ngày nộp bài đặt phần này ngay trên
+        khung nộp ở dưới, nên ở đây chỉ hiện cho những ngày còn lại.
+      */}
+      {prompt && !isSubmission ? (
+        <>
+          <hr className="divider" />
+          <RichText text={prompt} />
+        </>
+      ) : null}
+
       {/* ─── Webinar ───────────────────────────────────────────────────── */}
       {dayType === 'webinar' ? (
         <div style={{ marginTop: 22 }}>
