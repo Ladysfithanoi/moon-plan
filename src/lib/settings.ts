@@ -52,6 +52,8 @@ export type AppSettings = {
   scoring: ScoringConfig;
   /** Trang /dang-ky có nhận người mới không. Tắt thì mã và SĐT cũ vẫn đăng nhập được. */
   registrationOpen: boolean;
+  /** Link mời vào nhóm Zalo của lớp. Để trống thì app không hiện gì về Zalo. */
+  zaloLink: string;
 };
 
 /**
@@ -66,6 +68,7 @@ export const SETTING_KEYS = {
   boxPrizes: 'box_prizes',
   scoring: 'scoring_2010',
   registrationOpen: 'registration_open',
+  zaloLink: 'zalo_link',
 } as const;
 
 // ─── Mặc định ───────────────────────────────────────────────────────────────
@@ -109,6 +112,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
     comebackPoints: COMEBACK_POINTS,
   },
   registrationOpen: true,
+  zaloLink: '',
 };
 
 // ─── Kiểm tra hình dạng ─────────────────────────────────────────────────────
@@ -192,6 +196,18 @@ function parseScoring(raw: unknown): ScoringConfig {
   };
 }
 
+/** Chỉ nhận link https — link lạ không được thành nút bấm trên trang người chơi. */
+export function parseZaloLink(raw: unknown): string {
+  if (typeof raw !== 'string') return '';
+  const s = raw.trim();
+  try {
+    const u = new URL(s);
+    return u.protocol === 'https:' ? u.toString() : '';
+  } catch {
+    return '';
+  }
+}
+
 // ─── Đọc ────────────────────────────────────────────────────────────────────
 
 /**
@@ -211,6 +227,7 @@ export const getSettings = cache(async (): Promise<AppSettings> => {
     boxPrizes: parseBoxPrizes(map.get(SETTING_KEYS.boxPrizes)),
     scoring: parseScoring(map.get(SETTING_KEYS.scoring)),
     registrationOpen: map.get(SETTING_KEYS.registrationOpen) !== false,
+    zaloLink: parseZaloLink(map.get(SETTING_KEYS.zaloLink)),
   };
 });
 

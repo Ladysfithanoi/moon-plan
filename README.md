@@ -102,10 +102,10 @@ thuốc tránh thai và tập luyện; nằm trong `content/week-1.json` … `we
 | Đường dẫn | Nội dung |
 |---|---|
 | `/admin` | Số người tham gia, tỉ lệ hoàn thành, **tầng hoa của cả lớp**, lượt học bù, bốc bảng vinh danh mỗi tuần |
-| `/admin/nguoi-choi` | Tạo mã, sửa tên/liên hệ/**SĐT**, **đặt lại PIN**, **cấp thêm giọt sương**, khoá mã; tìm theo SĐT; xem hành trình từng người theo trạng thái cây |
+| `/admin/nguoi-choi` | Tạo mã, sửa tên/liên hệ/**SĐT**, **đặt lại PIN**, **cấp thêm giọt sương**, khoá mã; tìm theo SĐT; cột **Zalo** (ai đã bấm vào nhóm); **xuất danh sách ra Excel**; xem hành trình từng người theo trạng thái cây |
 | `/admin/bai-nop` | Đọc bài, duyệt, nhận xét gửi học viên + ghi chú riêng, chọn case study xuất sắc nhất |
 | `/admin/noi-dung` | Sửa bài đọc, **mẹo ẩn, đọc mở rộng**, đề bài, câu hỏi quiz, giờ + link + mã điểm danh Trạm hoa |
-| `/admin/cai-dat` | **Mở/đóng tự đăng ký**, bậc thưởng, chủ đề tuần, tên ruy băng, quà hộp bí ẩn, bảng điểm, **hệ số tầng, vườn chung, thưởng hồi xuân** |
+| `/admin/cai-dat` | **Mở/đóng tự đăng ký**, **link nhóm Zalo**, bậc thưởng, chủ đề tuần, tên ruy băng, quà hộp bí ẩn, bảng điểm, **hệ số tầng, vườn chung, thưởng hồi xuân** |
 
 ---
 
@@ -118,14 +118,15 @@ nguyên ở project cũ để xem lại khi cần.
 
 1. Tạo project mới tại [supabase.com](https://supabase.com) (region Singapore).
 2. **SQL Editor → New query**, chạy lần lượt `0001_init.sql`, `0002_player_note.sql`,
-   `0003_mua_20_10.sql`, `0004_dang_ky_sdt.sql` trong `supabase/migrations/`.
+   `0003_mua_20_10.sql`, `0004_dang_ky_sdt.sql`, `0005_zalo.sql` trong
+   `supabase/migrations/`.
 3. Đổi `NEXT_PUBLIC_SUPABASE_URL` và `SUPABASE_SERVICE_ROLE_KEY` trong `.env.local`
    và trên Vercel sang project mới.
 4. `npm run seed`, rồi `npm run make-codes -- 50`.
 
 ### Cách 2 — dùng lại project cũ
 
-1. Chạy `0003_mua_20_10.sql` và `0004_dang_ky_sdt.sql` trong SQL Editor.
+1. Chạy `0003_mua_20_10.sql`, `0004_dang_ky_sdt.sql` và `0005_zalo.sql` trong SQL Editor.
 2. Xem trước sẽ xoá những gì: `npm run mua-moi`
 3. Xoá thật (người chơi, lịch sử, bài nộp, file đính kèm, nội dung ngày của mùa
    trước — **không hoàn tác được**): `npm run mua-moi -- --xac-nhan`
@@ -205,6 +206,13 @@ Vercel chạy theo UTC vẫn đúng ngày.
 **Trước 01/10** — chạy seed, rồi gửi link `/dang-ky` cho học viên (hoặc tạo mã tay
 và gửi qua Messenger cho ai không muốn tự đăng ký). Đóng đăng ký lúc nào tuỳ ý ở
 `/admin/cai-dat`.
+
+**Nhóm Zalo** — Zalo không cho app tự thêm người vào nhóm. Dán link mời nhóm
+(mở nhóm → Tuỳ chọn → Mời vào nhóm qua link) vào `/admin/cai-dat`: người chơi chưa
+bấm sẽ thấy lời mời kèm mã QR ngay trên trang cành hoa, kể cả vừa đăng ký xong. Cột
+**Zalo** ở `/admin/nguoi-choi` cho biết ai đã bấm (chỉ biết đã bấm, không biết đã
+được duyệt vào nhóm chưa). Nút **Xuất danh sách (.xlsx)** tải về SĐT của mọi người —
+file có dữ liệu cá nhân, đừng gửi đi.
 
 **Ai quên PIN** — `/admin/nguoi-choi`, tìm theo SĐT, bấm sửa, điền 4 số vào ô
 **Đặt lại PIN** rồi báo PIN mới cho học viên. Mã PIN chỉ lưu dạng băm, nên không ai

@@ -8,6 +8,8 @@ import Garden from '@/components/Garden';
 import DayCard from '@/components/DayCard';
 import PastDays, { type PastDay } from '@/components/PastDays';
 import WebinarBanner from '@/components/WebinarBanner';
+import ZaloCard from '@/components/ZaloCard';
+import { hasClickedZalo, zaloQrSvg } from '@/lib/zalo';
 import { getPlayerSession } from '@/lib/session';
 import {
   FESTIVAL_AT,
@@ -66,6 +68,13 @@ export default async function ChangDuongPage() {
 
   const status = eventStatus();
 
+  // Nhóm Zalo: chỉ dựng QR khi admin đã dán link và người này chưa bấm.
+  const { zaloLink } = await getSettings();
+  const zaloClicked = zaloLink ? await hasClickedZalo(found.id) : true;
+  const zalo = zaloLink ? (
+    <ZaloCard clicked={zaloClicked} qrSvg={zaloClicked ? '' : await zaloQrSvg(zaloLink)} />
+  ) : null;
+
   // ─── Trước ngày khởi động ────────────────────────────────────────────────
   if (status === 'truoc') {
     return (
@@ -85,10 +94,17 @@ export default async function ChangDuongPage() {
             </p>
             <Countdown target={KICKOFF_AT} note="tới ngày khởi động · 01/10/2026" />
             <p className="coach-note">
-              Mã của bạn: <span className="mono">{found.code}</span> — lưu lại giúp mình nhé.
+              {found.phone
+                ? 'Lần sau bạn đăng nhập bằng số điện thoại và mã PIN vừa đặt.'
+                : <>Mã của bạn: <span className="mono">{found.code}</span> — lưu lại giúp mình nhé.</>}
             </p>
           </div>
         </section>
+        {zalo ? (
+          <section className="tight fade-in">
+            <div className="wrap">{zalo}</div>
+          </section>
+        ) : null}
         <footer>
           <div className="wrap">Precision Coach · Chạy dần đến 20/10</div>
         </footer>
@@ -319,6 +335,13 @@ export default async function ChangDuongPage() {
         </section>
       ) : null}
 
+      {/* ─── Nhóm Zalo — nổi lên cho tới khi người chơi đã bấm vào ──────── */}
+      {zalo && !zaloClicked ? (
+        <section className="tight fade-in">
+          <div className="wrap">{zalo}</div>
+        </section>
+      ) : null}
+
       {/* ─── Quà chưa xem ──────────────────────────────────────────────── */}
       {unseen.length ? (
         <section className="tight fade-in">
@@ -524,6 +547,7 @@ export default async function ChangDuongPage() {
         <div className="wrap">
           {player.display_name} · <span className="mono">{player.code}</span> —{' '}
           <Link href="/roi-di">thoát</Link>
+          {zalo && zaloClicked ? <div style={{ marginTop: 8 }}>{zalo}</div> : null}
         </div>
       </footer>
     </>

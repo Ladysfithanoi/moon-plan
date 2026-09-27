@@ -149,6 +149,19 @@ input.code-input {
 .alt-login { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--ink-08); }
 .alt-login summary { font-size: 13px; color: var(--slate); cursor: pointer; margin-bottom: 16px; }
 
+/* Lời mời vào nhóm Zalo của lớp. */
+.zalo-card {
+  display: grid; grid-template-columns: 1fr 132px; gap: 24px; align-items: center;
+  border: 1px solid var(--slate); border-radius: 2px; padding: 20px 22px;
+}
+.zalo-card p { font-size: 14px; color: var(--ink-70); margin: 0 0 16px; max-width: 46ch; }
+.zalo-qr svg { width: 132px; height: 132px; display: block; }
+@media (max-width: 560px) {
+  /* Trên điện thoại bấm nút là mở Zalo, không cần QR. */
+  .zalo-card { grid-template-columns: 1fr; }
+  .zalo-qr { display: none; }
+}
+
 /* ─── Thông báo ──────────────────────────────────────────────────────────── */
 .notice { font-size: 13px; margin: 12px 0 0; }
 .notice.ok { color: var(--herb); font-weight: 500; }

@@ -7,7 +7,7 @@ import { hashPin, isValidPin, makePlayerCode, normalizePhone } from '@/lib/auth'
 import { checkAdminPassword, endAdminSession, isAdmin, startAdminSession } from '@/lib/session';
 import { drawHonorRoll } from '@/lib/game';
 import { DAY_TYPE_LABEL, DEWS_PER_PLAYER } from '@/lib/scoring';
-import { SETTING_KEYS, saveSetting } from '@/lib/settings';
+import { SETTING_KEYS, parseZaloLink, saveSetting } from '@/lib/settings';
 import { OPTION_COUNT, parseQuizWorkbook } from '@/lib/quiz-excel';
 import { parseDayWorkbook, weekdayForDay } from '@/lib/day-excel';
 import {
@@ -871,6 +871,28 @@ export async function resetSetting(_prev: ActionState, formData: FormData): Prom
 
   revalidateSettingsConsumers();
   return { ok: true, message: 'Đã khôi phục về mặc định.' };
+}
+
+/** Link mời vào nhóm Zalo của lớp. Để trống là tắt hẳn phần Zalo trên trang người chơi. */
+export async function saveZaloLink(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  await requireAdmin();
+
+  const raw = String(formData.get('zalo_link') ?? '').trim();
+  const link = parseZaloLink(raw);
+  if (raw && !link) {
+    return { ok: false, message: 'Link chưa đúng — cần dạng https://zalo.me/g/… (mở nhóm trong Zalo → Mời vào nhóm qua link).' };
+  }
+
+  const { error } = await saveSetting(SETTING_KEYS.zaloLink, link);
+  if (error) return { ok: false, message: error };
+
+  revalidateSettingsConsumers();
+  return {
+    ok: true,
+    message: link
+      ? 'Đã lưu. Người chơi chưa bấm vào nhóm sẽ thấy lời mời kèm mã QR trên trang cành hoa.'
+      : 'Đã xoá link — trang người chơi không còn hiện phần Zalo.',
+  };
 }
 
 /** Mở hoặc đóng trang tự đăng ký. */

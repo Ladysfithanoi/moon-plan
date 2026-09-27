@@ -9,6 +9,7 @@ import {
   resetSetting,
   saveBoxPrizes,
   saveRegistrationOpen,
+  saveZaloLink,
   saveRewardTiers,
   saveScoring,
   saveWeekLabels,
@@ -70,6 +71,37 @@ export default async function CaiDatPage() {
               <input type="hidden" name="open" value={s.registrationOpen ? '0' : '1'} />
             </ActionForm>
           </div>
+        </div>
+      </section>
+
+      {/* ─── Nhóm Zalo ────────────────────────────────────────────────── */}
+      <section className="fade-in">
+        <div className="wrap-wide">
+          <p className="eyebrow">
+            <span className="rule" />
+            <span>Nhóm Zalo của lớp</span>
+          </p>
+          <h2 className="section-title">
+            {s.zaloLink ? 'Đang mời người chơi vào nhóm' : 'Chưa có link nhóm Zalo'}
+          </h2>
+          <p className="lede">
+            Zalo không cho app tự thêm người vào nhóm, nên app hiện lời mời kèm mã QR cho tới khi
+            người chơi bấm vào — kể cả ngay sau khi họ vừa đăng ký. Ai đã bấm thì cột <strong>Zalo</strong>{' '}
+            ở mục Người chơi có dấu ✓. Lấy link trong Zalo: mở nhóm → Tuỳ chọn → Mời vào nhóm qua link.
+          </p>
+          <ActionForm action={saveZaloLink} submitLabel="Lưu link" style={{ maxWidth: 560, marginTop: 18 }}>
+            <div className="field">
+              <label htmlFor="zalo_link">Link mời nhóm</label>
+              <input
+                id="zalo_link"
+                name="zalo_link"
+                type="url"
+                defaultValue={s.zaloLink}
+                placeholder="https://zalo.me/g/…"
+              />
+              <span className="hint">Để trống rồi lưu là tắt phần Zalo trên trang người chơi.</span>
+            </div>
+          </ActionForm>
         </div>
       </section>
 

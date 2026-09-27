@@ -8,6 +8,7 @@ import { RIBBON_WEEKS, TOTAL_DAYS, currentDayNumber } from '@/lib/event';
 import { TIERS, tierIndexFor } from '@/lib/scoring';
 import { createPlayer } from '../actions';
 import { formatPhone } from '@/lib/auth';
+import { zaloClicksFor } from '@/lib/zalo';
 import type { PlayerRow } from '@/lib/types';
 
 /**
@@ -91,6 +92,7 @@ export default async function NguoiChoiPage({
   // Chỉ đếm check-in và ruy băng cho những người đang hiện, không kéo cả bảng về.
   const doneBy = new Map<string, number>();
   const fragBy = new Map<string, number>();
+  const zaloBy = await zaloClicksFor(ids);
   if (ids.length) {
     const [{ data: checkins }, { data: fragments }] = await Promise.all([
       supabase.from('checkins').select('player_id,by_freeze').in('player_id', ids),
@@ -162,6 +164,11 @@ export default async function NguoiChoiPage({
           <p className="coach-note" style={{ marginBottom: 0 }}>
             Bấm vào tên để xem hành trình học tập chi tiết của từng người.
           </p>
+          <div className="btn-row" style={{ marginTop: 14 }}>
+            <a className="btn-ghost btn-small" href="/admin/nguoi-choi/tai-danh-sach">
+              Xuất danh sách (.xlsx)
+            </a>
+          </div>
 
           {/* Form GET: không cần JS, và bỏ qua "trang" nên tìm xong luôn về trang 1. */}
           <form method="get" className="filter-bar">
@@ -218,6 +225,7 @@ export default async function NguoiChoiPage({
                   <th>Xong</th>
                   <th>Ruy băng</th>
                   <th>Giọt sương</th>
+                  <th title="Đã bấm link mời vào nhóm Zalo">Zalo</th>
                   <th>Thao tác</th>
                 </tr>
               </thead>
@@ -247,6 +255,7 @@ export default async function NguoiChoiPage({
                       <td className="num" title="đang dùng / cấp riêng (chưa kể giọt từ vườn chung)">
                         {p.freezes_used}/{p.dews}
                       </td>
+                      <td>{zaloBy.has(p.id) ? <span className="tag ok">✓</span> : '—'}</td>
                       <td>
                         <PlayerRowActions player={p} />
                       </td>
@@ -255,7 +264,7 @@ export default async function NguoiChoiPage({
                 })}
                 {!list.length ? (
                   <tr>
-                    <td colSpan={11}>
+                    <td colSpan={12}>
                       {filtering
                         ? 'Không có ai khớp bộ lọc này.'
                         : 'Chưa có ai. Tạo mã ở khung phía trên.'}
