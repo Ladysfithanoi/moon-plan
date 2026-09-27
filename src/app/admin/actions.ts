@@ -6,11 +6,20 @@ import { randomInt } from 'node:crypto';
 import { db, CASE_STUDY_BUCKET } from '@/lib/supabase';
 import { checkAdminPassword, endAdminSession, isAdmin, startAdminSession } from '@/lib/session';
 import { drawHonorRoll } from '@/lib/game';
-import { DAY_TYPE_LABEL, FREEZES_PER_PLAYER } from '@/lib/scoring';
+import { DAY_TYPE_LABEL, DEWS_PER_PLAYER } from '@/lib/scoring';
 import { SETTING_KEYS, saveSetting } from '@/lib/settings';
 import { OPTION_COUNT, parseQuizWorkbook } from '@/lib/quiz-excel';
-import { parseDayWorkbook, weekForDay, weekdayForDay } from '@/lib/day-excel';
-import { TOTAL_DAYS, WEEK_THEMES, dateForDay, fullDate, vnDateTimeToIso } from '@/lib/event';
+import { parseDayWorkbook, weekdayForDay } from '@/lib/day-excel';
+import {
+  RIBBON_WEEKS,
+  TOTAL_DAYS,
+  WEEKS,
+  WEEK_THEMES,
+  dateForDay,
+  fullDate,
+  vnDateTimeToIso,
+  weekForDay,
+} from '@/lib/event';
 
 export type ActionState = { ok?: boolean; message?: string };
 
@@ -41,7 +50,7 @@ const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // bỏ I, O, 0, 1
 function makeCode(): string {
   let s = '';
   for (let i = 0; i < 4; i++) s += ALPHABET[randomInt(ALPHABET.length)];
-  return `THO-${s}`;
+  return `HOA-${s}`;
 }
 
 export async function createPlayer(_prev: ActionState, formData: FormData): Promise<ActionState> {
@@ -55,7 +64,7 @@ export async function createPlayer(_prev: ActionState, formData: FormData): Prom
     const code = makeCode();
     const { error } = await db()
       .from('players')
-      .insert({ code, display_name: name, contact: contact || null, freezes_left: FREEZES_PER_PLAYER });
+      .insert({ code, display_name: name, contact: contact || null, dews: DEWS_PER_PLAYER });
     if (!error) {
       revalidatePath('/admin/nguoi-choi');
       return { ok: true, message: `Đã tạo mã ${code} cho ${name}.` };
@@ -86,10 +95,12 @@ export async function updatePlayer(_prev: ActionState, formData: FormData): Prom
     patch.is_active = formData.get('is_active') === 'on';
   }
 
-  const freezes = formData.get('freezes_left');
-  if (freezes !== null && freezes !== '') {
-    const n = Number(freezes);
-    if (Number.isInteger(n) && n >= 0 && n <= 10) patch.freezes_left = n;
+  // Tổng giọt sương cấp riêng cho người này. Số đã dùng tính lại từ lịch sử,
+  // nên cấp thêm là cộng vào đây chứ không sửa "số còn lại".
+  const dews = formData.get('dews');
+  if (dews !== null && dews !== '') {
+    const n = Number(dews);
+    if (Number.isInteger(n) && n >= 0 && n <= 20) patch.dews = n;
   }
 
   const { error } = await db().from('players').update(patch).eq('id', id);
@@ -103,7 +114,7 @@ export async function updatePlayer(_prev: ActionState, formData: FormData): Prom
  * Xoá hẳn một người chơi.
  *
  * Mọi bảng con đều `on delete cascade` theo players(id) — checkins, answers,
- * fragments, submissions, rewards, honor_roll, carrot_gifts. Nghĩa là xoá là
+ * fragments (ruy băng), submissions, rewards, honor_roll, carrot_gifts (tặng hoa). Nghĩa là xoá là
  * mất sạch lịch sử, không khôi phục được. Vì vậy bắt gõ đúng mã để xác nhận;
  * muốn tạm dừng một người thì bỏ tick "đang hoạt động" chứ đừng xoá.
  */
@@ -173,12 +184,15 @@ function readDayForm(formData: FormData): Record<string, unknown> | { error: str
   };
 
   // Chỉ ghi đè trường nào form thực sự gửi lên — form sửa nhanh không có đủ ô.
-  for (const key of ['phase', 'week_theme', 'mechanic'] as const) {
+  for (const key of ['phase', 'week_theme', 'mechanic', 'bonus_tip', 'bonus_deep'] as const) {
     const v = formData.get(key);
     if (v !== null) {
       const s = String(v).trim();
-      if (key === 'mechanic') patch[key] = s || null;
-      else if (s) patch[key] = s;
+      if (key === 'phase' || key === 'week_theme') {
+        if (s) patch[key] = s;
+      } else {
+        patch[key] = s || null;
+      }
     }
   }
 
@@ -229,7 +243,7 @@ export async function updateDay(_prev: ActionState, formData: FormData): Promise
 /**
  * Tạo nội dung cho một ngày còn trống.
  *
- * Chỉ tạo được trong khung 1–47: ngày dương lịch, thứ và tuần đều suy ra từ
+ * Chỉ tạo được trong khung 1–TOTAL_DAYS: ngày dương lịch, thứ và tuần đều suy ra từ
  * EVENT_START chứ không nhập tay, nếu không sẽ lệch với phép tính "hôm nay là
  * ngày thứ mấy" ở khắp app.
  */
@@ -304,7 +318,7 @@ export async function deleteDay(_prev: ActionState, formData: FormData): Promise
 }
 
 /**
- * Nhập nội dung 47 ngày từ Excel.
+ * Nhập nội dung cả mùa từ Excel.
  *
  * Ngày nào có trong file thì ghi đè, chưa có thì tạo mới. Ngày không xuất hiện
  * trong file được để yên — xoá hàng loạt qua Excel quá nguy hiểm, muốn xoá thì
@@ -706,30 +720,33 @@ export async function saveRewardTiers(_prev: ActionState, formData: FormData): P
   return { ok: true, message: `Đã lưu ${tiers.length} bậc thưởng. Trang giới thiệu cập nhật ngay.` };
 }
 
-/** Chủ đề 6 tuần và tên 6 mảnh trăng. */
+/** Chủ đề các tuần và tên dải ruy băng. */
 export async function saveWeekLabels(_prev: ActionState, formData: FormData): Promise<ActionState> {
   await requireAdmin();
 
   const themes = formData.getAll('week_theme').map((v) => String(v).trim());
-  const fragments = formData.getAll('moon_fragment').map((v) => String(v).trim());
+  const ribbons = formData.getAll('ribbon').map((v) => String(v).trim());
 
-  if (themes.length !== 6 || fragments.length !== 6) {
-    return { ok: false, message: 'Cần đủ 6 chủ đề tuần và 6 tên mảnh trăng.' };
+  if (themes.length !== WEEKS.length || ribbons.length !== RIBBON_WEEKS) {
+    return {
+      ok: false,
+      message: `Cần đủ ${WEEKS.length} chủ đề tuần và ${RIBBON_WEEKS} tên ruy băng.`,
+    };
   }
-  if (themes.some((t) => !t) || fragments.some((f) => !f)) {
+  if (themes.some((t) => !t) || ribbons.some((f) => !f)) {
     return { ok: false, message: 'Không được để trống ô nào.' };
   }
 
   const a = await saveSetting(SETTING_KEYS.weekThemes, themes);
   if (a.error) return { ok: false, message: a.error };
-  const b = await saveSetting(SETTING_KEYS.moonFragments, fragments);
+  const b = await saveSetting(SETTING_KEYS.ribbons, ribbons);
   if (b.error) return { ok: false, message: b.error };
 
   revalidateSettingsConsumers();
   return {
     ok: true,
     message:
-      'Đã lưu. Lưu ý: mảnh trăng đã trao trước đó vẫn giữ tên cũ — chỉ mảnh trao từ giờ mới mang tên mới.',
+      'Đã lưu. Lưu ý: ruy băng đã trao trước đó vẫn giữ tên cũ — chỉ dải trao từ giờ mới mang tên mới.',
   };
 }
 
@@ -773,9 +790,16 @@ export async function saveScoring(_prev: ActionState, formData: FormData): Promi
     thu_thach: { base: n('tt_base') },
     webinar: { base: n('wb_base') },
     case_study: { base: n('cs_base') },
+    multipliers: [n('mult_0'), n('mult_1'), n('mult_2'), n('mult_3')],
+    garden: {
+      threshold: pct('garden_threshold'),
+      points: n('garden_points'),
+      sunnyPerDew: n('garden_per_dew'),
+    },
     mysteryBoxChance: pct('box_chance'),
-    rabbitDayPoints: n('rabbit_points'),
-    carrotPoints: n('carrot_points'),
+    secretDayPoints: n('secret_points'),
+    giftPoints: n('gift_points'),
+    comebackPoints: n('comeback_points'),
   };
 
   const flat = [
@@ -786,14 +810,26 @@ export async function saveScoring(_prev: ActionState, formData: FormData): Promi
     scoring.thu_thach.base,
     scoring.webinar.base,
     scoring.case_study.base,
-    scoring.rabbitDayPoints,
-    scoring.carrotPoints,
+    scoring.garden.points,
+    scoring.secretDayPoints,
+    scoring.giftPoints,
+    scoring.comebackPoints,
   ];
   if (flat.some((v) => !Number.isFinite(v) || v < 0 || v > 100)) {
     return { ok: false, message: 'Điểm phải là số từ 0 đến 100.' };
   }
-  if (![scoring.quiz_tuan.threshold, scoring.mysteryBoxChance].every((v) => v >= 0 && v <= 1)) {
+  if (
+    ![scoring.quiz_tuan.threshold, scoring.mysteryBoxChance, scoring.garden.threshold].every(
+      (v) => v >= 0 && v <= 1,
+    )
+  ) {
     return { ok: false, message: 'Tỉ lệ phần trăm phải nằm trong khoảng 0–100.' };
+  }
+  if (scoring.multipliers.some((v) => !Number.isFinite(v) || v < 0 || v > 10)) {
+    return { ok: false, message: 'Hệ số nhân phải là số từ 0 đến 10.' };
+  }
+  if (!Number.isInteger(scoring.garden.sunnyPerDew) || scoring.garden.sunnyPerDew < 1) {
+    return { ok: false, message: 'Số ngày nắng đổi một giọt sương phải là số nguyên từ 1 trở lên.' };
   }
 
   const { error } = await saveSetting(SETTING_KEYS.scoring, scoring);
@@ -827,7 +863,7 @@ export async function drawHonorRollAction(_prev: ActionState, formData: FormData
   await requireAdmin();
 
   const week = Number(formData.get('week'));
-  if (!Number.isInteger(week) || week < 1 || week > 7) {
+  if (!WEEKS.some((w) => w.week === week)) {
     return { ok: false, message: 'Tuần không hợp lệ.' };
   }
 

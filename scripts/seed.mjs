@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * Nạp nội dung 47 ngày vào Supabase.
+ * Nạp nội dung 20 ngày vào Supabase.
  *
  *   npm run seed
  *
  * Chạy lại được nhiều lần: nội dung ngày và câu hỏi sẽ được ghi đè theo file
  * trong thư mục content/. Riêng hai thứ sau thì KHÔNG bị đụng tới nếu đã có:
- *   · mã điểm danh webinar (Trung đặt trong trang admin)
- *   · Ngày Thỏ Ngọc (chọn ngẫu nhiên đúng một lần, giữ kín)
+ *   · mã điểm danh Trạm hoa (đặt trong trang admin)
+ *   · ngày Bông hoa bí mật (chọn ngẫu nhiên đúng một lần, giữ kín)
  *
  * Câu hỏi thì bị xoá sạch rồi nạp lại — nên nếu đã thêm/sửa câu hỏi trong
  * /admin/noi-dung mà chỉ muốn cập nhật phần chữ (tiêu đề, bài đọc, đề bài):
@@ -16,7 +16,7 @@
  *
  * Thêm `--ngay 6,13` để chỉ nạp đúng vài ngày, những ngày còn lại để yên:
  *
- *   npm run seed:noi-dung -- --ngay 6,13,20,27,34,41
+ *   npm run seed:noi-dung -- --ngay 10,17
  */
 
 import { readFileSync, readdirSync } from 'node:fs';
@@ -78,9 +78,27 @@ for (const f of files) {
 }
 days.sort((a, b) => a.day - b.day);
 
-if (days.length !== 47) {
-  console.error(`✗ Cần đúng 47 ngày, đang có ${days.length}. Kiểm tra lại content/week-*.json`);
+const TOTAL_DAYS = 20;
+if (days.length !== TOTAL_DAYS) {
+  console.error(`✗ Cần đúng ${TOTAL_DAYS} ngày, đang có ${days.length}. Kiểm tra lại content/week-*.json`);
   process.exit(1);
+}
+
+// Dùng lại DB của mùa trước mà chưa dọn thì ngày 21–47 vẫn còn đó, và người
+// chơi cũ vẫn giữ lịch sử check-in của Trung Thu. Dừng lại thay vì nạp chồng.
+if (!onlyDays) {
+  const { count: stale } = await db
+    .from('days')
+    .select('day', { count: 'exact', head: true })
+    .gt('day', TOTAL_DAYS);
+  if ((stale ?? 0) > 0) {
+    console.error(
+      `✗ Cơ sở dữ liệu còn ${stale} ngày của mùa trước (ngày > ${TOTAL_DAYS}).
+` +
+        '  Chạy npm run mua-moi để xem và dọn trước, hoặc dùng một project Supabase mới.',
+    );
+    process.exit(1);
+  }
 }
 
 const seen = new Set();
@@ -117,6 +135,8 @@ const dayRows = chosen.map((d) => ({
   prompt: d.prompt ?? null,
   mechanic: d.mechanic ?? null,
   webinar_at: d.webinar_at ?? null,
+  bonus_tip: d.bonus_tip ?? null,
+  bonus_deep: d.bonus_deep ?? null,
   updated_at: new Date().toISOString(),
 }));
 
@@ -174,18 +194,18 @@ if (!keepQuestions) {
   console.log(`✓ Đã nạp ${questionRows.length} câu hỏi`);
 }
 
-// ─── Ngày Thỏ Ngọc ──────────────────────────────────────────────────────────
+// ─── Bông hoa bí mật ────────────────────────────────────────────────────────
 // Chọn ngẫu nhiên đúng một lần rồi giữ nguyên. Không in ra màn hình — chính
-// Trung cũng không cần biết, và biết rồi thì dễ lỡ miệng.
+// người điều hành cũng không cần biết, và biết rồi thì dễ lỡ miệng.
 const { count: secretCount } = await db
   .from('secret_days')
   .select('day', { count: 'exact', head: true });
 
 if ((secretCount ?? 0) > 0) {
-  console.log('· Ngày Thỏ Ngọc đã được chọn từ trước — giữ nguyên, không đụng tới');
+  console.log('· Bông hoa bí mật đã được chọn từ trước — giữ nguyên, không đụng tới');
 } else {
   const candidates = days
-    .filter((d) => d.day >= 5 && d.day <= 42)
+    .filter((d) => d.day >= 3 && d.day <= 17)
     .filter((d) => d.day_type === 'kien_thuc' || d.day_type === 'thu_thach')
     .map((d) => d.day);
 
@@ -194,10 +214,10 @@ if ((secretCount ?? 0) > 0) {
     [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
   }
 
-  // Hai ngày bí mật, cách nhau ít nhất 7 ngày cho rải đều.
+  // Hai ngày bí mật, cách nhau ít nhất 5 ngày cho rải đều.
   const picked = [candidates[0]];
   for (const c of candidates.slice(1)) {
-    if (Math.abs(c - picked[0]) >= 7) {
+    if (Math.abs(c - picked[0]) >= 5) {
       picked.push(c);
       break;
     }
@@ -206,19 +226,19 @@ if ((secretCount ?? 0) > 0) {
   const { error } = await db.from('secret_days').insert(
     picked.map((day) => ({
       day,
-      kind: 'tho_ngoc',
-      title: 'Ngày Thỏ Ngọc',
+      kind: 'hoa_bi_mat',
+      title: 'Bông hoa bí mật',
       detail:
-        'Bạn vừa bước đúng vào một ngày mà thỏ ngọc để lại quà dưới gốc đa. ' +
-        'Không ai biết trước ngày này — kể cả những người đã đi trước bạn.',
+        'Hôm nay có một bông hoa được giấu sẵn trên cành của những ai có mặt đúng ngày. ' +
+        'Không ai biết trước ngày này — kể cả những người đã học trước bạn.',
       points: 15,
     })),
   );
   if (error) {
-    console.error('✗ Không đặt được Ngày Thỏ Ngọc:', error.message);
+    console.error('✗ Không đặt được Bông hoa bí mật:', error.message);
     process.exit(1);
   }
-  console.log(`✓ Đã chọn ${picked.length} Ngày Thỏ Ngọc (giữ kín phía server)`);
+  console.log(`✓ Đã chọn ${picked.length} ngày Bông hoa bí mật (giữ kín phía server)`);
 }
 
 // ─── Tổng kết ───────────────────────────────────────────────────────────────
@@ -230,4 +250,4 @@ for (const [t, n] of Object.entries(byType)) console.log(`  ${t.padEnd(12)} ${n}
 console.log(
   keepQuestions ? '  câu hỏi      giữ nguyên' : `  câu hỏi      ${questionRows.length}`,
 );
-console.log('\nXong. Nhớ vào /admin/noi-dung đặt mã điểm danh cho 6 buổi webinar.');
+console.log('\nXong. Nhớ vào /admin/noi-dung đặt mã điểm danh cho 3 buổi Trạm hoa.');

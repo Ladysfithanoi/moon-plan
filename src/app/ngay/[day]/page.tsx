@@ -4,23 +4,34 @@ import TopBar from '@/components/TopBar';
 import DayCard from '@/components/DayCard';
 import WebinarBanner from '@/components/WebinarBanner';
 import { getPlayerSession } from '@/lib/session';
-import { TOTAL_DAYS, dateForDay, fullDate, maxUnlockedDay } from '@/lib/event';
+import {
+  TOTAL_DAYS,
+  dateForDay,
+  fullDate,
+  maxUnlockedDay,
+  rawDayNumber,
+  shortDate,
+} from '@/lib/event';
 import {
   getAnswers,
+  getBloom,
   getCheckins,
   getDay,
+  getPlayer,
   getPublicQuestions,
   getReveal,
   getSubmission,
+  unlockedExtras,
 } from '@/lib/game';
+import { MAKEUP_DAYS } from '@/lib/bloom';
 import { getSettings } from '@/lib/settings';
-import type { DayType } from '@/lib/scoring';
+import { TIERS, type DayType } from '@/lib/scoring';
 
 export const dynamic = 'force-dynamic';
 
 const NAV = [
-  { href: '/chang-duong', label: 'Chặng đường' },
-  { href: '/chung-ket', label: 'Chung kết' },
+  { href: '/chang-duong', label: 'Cành hoa' },
+  { href: '/chung-ket', label: 'Về đích' },
   { href: '/vinh-danh', label: 'Vinh danh' },
   { href: '/roi-di', label: 'Thoát' },
 ];
@@ -47,10 +58,10 @@ export default async function NgayPage({ params }: { params: Promise<{ day: stri
             </p>
             <h1 className="display">Chưa mở</h1>
             <p className="body">
-              Vòng trăng đi từng bước một. Ngày này sẽ mở vào {fullDate(dateForDay(day))}.
+              Cành hoa mọc từng đốt một. Ngày này sẽ mở vào {fullDate(dateForDay(day))}.
             </p>
             <Link href="/chang-duong" className="btn-primary">
-              Về chặng đường
+              Về cành hoa
             </Link>
           </div>
         </section>
@@ -58,22 +69,33 @@ export default async function NgayPage({ params }: { params: Promise<{ day: stri
     );
   }
 
-  const dayRow = await getDay(day);
+  const [player, dayRow] = await Promise.all([getPlayer(session.pid), getDay(day)]);
+  if (!player) redirect('/roi-di');
   if (!dayRow) notFound();
 
-  const isToday = day === unlocked;
+  const today = rawDayNumber();
+  const isToday = day === today;
 
-  const [questions, savedAnswers, submission, checkins, settings] = await Promise.all([
+  const [questions, savedAnswers, submission, checkins, settings, bloom] = await Promise.all([
     getPublicQuestions(day),
     getAnswers(session.pid, day),
     getSubmission(session.pid, day),
     getCheckins(session.pid),
     getSettings(),
+    getBloom(player),
   ]);
 
-  const checkin = checkins.find((c) => c.day === day && !c.by_freeze);
-  const done = Boolean(checkin);
+  const done = checkins.some((c) => c.day === day && !c.by_freeze);
   const reveal = done ? await getReveal(day) : null;
+
+  // Trạm hoa không điểm danh bù được — vắng thì cũng không làm héo hoa.
+  const canMakeUp =
+    !isToday && !done && day >= today - MAKEUP_DAYS && dayRow.day_type !== 'webinar';
+  const mode = isToday ? 'today' : canMakeUp ? 'makeup' : 'readonly';
+  const nextTier =
+    isToday && bloom.nextTier !== null
+      ? { name: TIERS[bloom.nextTier].name, multiplier: settings.scoring.multipliers[bloom.nextTier] }
+      : null;
 
   return (
     <>
@@ -85,6 +107,7 @@ export default async function NgayPage({ params }: { params: Promise<{ day: stri
           <p className="coach-note">
             Ngày {day}/{TOTAL_DAYS} · {dayRow.weekday}, {fullDate(dayRow.date)}
             {isToday ? ' · hôm nay' : ''}
+            {canMakeUp ? ` · học bù được đến hết ${shortDate(dateForDay(day + MAKEUP_DAYS))}` : ''}
           </p>
 
           <DayCard
@@ -113,12 +136,14 @@ export default async function NgayPage({ params }: { params: Promise<{ day: stri
             webinarLink={dayRow.webinar_link}
             bonusThreshold={settings.scoring.quiz_tuan.threshold}
             bonusPoints={settings.scoring.quiz_tuan.bonus}
-            readOnly={!isToday}
+            mode={mode}
+            extras={unlockedExtras(dayRow, bloom)}
+            nextTier={nextTier}
           />
 
-          {!isToday ? (
+          {mode === 'readonly' && !done ? (
             <p className="coach-note" style={{ marginTop: 22 }}>
-              Đây là ngày đã qua — bạn xem lại được nhưng không ghi điểm nữa.
+              Ngày này đã quá 48 giờ học bù — bạn xem lại được nhưng không ghi nhận nữa.
             </p>
           ) : null}
         </div>
@@ -126,7 +151,7 @@ export default async function NgayPage({ params }: { params: Promise<{ day: stri
 
       <footer>
         <div className="wrap">
-          <Link href="/chang-duong">Về chặng đường</Link>
+          <Link href="/chang-duong">Về cành hoa</Link>
         </div>
       </footer>
     </>

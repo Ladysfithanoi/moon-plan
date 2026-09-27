@@ -3,16 +3,16 @@ import { redirect } from 'next/navigation';
 import TopBar from '@/components/TopBar';
 import WebinarBanner from '@/components/WebinarBanner';
 import { getPlayerSession } from '@/lib/session';
-import { currentDayNumber } from '@/lib/event';
+import { TOTAL_DAYS, WEEKS, currentDayNumber } from '@/lib/event';
 import { getSettings } from '@/lib/settings';
 import { getHonorRoll } from '@/lib/game';
-import GiveCarrot from './GiveCarrot';
+import GiveFlower from './GiveFlower';
 
 export const dynamic = 'force-dynamic';
 
 const NAV = [
-  { href: '/chang-duong', label: 'Chặng đường' },
-  { href: '/chung-ket', label: 'Chung kết' },
+  { href: '/chang-duong', label: 'Cành hoa' },
+  { href: '/chung-ket', label: 'Về đích' },
   { href: '/vinh-danh', label: 'Vinh danh', here: true },
   { href: '/roi-di', label: 'Thoát' },
 ];
@@ -21,8 +21,8 @@ export default async function VinhDanhPage() {
   const session = await getPlayerSession();
   if (!session) redirect('/vao');
 
-  const today = currentDayNumber() ?? 47;
-  const weeksSoFar = Math.min(7, Math.ceil(today / 7));
+  const today = currentDayNumber() ?? TOTAL_DAYS;
+  const weeksSoFar = WEEKS.filter((w) => w.first <= today).length;
 
   const { weekThemes } = await getSettings();
 
@@ -90,20 +90,20 @@ export default async function VinhDanhPage() {
         <div className="wrap">
           <p className="eyebrow">
             <span className="rule" />
-            <span>Tặng cà rốt</span>
+            <span>Tặng hoa</span>
           </p>
           <h2 className="section-title">Gửi điểm cho một người bạn</h2>
           <p className="body">
-            Nếu bạn rủ được ai đó cùng chạy, hoặc đơn giản là muốn tiếp sức cho một người đang đuối —
-            nhập mã của họ vào đây. Mỗi người bạn chỉ tặng được một lần.
+            Nếu bạn rủ được ai đó cùng học, hoặc đơn giản là muốn tiếp sức cho một người đang chùng lại —
+            nhập mã của họ vào đây để gửi một bông hoa kèm điểm. Mỗi người bạn chỉ tặng được một lần.
           </p>
-          <GiveCarrot />
+          <GiveFlower />
         </div>
       </section>
 
       <footer>
         <div className="wrap">
-          <Link href="/chang-duong">Về chặng đường</Link>
+          <Link href="/chang-duong">Về cành hoa</Link>
         </div>
       </footer>
     </>

@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Chạy dần đến Trung Thu · Precision Coach',
+  title: 'Chạy dần đến 20/10 · Precision Coach',
   description:
-    'Sự kiện 47 ngày dành cho học viên PT — mỗi ngày một bước chạy, mỗi tuần một mảnh trăng, đêm rằm vòng khép lại.',
+    'Sự kiện 20 ngày dành cho học viên PT — hiểu chu kỳ và cơ thể khách hàng nữ, mỗi ngày một bông hoa, đến 20/10 thành bó.',
   robots: { index: false, follow: false },
 };
 

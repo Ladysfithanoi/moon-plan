@@ -6,13 +6,14 @@ import { buildDayWorkbook, type DayExportRow } from '@/lib/day-excel';
 export const dynamic = 'force-dynamic';
 
 /**
- * Tải nội dung 47 ngày ra file Excel.
+ * Tải nội dung cả mùa ra file Excel.
  *
  *   /admin/noi-dung/tai-noi-dung        → tất cả ngày đang có
  *   /admin/noi-dung/tai-noi-dung?ngay=3 → chỉ một ngày
  *
  * File này cũng chính là file mẫu để nạp ngược lại: cùng bộ cột, cùng tên sheet.
- * Lưu ý cột "Mã điểm danh" có mã thật của webinar — đừng gửi file cho học viên.
+ * Lưu ý cột "Mã điểm danh" có mã thật của Trạm hoa, và hai cột mở khoá theo tầng
+ * — đừng gửi file cho học viên.
  */
 export async function GET(request: Request): Promise<Response> {
   if (!(await isAdmin())) {
@@ -25,7 +26,9 @@ export async function GET(request: Request): Promise<Response> {
 
   let query = db()
     .from('days')
-    .select('day,date,weekday,week,day_type,phase,week_theme,title,body,prompt,mechanic,webinar_code,webinar_link')
+    .select(
+      'day,date,weekday,week,day_type,phase,week_theme,title,body,prompt,mechanic,webinar_code,webinar_link,bonus_tip,bonus_deep',
+    )
     .order('day');
   if (oneDay !== null) query = query.eq('day', oneDay);
 
@@ -33,7 +36,7 @@ export async function GET(request: Request): Promise<Response> {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   const buffer = await buildDayWorkbook((data ?? []) as DayExportRow[]);
-  const name = oneDay !== null ? `noi-dung-ngay-${oneDay}.xlsx` : 'noi-dung-47-ngay.xlsx';
+  const name = oneDay !== null ? `noi-dung-ngay-${oneDay}.xlsx` : 'noi-dung-20-ngay.xlsx';
 
   return new Response(new Uint8Array(buffer), {
     headers: {

@@ -3,9 +3,17 @@ import { redirect } from 'next/navigation';
 import ActionForm from '@/components/ActionForm';
 import { isAdmin } from '@/lib/session';
 import { db, fetchAllRows } from '@/lib/supabase';
-import { TOTAL_DAYS, currentDayNumber, eventStatus, shortDate, vnToday } from '@/lib/event';
+import {
+  RIBBON_WEEKS,
+  TOTAL_DAYS,
+  WEEKS,
+  currentDayNumber,
+  eventStatus,
+  shortDate,
+  vnToday,
+} from '@/lib/event';
 import { getSettings, maxPoints } from '@/lib/settings';
-import { DAY_TYPE_LABEL, type DayType } from '@/lib/scoring';
+import { DAY_TYPE_LABEL, TIERS, tierIndexFor, type DayType } from '@/lib/scoring';
 import { adminLogout, drawHonorRollAction } from './actions';
 
 export const dynamic = 'force-dynamic';
@@ -24,6 +32,7 @@ type CheckinLite = {
   player_id: string;
   day: number;
   by_freeze: boolean;
+  late: boolean;
   correct_count: number;
   total_count: number;
 };
@@ -86,7 +95,7 @@ export default async function AdminHome() {
     fetchAllRows<CheckinLite>((f, t) =>
       supabase
         .from('checkins')
-        .select('player_id,day,by_freeze,correct_count,total_count')
+        .select('player_id,day,by_freeze,late,correct_count,total_count')
         .range(f, t),
     ),
     fetchAllRows<SubLite>((f, t) =>
@@ -109,8 +118,9 @@ export default async function AdminHome() {
 
   // ─── Con số tổng ─────────────────────────────────────────────────────────
   const doneToday = today
-    ? new Set(realCheckins.filter((c) => c.day === today).map((c) => c.player_id)).size
+    ? new Set(realCheckins.filter((c) => c.day === today && !c.late).map((c) => c.player_id)).size
     : 0;
+  const lateCount = realCheckins.filter((c) => c.late).length;
   const pendingSubs = subs.filter((s) => s.status === 'pending').length;
   const avgCompletion = pct(realCheckins.length, players.length * openedDays);
   const avgPoints = players.length
@@ -121,24 +131,29 @@ export default async function AdminHome() {
   const totalQ = checkins.reduce((s, c) => s + c.total_count, 0);
   const correctQ = checkins.reduce((s, c) => s + c.correct_count, 0);
 
-  const fragBy = new Map<string, number>();
-  for (const f of fragments) fragBy.set(f.player_id, (fragBy.get(f.player_id) ?? 0) + 1);
-  const fullSix = [...fragBy.values()].filter((n) => n >= 6).length;
+  const ribbonBy = new Map<string, number>();
+  for (const f of fragments) ribbonBy.set(f.player_id, (ribbonBy.get(f.player_id) ?? 0) + 1);
+  const fullRibbons = [...ribbonBy.values()].filter((n) => n >= RIBBON_WEEKS).length;
+
+  // Tầng hoa hiện tại của cả lớp — chuỗi được cập nhật mỗi lần người chơi mở app.
+  const tierCounts = TIERS.map(
+    (_, i) => activePlayers.filter((pl) => tierIndexFor(pl.streak) === i).length,
+  );
 
   const drawnWeeks = new Set(honor.map((h) => h.week));
 
   // ─── Nhịp theo ngày ──────────────────────────────────────────────────────
   const doneByDay = new Map<number, number>();
-  const freezeByDay = new Map<number, number>();
-  for (const c of checkins) {
-    const bucket = c.by_freeze ? freezeByDay : doneByDay;
+  const lateByDay = new Map<number, number>();
+  for (const c of realCheckins) {
+    const bucket = c.late ? lateByDay : doneByDay;
     bucket.set(c.day, (bucket.get(c.day) ?? 0) + 1);
   }
   const dayRows = days.filter((d) => d.day <= openedDays).reverse();
 
   // ─── Theo tuần ───────────────────────────────────────────────────────────
-  const weekRows = weekThemes.map((theme, i) => {
-    const week = i + 1;
+  const weekRows = WEEKS.map(({ week, first }) => {
+    const theme = weekThemes[week - 1] ?? `Tuần ${week}`;
     const weekDays = days.filter((d) => d.week === week && d.day <= openedDays);
     const dayNums = new Set(weekDays.map((d) => d.day));
     const done = realCheckins.filter((c) => dayNums.has(c.day)).length;
@@ -150,7 +165,7 @@ export default async function AdminHome() {
       fragments: fragments.filter((f) => f.week === week).length,
       submissions: subs.filter((s) => dayNums.has(s.day)).length,
       drawn: drawnWeeks.has(week),
-      started: (today ?? 0) >= (week - 1) * 7 + 1,
+      started: status === 'da-xong' || (today ?? 0) >= first,
     };
   });
 
@@ -249,12 +264,16 @@ export default async function AdminHome() {
               <span className="kpi-label">câu quiz trả lời đúng ({correctQ}/{totalQ})</span>
             </div>
             <div className="kpi">
-              <span className="kpi-num">{fullSix}</span>
-              <span className="kpi-label">người đủ 6 mảnh trăng</span>
+              <span className="kpi-num">{fullRibbons}</span>
+              <span className="kpi-label">người đủ {RIBBON_WEEKS} ruy băng</span>
+            </div>
+            <div className="kpi">
+              <span className="kpi-num">{lateCount}</span>
+              <span className="kpi-label">lượt học bù</span>
             </div>
             <div className="kpi">
               <span className="kpi-num">{freezesUsed}</span>
-              <span className="kpi-label">vé cứu đã dùng</span>
+              <span className="kpi-label">giọt sương đang dùng</span>
             </div>
             <div className="kpi">
               <span className="kpi-num">{pendingSubs}</span>
@@ -275,14 +294,14 @@ export default async function AdminHome() {
           </p>
           <h2 className="section-title">Mỗi ngày có bao nhiêu người làm</h2>
           <p className="lede">
-            Ngày mới nhất ở trên. Thanh đo theo {players.length} người có mã; số trong ngoặc là số
-            ngày được vé cứu bù vào.
+            Ngày mới nhất ở trên. Thanh đo người học đúng hạn trên {players.length} người có mã; số
+            trong ngoặc là số người học bù ngày đó.
           </p>
 
           <div className="bar-list">
             {dayRows.map((d) => {
               const done = doneByDay.get(d.day) ?? 0;
-              const freeze = freezeByDay.get(d.day) ?? 0;
+              const late = lateByDay.get(d.day) ?? 0;
               return (
                 <Bar
                   key={d.day}
@@ -290,7 +309,7 @@ export default async function AdminHome() {
                   hint={`${shortDate(d.date)} · ${d.title} · ${DAY_TYPE_LABEL[d.day_type]}`}
                   percent={pct(done, players.length)}
                   tone={done >= maxDayCount * 0.6 ? 'herb' : undefined}
-                  value={`${done}${freeze ? ` (+${freeze})` : ''} · ${pct(done, players.length)}%`}
+                  value={`${done}${late ? ` (+${late})` : ''} · ${pct(done, players.length)}%`}
                 />
               );
             })}
@@ -316,7 +335,7 @@ export default async function AdminHome() {
                   <th>Chủ đề</th>
                   <th>Ngày đã mở</th>
                   <th>Tham gia</th>
-                  <th>Mảnh trăng</th>
+                  <th>Ruy băng</th>
                   <th>Bài nộp</th>
                   <th>Vinh danh</th>
                 </tr>
@@ -365,7 +384,26 @@ export default async function AdminHome() {
             <span className="rule" />
             <span>Ai đang ở đâu</span>
           </p>
-          <h2 className="section-title">Phân bố mức hoàn thành</h2>
+          <h2 className="section-title">Tầng hoa của cả lớp</h2>
+          <p className="lede">
+            Chuỗi hiện tại của {activePlayers.length} người đang hoạt động. Người dồn ở tầng Nụ nhiều là
+            dấu hiệu nên nhắc lớp học đều lại.
+          </p>
+          <div className="bar-list" style={{ maxWidth: 520 }}>
+            {TIERS.map((t, i) => (
+              <Bar
+                key={t.key}
+                label={t.name}
+                percent={pct(tierCounts[i], activePlayers.length)}
+                value={`${tierCounts[i]} người`}
+                tone={i >= 2 ? 'herb' : undefined}
+              />
+            ))}
+          </div>
+
+          <h2 className="section-title" style={{ marginTop: 34 }}>
+            Phân bố mức hoàn thành
+          </h2>
 
           <div className="bar-list" style={{ maxWidth: 520 }}>
             {buckets.map((b) => (

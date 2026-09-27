@@ -151,16 +151,101 @@ input.code-input {
 .notice.err { color: var(--clay); font-weight: 500; }
 .notice.info { color: var(--slate); }
 
-/* ─── Vòng trăng ─────────────────────────────────────────────────────────── */
-.moonpath-grid { display: grid; grid-template-columns: 220px 1fr; gap: 36px; align-items: center; }
-.ring-wrap { position: relative; width: 220px; height: 220px; }
-.ring-wrap svg { width: 100%; height: 100%; display: block; }
-.ring-center {
-  position: absolute; inset: 0; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; text-align: center; pointer-events: none;
+/* ─── Cành hoa ───────────────────────────────────────────────────────────── */
+.bloom-grid { display: grid; grid-template-columns: 200px 1fr; gap: 36px; align-items: start; }
+.stem-wrap { width: 200px; }
+.stem-wrap svg { width: 100%; height: auto; display: block; }
+.stem-day { font-family: var(--mono); font-size: 7px; fill: var(--ink-40); }
+.bloom .stats-col { position: sticky; top: 24px; padding-top: 12px; }
+
+.tier-now {
+  font-family: var(--serif); font-weight: 700; font-size: 34px; line-height: 1.1;
+  margin: 0; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
 }
-.day-mono { font-size: 20px; font-weight: 500; }
-.phase-label { font-size: 11px; color: var(--slate); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+.tier-mult { font-size: 16px; font-weight: 500; color: var(--amber); }
+.tier-next { font-size: 13px; color: var(--slate); margin: 8px 0 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .pulse { animation: pulse 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(1.12); }
+}
+
+/* Tình trạng của cây: ngủ, khát, héo, đang được sương che. */
+.state-box {
+  border-left: 3px solid var(--amber); background: var(--ink-04);
+  padding: 16px 20px; border-radius: 2px;
+}
+.state-box p { font-size: 14px; color: var(--ink-70); margin: 0 0 8px; max-width: 58ch; }
+.state-box p:last-child { margin-bottom: 0; }
+.state-box.sleep { border-left-color: var(--slate); }
+.state-box.dew { border-left-color: var(--slate); }
+.state-box.thirsty, .state-box.wilted { border-left-color: var(--clay); background: var(--clay-10); }
+.comeback-dots { display: flex; gap: 8px; margin: 4px 0 10px; }
+.comeback-dots span {
+  width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--herb);
+}
+.comeback-dots span.on { background: var(--herb); }
+
+.makeup-list { list-style: none; margin: 16px 0 0; padding: 0; font-size: 14px; }
+.makeup-list li { padding: 8px 0; border-bottom: 1px solid var(--ink-08); }
+.makeup-list li:last-child { border-bottom: none; }
+.makeup-link { text-decoration: none; }
+.makeup-link:hover { text-decoration: underline; }
+.makeup-note { margin: 0 0 18px; }
+
+.rule-list { list-style: none; margin: 22px 0 0; padding: 0; font-size: 14px; color: var(--ink-70); }
+.rule-list li { position: relative; padding: 0 0 10px 18px; max-width: 60ch; }
+.rule-list li::before { content: '—'; position: absolute; left: 0; color: var(--amber); }
+.rule-list strong { color: var(--ink); font-weight: 600; }
+
+/* Mẹo ẩn / đọc mở rộng mở theo tầng. */
+.extra-box {
+  margin-top: 22px; padding: 16px 18px; border: 1px solid var(--amber); border-radius: 2px;
+}
+.extra-box.locked { border-style: dashed; border-color: var(--ink-15); }
+.extra-label {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--amber); margin: 0 0 8px; font-weight: 600;
+}
+.extra-box.locked .extra-label { color: var(--ink-40); }
+.extra-lock { font-size: 13px; color: var(--ink-40); margin: 0; }
+
+/* ─── Bó hoa ─────────────────────────────────────────────────────────────── */
+.bouquet-wrap { width: 100%; max-width: 320px; }
+.bouquet-wrap svg { width: 100%; height: auto; display: block; }
+
+/* ─── Vườn chung ─────────────────────────────────────────────────────────── */
+.garden-today { margin: 18px 0 16px; }
+.garden-count { font-size: 14px; margin: 0 0 8px; }
+.garden-bar { position: relative; height: 10px; }
+.garden-mark {
+  position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink);
+}
+.garden-strip {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px;
+}
+.garden-strip li {
+  aspect-ratio: 1; border-radius: 2px; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; border: 1px solid var(--ink-08); color: var(--ink-40);
+}
+.garden-strip li.sunny { background: var(--amber); border-color: var(--amber); color: var(--paper); }
+.garden-strip li.cloudy { background: var(--ink-08); }
+.garden-strip li.now { border: 1.5px dashed var(--amber); color: var(--amber); }
+
+/* ─── Bốn tầng hoa (trang giới thiệu) ────────────────────────────────────── */
+.tier-cards { list-style: none; margin: 22px 0 8px; padding: 0; }
+.tier-cards li {
+  display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: center;
+  padding: 12px 0; border-bottom: 1px solid var(--ink-08);
+}
+.tier-cards li:last-child { border-bottom: none; }
+.tier-icon { width: 40px; height: 40px; }
+.tier-cards h3 { font-size: 15px; font-weight: 600; margin: 0 0 2px; }
+.tier-cards p { font-size: 13px; color: var(--ink-70); margin: 0; }
 
 .stats-col { display: flex; flex-direction: column; gap: 22px; }
 .stat-row { display: flex; gap: 28px; flex-wrap: wrap; }
@@ -557,7 +642,9 @@ footer a { margin-left: 2px; }
 
 /* ─── Đáp ứng ────────────────────────────────────────────────────────────── */
 @media (max-width: 560px) {
-  .moonpath-grid { grid-template-columns: 1fr; justify-items: center; }
+  .bloom-grid { grid-template-columns: 1fr; justify-items: center; gap: 22px; }
+  .bloom .stats-col { position: static; width: 100%; }
+  .garden-strip { gap: 4px; }
   .mech-grid { grid-template-columns: 1fr; }
   .two-col { grid-template-columns: 1fr; gap: 26px; }
   .bar-row { grid-template-columns: 72px 1fr 96px; gap: 8px; }

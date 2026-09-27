@@ -34,6 +34,8 @@ type DayRecord = {
   webinar_code: string | null;
   webinar_link: string | null;
   webinar_at: string | null;
+  bonus_tip: string | null;
+  bonus_deep: string | null;
 };
 
 export default async function NoiDungPage({
@@ -90,7 +92,7 @@ export default async function NoiDungPage({
             </p>
             <h1 className="display">Sửa nội dung</h1>
             <Link href="/admin/noi-dung" className="btn-ghost btn-small">
-              Về danh sách 47 ngày
+              Về danh sách {TOTAL_DAYS} ngày
             </Link>
           </div>
         </section>
@@ -137,10 +139,22 @@ export default async function NoiDungPage({
                 <label htmlFor="prompt">Đề bài / case study</label>
                 <textarea id="prompt" name="prompt" rows={8} defaultValue={d.prompt ?? ''} />
                 <span className="hint">
-                  Ngày thử thách và case study chung kết: đây là đề để người chơi nộp bài. Các ngày
-                  còn lại — kể cả trạm dừng gốc đa: phần này hiện ngay dưới bài đọc, dùng để đặt
-                  tình huống case study cho buổi.
+                  Ngày thử thách và case study về đích: đây là đề để người chơi nộp bài. Các ngày
+                  còn lại — kể cả Trạm hoa: phần này hiện ngay dưới bài đọc, dùng để đặt tình huống
+                  cho buổi.
                 </span>
+              </div>
+              <div className="field">
+                <label htmlFor="bonus_tip">Mẹo thực hành ẩn — mở ở tầng Hé nở (chuỗi 3 ngày)</label>
+                <textarea id="bonus_tip" name="bonus_tip" rows={4} defaultValue={d.bonus_tip ?? ''} />
+                <span className="hint">
+                  Người chưa đủ tầng chỉ thấy khung &quot;đang khoá&quot; — phần chữ không rời máy chủ.
+                  Để trống thì ngày này không có mẹo ẩn.
+                </span>
+              </div>
+              <div className="field">
+                <label htmlFor="bonus_deep">Đọc mở rộng — mở ở tầng Nở rộ (chuỗi 7 ngày)</label>
+                <textarea id="bonus_deep" name="bonus_deep" rows={8} defaultValue={d.bonus_deep ?? ''} />
               </div>
               <div className="field">
                 <label htmlFor="mechanic">Cơ chế (dòng mô tả luật chơi hiện cho người chơi)</label>
@@ -170,7 +184,7 @@ export default async function NoiDungPage({
                       type="text"
                       className="mono"
                       defaultValue={d.webinar_code ?? ''}
-                      placeholder="vd: GOCDA1"
+                      placeholder="vd: TRAMHOA1"
                     />
                     <span className="hint">
                       Đọc mã này ở cuối buổi. Trước khi đặt mã, người chơi không điểm danh được — và mã
@@ -265,7 +279,7 @@ export default async function NoiDungPage({
     );
   }
 
-  // ─── Danh sách 47 ngày ─────────────────────────────────────────────────
+  // ─── Danh sách cả mùa ──────────────────────────────────────────────────
   const [{ data: days, error: daysError }, { data: questions }] = await Promise.all([
     supabase.from('days').select('day,date,weekday,week,day_type,title,webinar_code').order('day'),
     supabase.from('questions').select('day'),
@@ -292,14 +306,16 @@ export default async function NoiDungPage({
         <div className="wrap-wide">
           <p className="eyebrow">
             <span className="rule" />
-            <span>{list.length}/47 ngày đã có nội dung</span>
+            <span>
+              {list.length}/{TOTAL_DAYS} ngày đã có nội dung
+            </span>
           </p>
-          <h1 className="display">Nội dung 47 ngày</h1>
+          <h1 className="display">Nội dung {TOTAL_DAYS} ngày</h1>
 
           {/*
             Phân biệt hai chuyện rất khác nhau mà trước đây hiện giống hệt: cơ sở
             dữ liệu thật sự chưa có nội dung, hay là không kết nối được. Kết nối
-            hỏng mà báo "thiếu 47 ngày" thì càng chạy seed càng không ra.
+            hỏng mà báo "thiếu cả mùa" thì càng chạy seed càng không ra.
           */}
           {daysError ? (
             <div className="notice err">
@@ -377,7 +393,8 @@ export default async function NoiDungPage({
             Cột <span className="mono">Ngày dương lịch</span> và <span className="mono">Thứ</span>{' '}
             chỉ để đối chiếu — nhập vào sẽ bị bỏ qua và tính lại từ mốc khởi động, tránh lệch với
             phép tính “hôm nay là ngày thứ mấy”. Cột <span className="mono">Mã điểm danh</span> chứa
-            mã thật của webinar, đừng gửi file này cho học viên.
+            mã thật của Trạm hoa, còn hai cột mẹo ẩn và đọc mở rộng là phần thưởng theo tầng —
+            đừng gửi file này cho học viên.
           </p>
 
           <hr className="divider" />
@@ -500,7 +517,7 @@ export default async function NoiDungPage({
                   </td>
                   <td className="num">{qCount.get(d.day) ?? 0}</td>
                   <td>
-                    {d.day_type === 'webinar' || d.day_type === 'dem_hoi' ? (
+                    {d.day_type === 'webinar' ? (
                       d.webinar_code ? (
                         <span className="tag ok">đã đặt</span>
                       ) : (

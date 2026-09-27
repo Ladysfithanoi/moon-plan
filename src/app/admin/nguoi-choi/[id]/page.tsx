@@ -3,9 +3,11 @@ import { notFound, redirect } from 'next/navigation';
 import RichText from '@/components/RichText';
 import { isAdmin } from '@/lib/session';
 import { db, fetchAllRows } from '@/lib/supabase';
-import { TOTAL_DAYS, TZ, currentDayNumber, shortDate } from '@/lib/event';
+import { RIBBON_WEEKS, TOTAL_DAYS, TZ, currentDayNumber, shortDate } from '@/lib/event';
 import { getSettings, maxPoints } from '@/lib/settings';
-import { DAY_TYPE_LABEL, type DayType } from '@/lib/scoring';
+import { DAY_TYPE_LABEL, TIERS, tierIndexFor, type DayType } from '@/lib/scoring';
+import { getBloom } from '@/lib/game';
+import { STATE_LABEL } from '@/components/Flower';
 import type { PlayerRow } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -17,6 +19,7 @@ type Checkin = {
   total_count: number;
   points_awarded: number;
   by_freeze: boolean;
+  late: boolean;
   created_at: string;
 };
 type Answer = { day: number; question_id: string; chosen_index: number; is_correct: boolean };
@@ -57,9 +60,13 @@ const SUB_STATUS: Record<Sub['status'], string> = {
 
 const REWARD_LABEL: Record<string, string> = {
   hop_qua: 'Hộp quà bí ẩn',
-  tho_ngoc: 'Ngày Thỏ Ngọc',
-  bonus_quiz: 'Thưởng quiz',
-  ca_rot: 'Cà rốt bạn tặng',
+  hoa_bi_mat: 'Bông hoa bí mật',
+  tang_hoa: 'Hoa bạn tặng',
+  vuon_chung: 'Ngày nắng vườn chung',
+  hoi_xuan: 'Hồi xuân',
+  moc_3: 'Mốc tầng',
+  moc_7: 'Mốc tầng',
+  moc_14: 'Mốc tầng',
 };
 
 const STAMP = new Intl.DateTimeFormat('vi-VN', {
@@ -92,7 +99,7 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
   if (!found) notFound();
   const player = found as PlayerRow;
 
-  const settings = await getSettings();
+  const [settings, bloom] = await Promise.all([getSettings(), getBloom(player)]);
   const today = currentDayNumber() ?? 0;
 
   const [days, checkins, answers, questions, fragments, subs, rewards, given, received] =
@@ -103,7 +110,7 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
       fetchAllRows<Checkin>((f, t) =>
         supabase
           .from('checkins')
-          .select('day,correct_count,total_count,points_awarded,by_freeze,created_at')
+          .select('day,correct_count,total_count,points_awarded,by_freeze,late,created_at')
           .eq('player_id', id)
           .range(f, t),
       ),
@@ -152,7 +159,7 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
       ),
     ]);
 
-  // Tên của những người có dính đến cà rốt — chỉ lấy đúng mấy người đó.
+  // Tên của những người có dính đến tặng hoa — chỉ lấy đúng mấy người đó.
   const otherIds = [
     ...new Set([...given.map((g) => g.to_player_id), ...received.map((g) => g.from_player_id)]),
   ];
@@ -176,7 +183,9 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
   const correctQ = checkins.reduce((s, c) => s + c.correct_count, 0);
   const accuracy = totalQ ? Math.round((correctQ / totalQ) * 100) : 0;
 
-  const missed = days.filter((d) => d.day <= openedDays && !checkinBy.has(d.day));
+  const missed = days.filter(
+    (d) => d.day <= openedDays && !checkinBy.has(d.day) && d.day_type !== 'webinar',
+  );
   const lastActive = realCheckins.length
     ? realCheckins.reduce((a, b) => (a.day > b.day ? a : b))
     : null;
@@ -228,8 +237,11 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
               </span>
             </div>
             <div className="kpi">
-              <span className="kpi-num">{player.streak}</span>
-              <span className="kpi-label">chuỗi hiện tại (dài nhất {player.best_streak})</span>
+              <span className="kpi-num">{bloom.streak}</span>
+              <span className="kpi-label">
+                chuỗi hiện tại · tầng {bloom.dormant ? 'đang ngủ' : TIERS[tierIndexFor(bloom.streak)].name}{' '}
+                (dài nhất {bloom.best})
+              </span>
             </div>
             <div className="kpi">
               <span className="kpi-num">{totalQ ? `${accuracy}%` : '—'}</span>
@@ -238,12 +250,14 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
               </span>
             </div>
             <div className="kpi">
-              <span className="kpi-num">{fragments.length}/6</span>
-              <span className="kpi-label">mảnh trăng</span>
+              <span className="kpi-num">
+                {fragments.length}/{RIBBON_WEEKS}
+              </span>
+              <span className="kpi-label">ruy băng</span>
             </div>
             <div className="kpi">
-              <span className="kpi-num">{player.freezes_left}</span>
-              <span className="kpi-label">vé cứu còn (đã dùng {player.freezes_used})</span>
+              <span className="kpi-num">{bloom.dewsLeft}</span>
+              <span className="kpi-label">giọt sương còn (đang dùng {bloom.dewsUsed})</span>
             </div>
           </div>
 
@@ -260,16 +274,18 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
         </div>
       </section>
 
-      {/* ─── Mảnh trăng ─────────────────────────────────────────────────── */}
+      {/* ─── Ruy băng ───────────────────────────────────────────────────── */}
       <section className="fade-in">
         <div className="wrap-wide">
           <p className="eyebrow">
             <span className="rule" />
-            <span>Mảnh trăng</span>
+            <span>Ruy băng</span>
           </p>
-          <h2 className="section-title">Thu được {fragments.length}/6 mảnh</h2>
+          <h2 className="section-title">
+            Nhận được {fragments.length}/{RIBBON_WEEKS} dải
+          </h2>
           <ul className="frag-list">
-            {settings.moonFragments.map((name, i) => {
+            {settings.ribbons.slice(0, RIBBON_WEEKS).map((name, i) => {
               const week = i + 1;
               const got = fragmentBy.get(week);
               return (
@@ -305,7 +321,7 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
                   <th>Lịch</th>
                   <th>Nội dung</th>
                   <th>Loại</th>
-                  <th>Kết quả</th>
+                  <th>Cây hoa</th>
                   <th>Quiz</th>
                   <th>Điểm</th>
                   <th>Lúc</th>
@@ -314,6 +330,7 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
               <tbody>
                 {timeline.map((d) => {
                   const c = checkinBy.get(d.day);
+                  const cell = bloom.cells[d.day - 1];
                   return (
                     <tr key={d.day} className={!c ? 'row-missed' : ''}>
                       <td className="num">{d.day}</td>
@@ -321,13 +338,18 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
                       <td>{d.title}</td>
                       <td>{DAY_TYPE_LABEL[d.day_type]}</td>
                       <td>
-                        {!c ? (
-                          <span className="tag bad">bỏ lỡ</span>
-                        ) : c.by_freeze ? (
-                          <span className="tag wait">vé cứu bù</span>
-                        ) : (
-                          <span className="tag ok">xong</span>
-                        )}
+                        <span
+                          className={`tag ${
+                            cell?.state === 'done' || cell?.state === 'late'
+                              ? 'ok'
+                              : cell?.state === 'wilted' || cell?.state === 'thirsty'
+                                ? 'bad'
+                                : 'wait'
+                          }`}
+                        >
+                          {cell ? STATE_LABEL[cell.state] : '—'}
+                          {cell?.open ? ' · còn học bù' : ''}
+                        </span>
                       </td>
                       <td className="num">
                         {c && c.total_count ? `${c.correct_count}/${c.total_count}` : '—'}
@@ -361,7 +383,7 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
             <article key={s.day} className="journey-item">
               <p className="coach-note" style={{ marginBottom: 8 }}>
                 Ngày {s.day} ·{' '}
-                {s.kind === 'case_study' ? 'Case study chung kết' : 'Thử thách áp dụng'} ·{' '}
+                {s.kind === 'case_study' ? 'Case study về đích' : 'Thử thách áp dụng'} ·{' '}
                 <span
                   className={`tag ${
                     s.status === 'approved' ? 'ok' : s.status === 'needs_work' ? 'bad' : 'wait'
@@ -421,7 +443,7 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
         </div>
       </section>
 
-      {/* ─── Quà & cà rốt ───────────────────────────────────────────────── */}
+      {/* ─── Quà & tặng hoa ─────────────────────────────────────────────── */}
       <section className="fade-in">
         <div className="wrap-wide">
           <p className="eyebrow">
@@ -449,7 +471,7 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
           </ul>
 
           <h3 className="card-title" style={{ marginTop: 30 }}>
-            Cà rốt
+            Tặng hoa
           </h3>
           <p className="coach-note">
             Tặng đi {given.length} lần · nhận về {received.length} lần
@@ -474,7 +496,7 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
                 <span className="ladder-check">{stamp(g.created_at)}</span>
               </li>
             ))}
-            {!given.length && !received.length ? <li>Chưa có cà rốt nào qua lại.</li> : null}
+            {!given.length && !received.length ? <li>Chưa tặng hay nhận bông hoa nào.</li> : null}
           </ul>
         </div>
       </section>

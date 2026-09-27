@@ -2,25 +2,25 @@
 
 import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
-import { doGiveCarrot, type CarrotState } from '@/app/chang-duong/actions';
+import { doGiveFlower, type GiftState } from '@/app/chang-duong/actions';
 
 function Submit() {
   const { pending } = useFormStatus();
   return (
     <button type="submit" className="btn-primary" disabled={pending}>
-      {pending ? 'Đang gửi…' : 'Tặng cà rốt'}
+      {pending ? 'Đang gửi…' : 'Tặng hoa'}
     </button>
   );
 }
 
-export default function GiveCarrot() {
-  const [state, action] = useActionState<CarrotState, FormData>(doGiveCarrot, {});
+export default function GiveFlower() {
+  const [state, action] = useActionState<GiftState, FormData>(doGiveFlower, {});
 
   return (
     <form action={action} style={{ maxWidth: 420 }}>
       <div className="field">
         <label htmlFor="toCode">Mã của người bạn muốn tặng</label>
-        <input id="toCode" name="toCode" type="text" className="mono" placeholder="THO-••••" required />
+        <input id="toCode" name="toCode" type="text" className="mono" placeholder="HOA-••••" required />
       </div>
       <div className="field">
         <label htmlFor="message">Nhắn một câu (tuỳ chọn)</label>

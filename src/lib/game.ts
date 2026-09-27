@@ -1,8 +1,25 @@
 import 'server-only';
-import { db } from './supabase';
-import { type DayType } from './scoring';
-import { getSettings } from './settings';
-import { TOTAL_DAYS, dayNumberFor, maxUnlockedDay, vnToday } from './event';
+import { cache } from 'react';
+import { db, fetchAllRows } from './supabase';
+import {
+  MILESTONES,
+  TIERS,
+  UNLOCK_DEEP_TIER,
+  UNLOCK_TIP_TIER,
+  isNeutralDay,
+  type DayType,
+  type TierIndex,
+} from './scoring';
+import { applyMultiplier, getSettings } from './settings';
+import {
+  RIBBON_WEEKS,
+  TOTAL_DAYS,
+  WEEKS,
+  dayNumberFor,
+  maxUnlockedDay,
+  rawDayNumber,
+} from './event';
+import { MAKEUP_DAYS, computeBloom, type Bloom } from './bloom';
 import type {
   CheckinResult,
   CheckinRow,
@@ -14,12 +31,7 @@ import type {
   SubmissionRow,
 } from './types';
 
-/**
- * Nếu bật, mảnh trăng chỉ trao khi người chơi vừa dự webinar vừa hoàn thành đủ
- * 6 ngày trước đó của tuần. Mặc định tắt cho nhẹ nhàng — đúng cột "cơ chế" trong
- * khung nội dung: dự webinar là nhận mảnh trăng.
- */
-const FRAGMENT_REQUIRES_FULL_WEEK = false;
+type Gift = { title: string; detail: string; points: number };
 
 // ═══════════════════════════════════════════════════════════════════════════
 // Đọc dữ liệu
@@ -41,6 +53,7 @@ export async function getPlayer(playerId: string): Promise<PlayerRow | null> {
   return (data as PlayerRow) ?? null;
 }
 
+/** Một ngày đầy đủ — kể cả mã điểm danh và nội dung mở khoá. Chỉ dùng ở server. */
 export async function getDay(day: number): Promise<DayRow | null> {
   const { data } = await db().from('days').select('*').eq('day', day).maybeSingle();
   return (data as DayRow) ?? null;
@@ -53,6 +66,12 @@ export async function getAllDays(): Promise<DayRow[]> {
     .order('day');
   return (data as DayRow[]) ?? [];
 }
+
+/** Loại của từng ngày — đủ để biết ngày nào là Trạm hoa (trung tính). */
+const getDayTypes = cache(async (): Promise<Map<number, DayType>> => {
+  const { data } = await db().from('days').select('day,day_type');
+  return new Map(((data ?? []) as { day: number; day_type: DayType }[]).map((d) => [d.day, d.day_type]));
+});
 
 /** Câu hỏi kèm đáp án — chỉ dùng trong code server. */
 async function getQuestionsWithAnswers(day: number): Promise<QuestionRow[]> {
@@ -69,13 +88,14 @@ export async function getPublicQuestions(day: number): Promise<PublicQuestion[]>
 export async function getCheckins(playerId: string): Promise<CheckinRow[]> {
   const { data } = await db()
     .from('checkins')
-    .select('day,correct_count,total_count,points_awarded,by_freeze,created_at')
+    .select('day,correct_count,total_count,points_awarded,by_freeze,late,created_at')
     .eq('player_id', playerId)
     .order('day');
   return (data as CheckinRow[]) ?? [];
 }
 
-export async function getFragments(playerId: string): Promise<{ week: number; name: string }[]> {
+/** Dải ruy băng đã nhận — lưu ở bảng `fragments` của mùa trước. */
+export async function getRibbons(playerId: string): Promise<{ week: number; name: string }[]> {
   const { data } = await db()
     .from('fragments')
     .select('week,name')
@@ -140,25 +160,289 @@ export async function getReveal(day: number) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Chuỗi ngày (streak)
+// Cây hoa: chuỗi, tầng, giọt sương
 // ═══════════════════════════════════════════════════════════════════════════
 
-/** Số ngày liên tiếp tính ngược từ `upto`. */
-export function streakEndingAt(days: number[], upto: number): number {
-  const set = new Set(days);
-  let n = 0;
-  for (let d = upto; d >= 1; d--) {
-    if (!set.has(d)) break;
-    n++;
-  }
-  return n;
-}
-
-/** Ngày đầu tiên người chơi được tính streak — không phạt những ngày trước khi họ có mã. */
+/** Ngày đầu tiên người chơi được tính chuỗi — không phạt những ngày trước khi họ có mã. */
 function joinDayOf(player: PlayerRow): number {
   const joined = player.joined_at?.slice(0, 10);
   const n = joined ? dayNumberFor(joined) : 1;
   return n ?? 1;
+}
+
+/**
+ * Dựng cây hoa của một người từ danh sách ngày đã làm. `extra` là một ngày
+ * đang chuẩn bị ghi — tính trước để biết điểm của nó nhân với tầng nào.
+ */
+async function bloomFor(
+  player: PlayerRow,
+  checkins: CheckinRow[],
+  extra?: { day: number; late: boolean },
+): Promise<Bloom> {
+  const [types, garden] = await Promise.all([getDayTypes(), getGardenSummary()]);
+  const neutral = new Set([...types.entries()].filter(([, t]) => isNeutralDay(t)).map(([d]) => d));
+  const marks = new Map(
+    checkins.filter((c) => !c.by_freeze).map((c) => [c.day, { late: Boolean(c.late) }] as const),
+  );
+  if (extra) marks.set(extra.day, { late: extra.late });
+
+  return computeBloom({
+    today: rawDayNumber(),
+    totalDays: TOTAL_DAYS,
+    joinDay: joinDayOf(player),
+    neutral,
+    marks,
+    dews: (player.dews ?? 0) + garden.dewBonus,
+  });
+}
+
+/** Cây hoa hiện tại của người chơi — dùng cho các trang hiển thị. */
+export async function getBloom(player: PlayerRow): Promise<Bloom> {
+  return bloomFor(player, await getCheckins(player.id));
+}
+
+/**
+ * Nội dung mở khoá của một ngày. Đủ tầng thì mở: hoặc tầng hiện tại đủ cao,
+ * hoặc hôm làm ngày đó đang ở tầng đủ cao — cái đã giành được thì giữ lại.
+ * Chưa đủ tầng thì chỉ trả về cờ "đang khoá", nội dung không rời server.
+ */
+export function unlockedExtras(dayRow: DayRow, bloom: Bloom) {
+  const earned = bloom.cells[dayRow.day - 1];
+  const earnedTier =
+    earned && (earned.state === 'done' || earned.state === 'late') ? earned.tier : 0;
+  const reach = Math.max(bloom.tier, earnedTier);
+
+  const tip = dayRow.bonus_tip?.trim() || null;
+  const deep = dayRow.bonus_deep?.trim() || null;
+  return {
+    tip: tip && reach >= UNLOCK_TIP_TIER ? tip : null,
+    tipLocked: Boolean(tip) && reach < UNLOCK_TIP_TIER,
+    deep: deep && reach >= UNLOCK_DEEP_TIER ? deep : null,
+    deepLocked: Boolean(deep) && reach < UNLOCK_DEEP_TIER,
+  };
+}
+
+/**
+ * Thưởng những mốc tầng và lần hồi xuân chưa từng thưởng. Chỉ số duy nhất
+ * trong DB chặn thưởng trùng, nên gọi lại bao nhiêu lần cũng an toàn.
+ */
+async function grantBloomEvents(playerId: string, bloom: Bloom): Promise<Gift[]> {
+  if (!bloom.events.length) return [];
+  const { data } = await db()
+    .from('rewards')
+    .select('kind,day')
+    .eq('player_id', playerId)
+    .in('kind', ['moc_3', 'moc_7', 'moc_14', 'hoi_xuan']);
+  const have = new Set(((data ?? []) as { kind: string; day: number | null }[]).map((r) =>
+    r.kind === 'hoi_xuan' ? `hoi_xuan:${r.day}` : r.kind,
+  ));
+
+  const { scoring } = await getSettings();
+  const gifts: Gift[] = [];
+
+  for (const ev of bloom.events) {
+    const key = ev.kind === 'hoi_xuan' ? `hoi_xuan:${ev.day}` : ev.kind;
+    if (have.has(key)) continue;
+
+    const gift: Gift =
+      ev.kind === 'hoi_xuan'
+        ? {
+            title: 'Hồi xuân',
+            detail:
+              'Ba ngày liền sau một quãng nghỉ — cây của bạn tỉnh dậy và lấy lại một nửa chuỗi cũ. Quay lại luôn khó hơn bắt đầu, và bạn vừa làm được.',
+            points: scoring.comebackPoints,
+          }
+        : (() => {
+            const m = MILESTONES.find((x) => x.kind === ev.kind)!;
+            return { title: `Chạm tầng ${m.title}`, detail: m.detail, points: m.points };
+          })();
+
+    const { error } = await db().from('rewards').insert({
+      player_id: playerId,
+      kind: ev.kind,
+      day: ev.day,
+      title: gift.title,
+      detail: gift.detail,
+      points: gift.points,
+    });
+    if (!error) gifts.push(gift);
+  }
+  return gifts;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Vườn chung
+// ═══════════════════════════════════════════════════════════════════════════
+
+export type GardenDay = { day: number; participants: number; active: number; sunny: boolean };
+
+/**
+ * Chốt sổ vườn chung cho những ngày đã qua mà chưa ai chốt. Người đầu tiên mở
+ * app sau nửa đêm làm việc này; đếm theo người học đúng hạn, học bù không tính
+ * — vườn chung là chuyện "hôm đó cả lớp có mặt không".
+ */
+async function settleGarden(): Promise<void> {
+  const lastClosed = Math.min(rawDayNumber() - 1, TOTAL_DAYS);
+  if (lastClosed < 1) return;
+
+  const supabase = db();
+  const { data: settled } = await supabase.from('garden_days').select('day');
+  const have = new Set(((settled ?? []) as { day: number }[]).map((r) => r.day));
+  const pending = Array.from({ length: lastClosed }, (_, i) => i + 1).filter((d) => !have.has(d));
+  if (!pending.length) return;
+
+  const { scoring } = await getSettings();
+  const [{ count: active }, rows] = await Promise.all([
+    supabase.from('players').select('id', { count: 'exact', head: true }).eq('is_active', true),
+    fetchAllRows<{ player_id: string; day: number }>((f, t) =>
+      supabase
+        .from('checkins')
+        .select('player_id,day')
+        .in('day', pending)
+        .eq('late', false)
+        .eq('by_freeze', false)
+        .range(f, t),
+    ),
+  ]);
+
+  const byDay = new Map<number, Set<string>>();
+  for (const r of rows) {
+    if (!byDay.has(r.day)) byDay.set(r.day, new Set());
+    byDay.get(r.day)!.add(r.player_id);
+  }
+
+  const total = active ?? 0;
+  await supabase.from('garden_days').upsert(
+    pending.map((day) => {
+      const participants = byDay.get(day)?.size ?? 0;
+      return {
+        day,
+        participants,
+        active: total,
+        sunny: total > 0 && participants / total >= scoring.garden.threshold,
+      };
+    }),
+    { onConflict: 'day', ignoreDuplicates: true },
+  );
+}
+
+export type GardenSummary = {
+  days: GardenDay[];
+  sunnyCount: number;
+  /** Giọt sương cả lớp được thêm nhờ ngày nắng. */
+  dewBonus: number;
+  /** Còn mấy ngày nắng nữa thì cả lớp có thêm giọt kế tiếp. */
+  sunnyToNextDew: number;
+  today: { day: number; participants: number; active: number } | null;
+  threshold: number;
+  points: number;
+};
+
+export const getGardenSummary = cache(async (): Promise<GardenSummary> => {
+  const supabase = db();
+  const { scoring } = await getSettings();
+  const todayNum = rawDayNumber();
+
+  const { data } = await supabase.from('garden_days').select('day,participants,active,sunny').order('day');
+  const days = (data ?? []) as GardenDay[];
+  const sunnyCount = days.filter((d) => d.sunny).length;
+  const per = scoring.garden.sunnyPerDew;
+
+  let today: GardenSummary['today'] = null;
+  if (todayNum >= 1 && todayNum <= TOTAL_DAYS) {
+    const [{ count: active }, { data: rows }] = await Promise.all([
+      supabase.from('players').select('id', { count: 'exact', head: true }).eq('is_active', true),
+      supabase.from('checkins').select('player_id').eq('day', todayNum).eq('late', false),
+    ]);
+    const participants = new Set(((rows ?? []) as { player_id: string }[]).map((r) => r.player_id)).size;
+    today = { day: todayNum, participants, active: active ?? 0 };
+  }
+
+  return {
+    days,
+    sunnyCount,
+    dewBonus: Math.floor(sunnyCount / per),
+    sunnyToNextDew: per - (sunnyCount % per),
+    today,
+    threshold: scoring.garden.threshold,
+    points: scoring.garden.points,
+  };
+});
+
+/** Cộng điểm những ngày nắng người chơi đã góp mặt mà chưa nhận. */
+async function claimGardenBonus(player: PlayerRow, checkins: CheckinRow[], garden: GardenSummary): Promise<Gift[]> {
+  const onTime = new Set(checkins.filter((c) => !c.late && !c.by_freeze).map((c) => c.day));
+  const sunny = garden.days.filter((d) => d.sunny && onTime.has(d.day)).map((d) => d.day);
+  if (!sunny.length || !garden.points) return [];
+
+  const { data } = await db()
+    .from('rewards')
+    .select('day')
+    .eq('player_id', player.id)
+    .eq('kind', 'vuon_chung');
+  const have = new Set(((data ?? []) as { day: number }[]).map((r) => r.day));
+
+  const gifts: Gift[] = [];
+  for (const day of sunny) {
+    if (have.has(day)) continue;
+    const gift = {
+      title: `Ngày nắng — ngày ${day}`,
+      detail: 'Hôm đó đủ đông người cùng học đúng hạn, vườn chung được nắng. Bạn là một trong số đó.',
+      points: garden.points,
+    };
+    const { error } = await db()
+      .from('rewards')
+      .insert({ player_id: player.id, kind: 'vuon_chung', day, ...gift });
+    if (!error) gifts.push(gift);
+  }
+  return gifts;
+}
+
+/**
+ * Chăm cây mỗi lần người chơi mở trang: chốt sổ vườn chung, nhận điểm ngày
+ * nắng còn nợ, tính lại cây và ghi chuỗi mới nhất vào hồ sơ (để trang admin
+ * thấy đúng cả khi người chơi đã bỏ vài ngày mà chưa quay lại check-in).
+ */
+export async function tendPlayer(player: PlayerRow): Promise<{
+  player: PlayerRow;
+  bloom: Bloom;
+  garden: GardenSummary;
+  checkins: CheckinRow[];
+}> {
+  await settleGarden();
+  const [garden, checkins] = await Promise.all([getGardenSummary(), getCheckins(player.id)]);
+
+  const gardenGifts = await claimGardenBonus(player, checkins, garden);
+  const bloom = await bloomFor(player, checkins);
+  const bloomGifts = await grantBloomEvents(player.id, bloom);
+
+  const bonus = [...gardenGifts, ...bloomGifts].reduce((s, g) => s + g.points, 0);
+  const next: PlayerRow = {
+    ...player,
+    points: player.points + bonus,
+    streak: bloom.streak,
+    best_streak: Math.max(player.best_streak, bloom.best),
+    freezes_used: bloom.dewsUsed,
+  };
+
+  if (
+    bonus ||
+    next.streak !== player.streak ||
+    next.best_streak !== player.best_streak ||
+    next.freezes_used !== player.freezes_used
+  ) {
+    await db()
+      .from('players')
+      .update({
+        points: next.points,
+        streak: next.streak,
+        best_streak: next.best_streak,
+        freezes_used: next.freezes_used,
+      })
+      .eq('id', player.id);
+  }
+
+  return { player: next, bloom, garden, checkins };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -170,9 +454,28 @@ type CheckinInput = {
   day: number;
   /** questionId → chỉ số lựa chọn */
   answers?: Record<string, number>;
-  /** Mã điểm danh, chỉ dùng cho ngày webinar. */
+  /** Mã điểm danh, chỉ dùng cho ngày Trạm hoa. */
   webinarCode?: string;
 };
+
+/**
+ * Ngày này còn ghi nhận được không, và nếu được thì có phải học bù không.
+ * Dùng chung cho check-in và nộp bài.
+ */
+function timing(day: number): { ok: true; late: boolean } | { ok: false; message: string } {
+  const today = rawDayNumber();
+  if (day < 1 || day > TOTAL_DAYS) return { ok: false, message: 'Ngày không hợp lệ.' };
+  if (day > maxUnlockedDay()) {
+    return { ok: false, message: 'Ngày này chưa mở. Cành hoa mọc từng đốt một, không có đường tắt.' };
+  }
+  if (day < today - MAKEUP_DAYS) {
+    return {
+      ok: false,
+      message: 'Ngày này đã quá 48 giờ học bù. Bạn vẫn đọc lại được, chỉ là không ghi nhận nữa.',
+    };
+  }
+  return { ok: true, late: day < today };
+}
 
 export async function checkIn(input: CheckinInput): Promise<CheckinResult> {
   const supabase = db();
@@ -182,12 +485,8 @@ export async function checkIn(input: CheckinInput): Promise<CheckinResult> {
   if (!player) return { ok: false, message: 'Không tìm thấy mã của bạn. Thử đăng nhập lại nhé.' };
   if (!player.is_active) return { ok: false, message: 'Mã này đang tạm khoá. Bạn nhắn cho mình để mở lại.' };
 
-  const today = vnToday();
-  const unlocked = maxUnlockedDay(today);
-  if (day > unlocked) {
-    return { ok: false, message: 'Ngày này chưa mở. Vòng trăng đi từng bước một, không có đường tắt.' };
-  }
-  if (day < 1 || day > TOTAL_DAYS) return { ok: false, message: 'Ngày không hợp lệ.' };
+  const when = timing(day);
+  if (!when.ok) return { ok: false, message: when.message };
 
   const dayRow = await getDay(day);
   if (!dayRow) return { ok: false, message: 'Chưa có nội dung cho ngày này.' };
@@ -199,20 +498,22 @@ export async function checkIn(input: CheckinInput): Promise<CheckinResult> {
 
   const dayType = dayRow.day_type as DayType;
 
-  // ─── Ngày webinar cần mã điểm danh ──────────────────────────────────────
+  // ─── Trạm hoa cần mã điểm danh, và không học bù được ─────────────────────
   if (dayType === 'webinar') {
-    const { data: secret } = await supabase
-      .from('days')
-      .select('webinar_code')
-      .eq('day', day)
-      .maybeSingle();
-    const expected = (secret?.webinar_code ?? '').trim().toUpperCase();
+    if (when.late) {
+      return {
+        ok: false,
+        message:
+          'Trạm hoa không điểm danh bù được. Nhưng đừng lo: vắng Trạm hoa không làm héo hoa của bạn.',
+      };
+    }
+    const expected = (dayRow.webinar_code ?? '').trim().toUpperCase();
     const given = (input.webinarCode ?? '').trim().toUpperCase();
     if (!expected) {
       return { ok: false, message: 'Mã điểm danh của buổi này chưa được mở. Đợi mình công bố trong buổi nhé.' };
     }
     if (given !== expected) {
-      return { ok: false, message: 'Mã điểm danh chưa đúng. Mã được đọc trong buổi trạm dừng gốc đa.' };
+      return { ok: false, message: 'Mã điểm danh chưa đúng. Mã được đọc ở cuối buổi Trạm hoa.' };
     }
   }
 
@@ -252,36 +553,43 @@ export async function checkIn(input: CheckinInput): Promise<CheckinResult> {
       ok: false,
       message:
         questions.length === 1
-          ? 'Bạn chọn một đáp án trước đã — sai cũng không sao, thỏ vẫn đi tiếp.'
+          ? 'Bạn chọn một đáp án trước đã — sai cũng không sao, cây vẫn lớn.'
           : `Còn ${questions.length - answerRows.length} câu chưa chọn đáp án.`,
     };
   }
 
-  // ─── Tính điểm ──────────────────────────────────────────────────────────
+  // ─── Điểm gốc ───────────────────────────────────────────────────────────
   const settings = await getSettings();
   const scoring = settings.scoring;
-  let points = 0;
-  const gifts: { title: string; detail: string; points: number }[] = [];
+  let raw = 0;
+  const gifts: Gift[] = [];
+  let quizBonus: Gift | null = null;
 
   if (dayType === 'kien_thuc') {
-    points = scoring.kien_thuc.base + correct * scoring.kien_thuc.perCorrect;
+    raw = scoring.kien_thuc.base + correct * scoring.kien_thuc.perCorrect;
   } else if (dayType === 'quiz_tuan') {
-    points = scoring.quiz_tuan.base;
+    raw = scoring.quiz_tuan.base;
     const ratio = questions.length ? correct / questions.length : 0;
     if (ratio >= scoring.quiz_tuan.threshold) {
-      points += scoring.quiz_tuan.bonus;
-      gifts.push({
-        title: 'Tia sáng bonus',
+      raw += scoring.quiz_tuan.bonus;
+      quizBonus = {
+        title: 'Thưởng quiz tuần',
         detail: `Bạn đúng ${correct}/${questions.length} câu của tuần này.`,
         points: scoring.quiz_tuan.bonus,
-      });
+      };
     }
   } else if (dayType === 'webinar') {
-    points = scoring.webinar.base;
+    raw = scoring.webinar.base;
   }
 
-  // ─── Vé cứu bù cho những ngày đã lỡ ─────────────────────────────────────
-  const freezeResult = await applyFreezes(player, day, existing);
+  // ─── Nhân theo tầng hoa ─────────────────────────────────────────────────
+  // Tính cây như thể ngày này đã ghi, để biết hôm nay rơi vào tầng nào — kể
+  // cả khi chính hôm nay đẩy chuỗi lên tầng mới hoặc là ngày hồi xuân.
+  const bloom = await bloomFor(player, existing, { day, late: when.late });
+  const tier = (bloom.cells[day - 1]?.tier ?? 0) as TierIndex;
+  const multiplier = when.late ? 1 : scoring.multipliers[tier] ?? 1;
+  const points = when.late ? raw : applyMultiplier(raw, tier, scoring);
+  if (quizBonus) gifts.push(quizBonus);
 
   // ─── Ghi check-in ───────────────────────────────────────────────────────
   const { error: ciErr } = await supabase.from('checkins').upsert(
@@ -292,6 +600,7 @@ export async function checkIn(input: CheckinInput): Promise<CheckinResult> {
       total_count: questions.length,
       points_awarded: points,
       by_freeze: false,
+      late: when.late,
     },
     { onConflict: 'player_id,day' },
   );
@@ -301,38 +610,41 @@ export async function checkIn(input: CheckinInput): Promise<CheckinResult> {
     await supabase.from('answers').upsert(answerRows, { onConflict: 'player_id,question_id' });
   }
 
-  // ─── Ngày Thỏ Ngọc ──────────────────────────────────────────────────────
-  const rabbit = await grantRabbitDay(playerId, day);
-  if (rabbit) {
-    points += rabbit.points;
-    gifts.push(rabbit);
-  }
+  let bonus = 0;
 
-  // ─── Mảnh trăng khi dự webinar ──────────────────────────────────────────
-  let fragmentAwarded: string | undefined;
-  if (dayType === 'webinar' && dayRow.week >= 1 && dayRow.week <= 6) {
-    const eligible = FRAGMENT_REQUIRES_FULL_WEEK ? await hasFullWeek(playerId, dayRow.week) : true;
-    if (eligible) {
-      const name = settings.moonFragments[dayRow.week - 1];
-      const { error } = await supabase
-        .from('fragments')
-        .insert({ player_id: playerId, week: dayRow.week, name });
-      if (!error) fragmentAwarded = name;
+  // ─── Bông hoa bí mật — chỉ ai có mặt đúng hôm đó ───────────────────────
+  if (!when.late) {
+    const secret = await grantSecretDay(playerId, day);
+    if (secret) {
+      bonus += secret.points;
+      gifts.push(secret);
     }
   }
 
-  // ─── Cập nhật điểm & streak ─────────────────────────────────────────────
-  const allDays = [...existing.map((c) => c.day), ...freezeResult.filledDays, day];
-  const streak = streakEndingAt(allDays, day);
+  // ─── Ruy băng khi dự Trạm hoa ───────────────────────────────────────────
+  let ribbonAwarded: string | undefined;
+  if (dayType === 'webinar' && dayRow.week >= 1 && dayRow.week <= RIBBON_WEEKS) {
+    const name = settings.ribbons[dayRow.week - 1];
+    const { error } = await supabase
+      .from('fragments')
+      .insert({ player_id: playerId, week: dayRow.week, name });
+    if (!error) ribbonAwarded = name;
+  }
+
+  // ─── Mốc tầng, hồi xuân ─────────────────────────────────────────────────
+  const events = await grantBloomEvents(playerId, bloom);
+  for (const g of events) {
+    bonus += g.points;
+    gifts.push(g);
+  }
 
   await supabase
     .from('players')
     .update({
-      points: player.points + points + freezeResult.pointsDelta,
-      streak,
-      best_streak: Math.max(player.best_streak, streak),
-      freezes_left: player.freezes_left - freezeResult.used,
-      freezes_used: player.freezes_used + freezeResult.used,
+      points: player.points + points + bonus,
+      streak: bloom.streak,
+      best_streak: Math.max(player.best_streak, bloom.best),
+      freezes_used: bloom.dewsUsed,
       last_seen_at: new Date().toISOString(),
     })
     .eq('id', playerId);
@@ -345,93 +657,40 @@ export async function checkIn(input: CheckinInput): Promise<CheckinResult> {
 
   return {
     ok: true,
-    message:
-      dayType === 'webinar'
-        ? 'Điểm danh xong. Thỏ của bạn vừa tới trạm dừng gốc đa.'
+    message: when.late
+      ? 'Đã học bù. Bông hoa của ngày này nở lại trên cành của bạn.'
+      : dayType === 'webinar'
+        ? 'Điểm danh xong. Bạn vừa nhận thêm một dải ruy băng cho bó hoa.'
         : dayType === 'dem_hoi'
-          ? 'Vòng khép lại đúng chỗ nó bắt đầu. Cảm ơn bạn đã chạy cùng mình mùa này.'
-          : 'Thỏ vừa tiến thêm một bước trên vòng trăng.',
-    pointsAwarded: points,
+          ? 'Bó hoa của bạn đã buộc xong. Chúc mừng 20/10 — cảm ơn bạn đã đi cùng mình mùa này.'
+          : 'Cành hoa của bạn vừa mọc thêm một đốt.',
+    pointsAwarded: points + bonus,
     correctCount: correct,
     totalCount: questions.length,
     reveal,
-    fragmentAwarded,
+    ribbonAwarded,
     gifts,
-    freezesUsed: freezeResult.used,
-    streak,
+    streak: bloom.streak,
+    tierName: TIERS[tier].name,
+    multiplier,
+    late: when.late,
   };
 }
 
 /**
- * Vé cứu tự kích hoạt: lấp những ngày đã lỡ nằm giữa lần check-in gần nhất và
- * hôm nay, mỗi ngày tốn 1 vé. Hết vé thì chuỗi đứt — đúng như brief, người chơi
- * không phải bấm gì cả.
- */
-async function applyFreezes(
-  player: PlayerRow,
-  targetDay: number,
-  existing: CheckinRow[],
-): Promise<{ used: number; filledDays: number[]; pointsDelta: number }> {
-  const done = new Set(existing.map((c) => c.day));
-  const from = Math.max(joinDayOf(player), 1);
-
-  // Chỉ lấp phần đuôi liền kề ngay trước hôm nay — vé cứu để giữ chuỗi đang
-  // chạy, không phải để mua lại cả tháng đã bỏ.
-  const tail: number[] = [];
-  for (let d = targetDay - 1; d >= from; d--) {
-    if (done.has(d)) break;
-    tail.unshift(d);
-  }
-
-  // Không đủ vé cho toàn bộ quãng đứt thì không tiêu vé nào — tiêu một phần
-  // cũng không cứu được chuỗi, chỉ phí vé của người chơi.
-  if (tail.length === 0 || tail.length > player.freezes_left) {
-    return { used: 0, filledDays: [], pointsDelta: 0 };
-  }
-
-  const rows = tail.map((d) => ({
-    player_id: player.id,
-    day: d,
-    correct_count: 0,
-    total_count: 0,
-    points_awarded: 0,
-    by_freeze: true,
-  }));
-  const { error } = await db().from('checkins').upsert(rows, { onConflict: 'player_id,day' });
-  if (error) return { used: 0, filledDays: [], pointsDelta: 0 };
-
-  return { used: tail.length, filledDays: tail, pointsDelta: 0 };
-}
-
-/** Người chơi đã hoàn thành cả 6 ngày trước webinar của tuần chưa. */
-async function hasFullWeek(playerId: string, week: number): Promise<boolean> {
-  const first = (week - 1) * 7 + 1;
-  const { count } = await db()
-    .from('checkins')
-    .select('day', { count: 'exact', head: true })
-    .eq('player_id', playerId)
-    .gte('day', first)
-    .lte('day', first + 5);
-  return (count ?? 0) >= 6;
-}
-
-/**
- * Ngày Thỏ Ngọc — ngày bí mật chọn ngẫu nhiên lúc seed, lưu trong bảng
+ * Bông hoa bí mật — ngày chọn ngẫu nhiên lúc seed, lưu trong bảng
  * secret_days mà trình duyệt không đọc được. Chỉ lộ ra đúng lúc người chơi
  * check-in trúng ngày đó.
  */
-async function grantRabbitDay(
-  playerId: string,
-  day: number,
-): Promise<{ title: string; detail: string; points: number } | null> {
+async function grantSecretDay(playerId: string, day: number): Promise<Gift | null> {
   const { data } = await db().from('secret_days').select('*').eq('day', day).maybeSingle();
   if (!data) return null;
 
   const settings = await getSettings();
-  const points = data.points ?? settings.scoring.rabbitDayPoints;
+  const points = data.points ?? settings.scoring.secretDayPoints;
   const { error } = await db().from('rewards').insert({
     player_id: playerId,
-    kind: 'tho_ngoc',
+    kind: 'hoa_bi_mat',
     day,
     title: data.title,
     detail: data.detail,
@@ -443,7 +702,7 @@ async function grantRabbitDay(
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Nộp bài: thử thách áp dụng & case study chung kết
+// Nộp bài: thử thách áp dụng & case study về đích
 // ═══════════════════════════════════════════════════════════════════════════
 
 export async function submitWork(args: {
@@ -475,6 +734,11 @@ export async function submitWork(args: {
 
   const already = await getSubmission(playerId, day);
 
+  // Bài đã nộp thì sửa lúc nào cũng được — chỉ lần nộp đầu mới tính điểm và
+  // mới cần nằm trong khung học bù.
+  const when = already ? ({ ok: true, late: false } as const) : timing(day);
+  if (!when.ok) return { ok: false, message: when.message };
+
   await supabase.from('submissions').upsert(
     {
       player_id: playerId,
@@ -488,16 +752,17 @@ export async function submitWork(args: {
     { onConflict: 'player_id,day' },
   );
 
-  // Sửa lại bài đã nộp thì không cộng điểm lần nữa.
   if (already) {
     return { ok: true, message: 'Đã cập nhật bài nộp của bạn.', pointsAwarded: 0 };
   }
 
   const existing = await getCheckins(playerId);
-  const freezeResult = await applyFreezes(player, day, existing);
+  const bloom = await bloomFor(player, existing, { day, late: when.late });
+  const tier = (bloom.cells[day - 1]?.tier ?? 0) as TierIndex;
 
   const { scoring } = await getSettings();
-  const points = kind === 'thu_thach' ? scoring.thu_thach.base : scoring.case_study.base;
+  const raw = kind === 'thu_thach' ? scoring.thu_thach.base : scoring.case_study.base;
+  const points = when.late ? raw : applyMultiplier(raw, tier, scoring);
 
   await supabase.from('checkins').upsert(
     {
@@ -507,11 +772,12 @@ export async function submitWork(args: {
       total_count: 0,
       points_awarded: points,
       by_freeze: false,
+      late: when.late,
     },
     { onConflict: 'player_id,day' },
   );
 
-  const gifts: { title: string; detail: string; points: number }[] = [];
+  const gifts: Gift[] = [];
   let bonus = 0;
 
   // Hộp quà bí ẩn — chỉ sau thử thách áp dụng, tối đa 1 lần/tuần/người.
@@ -523,45 +789,47 @@ export async function submitWork(args: {
     }
   }
 
-  const rabbit = await grantRabbitDay(playerId, day);
-  if (rabbit) {
-    bonus += rabbit.points;
-    gifts.push(rabbit);
+  if (!when.late) {
+    const secret = await grantSecretDay(playerId, day);
+    if (secret) {
+      bonus += secret.points;
+      gifts.push(secret);
+    }
   }
 
-  const allDays = [...existing.map((c) => c.day), ...freezeResult.filledDays, day];
-  const streak = streakEndingAt(allDays, day);
+  for (const g of await grantBloomEvents(playerId, bloom)) {
+    bonus += g.points;
+    gifts.push(g);
+  }
 
   await supabase
     .from('players')
     .update({
       points: player.points + points + bonus,
-      streak,
-      best_streak: Math.max(player.best_streak, streak),
-      freezes_left: player.freezes_left - freezeResult.used,
-      freezes_used: player.freezes_used + freezeResult.used,
+      streak: bloom.streak,
+      best_streak: Math.max(player.best_streak, bloom.best),
+      freezes_used: bloom.dewsUsed,
       last_seen_at: new Date().toISOString(),
     })
     .eq('id', playerId);
 
   return {
     ok: true,
-    message:
-      kind === 'thu_thach'
-        ? 'Đã nhận bài. Thỏ của bạn nhảy hai bước.'
-        : 'Đã nhận phần này của case study.',
+    message: when.late
+      ? 'Đã nhận bài học bù. Bông hoa của ngày này nở lại trên cành của bạn.'
+      : kind === 'thu_thach'
+        ? 'Đã nhận bài. Cành hoa của bạn vừa mọc thêm một đốt.'
+        : 'Đã nhận case study. Chỉ còn một bước nữa là buộc bó hoa.',
     pointsAwarded: points + bonus,
     gifts,
-    streak,
-    freezesUsed: freezeResult.used,
+    streak: bloom.streak,
+    tierName: TIERS[tier].name,
+    multiplier: when.late ? 1 : scoring.multipliers[tier] ?? 1,
+    late: when.late,
   };
 }
 
-async function rollMysteryBox(
-  playerId: string,
-  week: number,
-  day: number,
-): Promise<{ title: string; detail: string; points: number } | null> {
+async function rollMysteryBox(playerId: string, week: number, day: number): Promise<Gift | null> {
   const { boxPrizes, scoring } = await getSettings();
   if (!boxPrizes.length) return null;
   if (Math.random() > scoring.mysteryBoxChance) return null;
@@ -580,43 +848,43 @@ async function rollMysteryBox(
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Tặng cà rốt
+// Tặng hoa (bảng `carrot_gifts` của mùa trước)
 // ═══════════════════════════════════════════════════════════════════════════
 
-export async function giveCarrot(
+export async function giveFlower(
   fromPlayerId: string,
   toCode: string,
   message: string,
 ): Promise<{ ok: boolean; message: string }> {
   const target = await findPlayerByCode(toCode);
   if (!target) return { ok: false, message: 'Không tìm thấy mã đó.' };
-  if (target.id === fromPlayerId) return { ok: false, message: 'Cà rốt này để dành tặng bạn khác nhé.' };
+  if (target.id === fromPlayerId) return { ok: false, message: 'Bông hoa này để dành tặng bạn khác nhé.' };
 
   const { scoring } = await getSettings();
-  const carrotPoints = scoring.carrotPoints;
+  const giftPoints = scoring.giftPoints;
 
   const { error } = await db().from('carrot_gifts').insert({
     from_player_id: fromPlayerId,
     to_player_id: target.id,
-    points: carrotPoints,
+    points: giftPoints,
     message: message.slice(0, 200),
   });
-  if (error) return { ok: false, message: 'Bạn đã tặng cà rốt cho người này rồi.' };
+  if (error) return { ok: false, message: 'Bạn đã tặng hoa cho người này rồi.' };
 
   await db()
     .from('players')
-    .update({ points: target.points + carrotPoints })
+    .update({ points: target.points + giftPoints })
     .eq('id', target.id);
 
   await db().from('rewards').insert({
     player_id: target.id,
-    kind: 'ca_rot',
-    title: 'Có người tặng bạn một củ cà rốt',
-    detail: message.slice(0, 200) || 'Một người bạn cùng chạy vừa gửi điểm cho bạn.',
-    points: carrotPoints,
+    kind: 'tang_hoa',
+    title: 'Có người tặng bạn một bông hoa',
+    detail: message.slice(0, 200) || 'Một người bạn cùng lớp vừa gửi điểm tiếp sức cho bạn.',
+    points: giftPoints,
   });
 
-  return { ok: true, message: `Đã gửi ${carrotPoints} điểm cho ${target.display_name}.` };
+  return { ok: true, message: `Đã gửi ${giftPoints} điểm cho ${target.display_name}.` };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -639,18 +907,18 @@ export async function getHonorRoll(week: number): Promise<{ name: string; note: 
 }
 
 /**
- * Bốc ngẫu nhiên 10% người chơi có hoạt động trong tuần. Trung bấm nút này ở
- * trang admin sau mỗi tuần. Không xếp hạng, không so sánh điểm công khai.
+ * Bốc ngẫu nhiên 10% người chơi có hoạt động trong tuần. Bấm nút này ở trang
+ * admin sau mỗi tuần. Không xếp hạng, không so sánh điểm công khai.
  */
 export async function drawHonorRoll(week: number): Promise<{ ok: boolean; message: string }> {
-  const first = (week - 1) * 7 + 1;
-  const last = week === 7 ? TOTAL_DAYS : first + 6;
+  const range = WEEKS.find((w) => w.week === week);
+  if (!range) return { ok: false, message: 'Tuần không hợp lệ.' };
 
   const { data } = await db()
     .from('checkins')
     .select('player_id')
-    .gte('day', first)
-    .lte('day', last)
+    .gte('day', range.first)
+    .lte('day', range.last)
     .eq('by_freeze', false);
 
   const ids = [...new Set(((data ?? []) as { player_id: string }[]).map((r) => r.player_id))];

@@ -4,8 +4,8 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
  * Client Supabase dùng service_role — CHỈ được import từ code chạy trên server.
  *
  * Mọi bảng đều bật RLS và không có policy nào cho anon, nên đây là đường duy nhất
- * đọc/ghi dữ liệu. Nhờ vậy đáp án quiz, mã điểm danh webinar và Ngày Thỏ Ngọc
- * không bao giờ đi xuống trình duyệt.
+ * đọc/ghi dữ liệu. Nhờ vậy đáp án quiz, mã điểm danh Trạm hoa, nội dung mở
+ * khoá theo tầng và ngày Bông hoa bí mật không bao giờ đi xuống trình duyệt.
  */
 let cached: SupabaseClient | null = null;
 

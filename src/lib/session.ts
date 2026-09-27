@@ -8,7 +8,7 @@ import { SignJWT, jwtVerify } from 'jose';
 
 const PLAYER_COOKIE = 'mp_player';
 const ADMIN_COOKIE = 'mp_admin';
-const MAX_AGE = 60 * 60 * 24 * 60; // 60 ngày — phủ hết 47 ngày sự kiện
+const MAX_AGE = 60 * 60 * 24 * 60; // 60 ngày — phủ hết mùa sự kiện
 
 function secret(): Uint8Array {
   const s = process.env.SESSION_SECRET;

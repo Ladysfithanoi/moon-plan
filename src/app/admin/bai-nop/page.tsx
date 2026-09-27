@@ -68,7 +68,7 @@ export default async function BaiNopPage({
   const filters = [
     { href: '/admin/bai-nop', label: 'Tất cả' },
     { href: '/admin/bai-nop?trang_thai=pending', label: 'Chờ đọc' },
-    { href: '/admin/bai-nop?loc=case_study', label: 'Case study chung kết' },
+    { href: '/admin/bai-nop?loc=case_study', label: 'Case study về đích' },
     { href: '/admin/bai-nop?loc=thu_thach', label: 'Thử thách tuần' },
   ];
 
@@ -98,7 +98,7 @@ export default async function BaiNopPage({
               <p className="eyebrow">
                 <span className="rule" />
                 <span>
-                  Ngày {r.day} · {r.kind === 'case_study' ? 'Case study chung kết' : 'Thử thách áp dụng'}
+                  Ngày {r.day} · {r.kind === 'case_study' ? 'Case study về đích' : 'Thử thách áp dụng'}
                   {r.days ? ` · ${fullDate(r.days.date)}` : ''}
                 </span>
               </p>

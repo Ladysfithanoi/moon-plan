@@ -20,7 +20,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <header className="topbar">
           <div className="wrap-wide">
             <Link href="/admin" className="wordmark">
-              Điều hành · Mùa trăng
+              Điều hành · 20/10
             </Link>
             <nav className="topbar-nav">
               {LINKS.map((l) => (

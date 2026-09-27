@@ -25,7 +25,7 @@ export default function RoiDiPage() {
                 Thoát khỏi máy này
               </button>
               <Link href="/chang-duong" className="btn-ghost">
-                Quay lại chặng đường
+                Quay lại cành hoa
               </Link>
             </div>
           </form>

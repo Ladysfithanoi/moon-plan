@@ -24,7 +24,8 @@ function buoi(iso: string): string {
 }
 
 /**
- * Dải nhắc buổi trạm dừng gốc đa, hiện từ sáng hôm trước tới lúc buổi tan.
+ * Dải nhắc buổi Trạm hoa Chủ Nhật (và buổi hội 20/10), hiện từ sáng hôm
+ * trước tới lúc buổi tan.
  *
  * Đọc thẳng DB ở phía server và chỉ trả về đúng một dòng chữ — lịch của những
  * buổi khác, và nhất là `webinar_code`, không đi xuống trình duyệt.
@@ -65,7 +66,7 @@ export default async function WebinarBanner() {
     <div className={`webinar-banner${started ? ' live' : ''}`}>
       <div className="wrap">
         <span className="wb-moon" aria-hidden="true">
-          ◐
+          ✿
         </span>
         <span className="wb-text">
           <strong>{when}</strong> — {label}

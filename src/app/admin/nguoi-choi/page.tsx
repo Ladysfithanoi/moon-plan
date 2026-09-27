@@ -4,7 +4,8 @@ import ActionForm from '@/components/ActionForm';
 import PlayerRowActions from '@/components/PlayerRowActions';
 import { isAdmin } from '@/lib/session';
 import { db } from '@/lib/supabase';
-import { TOTAL_DAYS, currentDayNumber } from '@/lib/event';
+import { RIBBON_WEEKS, TOTAL_DAYS, currentDayNumber } from '@/lib/event';
+import { TIERS, tierIndexFor } from '@/lib/scoring';
 import { createPlayer } from '../actions';
 import type { PlayerRow } from '@/lib/types';
 
@@ -79,7 +80,7 @@ export default async function NguoiChoiPage({
   const list = (players ?? []) as unknown as PlayerRow[];
   const ids = list.map((p) => p.id);
 
-  // Chỉ đếm check-in và mảnh trăng cho 5 người đang hiện, không kéo cả bảng về.
+  // Chỉ đếm check-in và ruy băng cho những người đang hiện, không kéo cả bảng về.
   const doneBy = new Map<string, number>();
   const fragBy = new Map<string, number>();
   if (ids.length) {
@@ -204,9 +205,10 @@ export default async function NguoiChoiPage({
                   <th>Liên hệ</th>
                   <th>Điểm</th>
                   <th>Chuỗi</th>
+                  <th>Tầng</th>
                   <th>Xong</th>
-                  <th>Mảnh</th>
-                  <th>Vé cứu</th>
+                  <th>Ruy băng</th>
+                  <th>Giọt sương</th>
                   <th>Thao tác</th>
                 </tr>
               </thead>
@@ -225,11 +227,16 @@ export default async function NguoiChoiPage({
                       <td>{p.contact ?? '—'}</td>
                       <td className="num">{p.points}</td>
                       <td className="num">{p.streak}</td>
+                      <td>{TIERS[tierIndexFor(p.streak)].name}</td>
                       <td className="num">
                         {done}/{today || TOTAL_DAYS}
                       </td>
-                      <td className="num">{fragBy.get(p.id) ?? 0}/6</td>
-                      <td className="num">{p.freezes_left}</td>
+                      <td className="num">
+                        {fragBy.get(p.id) ?? 0}/{RIBBON_WEEKS}
+                      </td>
+                      <td className="num" title="đang dùng / cấp riêng (chưa kể giọt từ vườn chung)">
+                        {p.freezes_used}/{p.dews}
+                      </td>
                       <td>
                         <PlayerRowActions player={p} />
                       </td>
@@ -238,7 +245,7 @@ export default async function NguoiChoiPage({
                 })}
                 {!list.length ? (
                   <tr>
-                    <td colSpan={9}>
+                    <td colSpan={10}>
                       {filtering
                         ? 'Không có ai khớp bộ lọc này.'
                         : 'Chưa có ai. Tạo mã ở khung phía trên.'}

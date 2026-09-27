@@ -1,13 +1,13 @@
 import 'server-only';
 import ExcelJS from 'exceljs';
-import { TOTAL_DAYS, dateForDay } from './event';
+import { TOTAL_DAYS, dateForDay, weekForDay } from './event';
 import { DAY_TYPE_LABEL, type DayType } from './scoring';
 import { addRangeValidation, findColumns, readCell, styleSheet } from './excel-io';
 
 /**
- * Đọc và ghi nội dung 47 ngày bằng file Excel.
+ * Đọc và ghi nội dung cả mùa bằng file Excel.
  *
- * Khác bảng quiz ở một điểm quan trọng: số ngày là bộ khung cố định 1–47, ngày
+ * Khác bảng quiz ở một điểm quan trọng: số ngày là bộ khung cố định 1–20, ngày
  * dương lịch suy ra từ EVENT_START chứ không tự đặt. Cột "Ngày dương lịch" và
  * "Thứ" trong file chỉ để đọc cho dễ đối chiếu — nhập vào sẽ bị bỏ qua và tính
  * lại, tránh lệch với phần tính "hôm nay là ngày thứ mấy" của app.
@@ -26,6 +26,8 @@ const COLUMNS = [
   { key: 'title', header: 'Tiêu đề', width: 46 },
   { key: 'body', header: 'Bài đọc', width: 90 },
   { key: 'prompt', header: 'Đề bài', width: 60 },
+  { key: 'bonusTip', header: 'Mẹo ẩn (Hé nở)', width: 50 },
+  { key: 'bonusDeep', header: 'Đọc mở rộng (Nở rộ)', width: 70 },
   { key: 'mechanic', header: 'Cơ chế', width: 40 },
   { key: 'webinarCode', header: 'Mã điểm danh', width: 15 },
   { key: 'webinarLink', header: 'Link webinar', width: 34 },
@@ -44,6 +46,8 @@ const HEADER_ALIASES: Record<ColumnKey, string[]> = {
   title: ['tieude', 'title'],
   body: ['baidoc', 'body', 'noidung', 'noidungbaidoc'],
   prompt: ['debai', 'prompt'],
+  bonusTip: ['meoan', 'meoanheno', 'bonustip', 'meo'],
+  bonusDeep: ['docmorong', 'docmorongnoro', 'bonusdeep'],
   mechanic: ['coche', 'mechanic'],
   webinarCode: ['madiemdanh', 'webinarcode', 'ma'],
   webinarLink: ['linkwebinar', 'webinarlink', 'link'],
@@ -63,6 +67,8 @@ export type DayExcelRow = {
   mechanic: string | null;
   webinar_code: string | null;
   webinar_link: string | null;
+  bonus_tip: string | null;
+  bonus_deep: string | null;
 };
 
 export type DayExportRow = {
@@ -79,6 +85,8 @@ export type DayExportRow = {
   mechanic: string | null;
   webinar_code: string | null;
   webinar_link: string | null;
+  bonus_tip: string | null;
+  bonus_deep: string | null;
 };
 
 const WEEKDAYS = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
@@ -87,11 +95,6 @@ const WEEKDAYS = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ N
 export function weekdayForDay(n: number): string {
   const [y, m, d] = dateForDay(n).split('-').map(Number);
   return WEEKDAYS[new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
-}
-
-/** Tuần thứ mấy: 7 ngày một tuần, tuần cuối chỉ có 5 ngày. */
-export function weekForDay(n: number): number {
-  return Math.min(Math.ceil(n / 7), 7);
 }
 
 export type DayParseResult =
@@ -176,6 +179,8 @@ export async function parseDayWorkbook(buffer: ArrayBuffer): Promise<DayParseRes
       mechanic: at(row, 'mechanic') || null,
       webinar_code: at(row, 'webinarCode').toUpperCase() || null,
       webinar_link: at(row, 'webinarLink') || null,
+      bonus_tip: at(row, 'bonusTip') || null,
+      bonus_deep: at(row, 'bonusDeep') || null,
     });
   }
 
@@ -188,7 +193,7 @@ export async function parseDayWorkbook(buffer: ArrayBuffer): Promise<DayParseRes
 /** Dựng file Excel từ nội dung hiện có — vừa là bản xuất, vừa là file mẫu. */
 export async function buildDayWorkbook(days: DayExportRow[]): Promise<Buffer> {
   const wb = new ExcelJS.Workbook();
-  wb.creator = 'Chạy dần đến Trung Thu';
+  wb.creator = 'Chạy dần đến 20/10';
   wb.created = new Date();
 
   const sheet = wb.addWorksheet(DAY_SHEET);
@@ -206,6 +211,8 @@ export async function buildDayWorkbook(days: DayExportRow[]): Promise<Buffer> {
       title: d.title,
       body: d.body,
       prompt: d.prompt ?? '',
+      bonusTip: d.bonus_tip ?? '',
+      bonusDeep: d.bonus_deep ?? '',
       mechanic: d.mechanic ?? '',
       webinarCode: d.webinar_code ?? '',
       webinarLink: d.webinar_link ?? '',

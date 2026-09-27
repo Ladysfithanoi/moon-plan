@@ -16,6 +16,12 @@ export type DayRow = {
   webinar_link: string | null;
   /** Chỉ tồn tại phía server — không bao giờ đưa vào props của client component. */
   webinar_code?: string | null;
+  /**
+   * Nội dung mở khoá theo tầng hoa. Chỉ đọc ở server và chỉ đưa xuống trình
+   * duyệt khi người chơi đã đủ tầng — xem unlockedExtras() trong game.ts.
+   */
+  bonus_tip?: string | null;
+  bonus_deep?: string | null;
 };
 
 export type QuestionRow = {
@@ -46,8 +52,11 @@ export type PlayerRow = {
   points: number;
   streak: number;
   best_streak: number;
+  /** Cột của mùa trước, không còn dùng — giọt sương thay cho vé cứu. */
   freezes_left: number;
   freezes_used: number;
+  /** Tổng giọt sương được cấp riêng cho người này (chưa kể giọt từ vườn chung). */
+  dews: number;
   is_active: boolean;
   joined_at: string;
 };
@@ -57,7 +66,10 @@ export type CheckinRow = {
   correct_count: number;
   total_count: number;
   points_awarded: number;
+  /** Mùa trước dùng cho vé cứu; mùa này không còn ghi dòng nào như vậy. */
   by_freeze: boolean;
+  /** Làm bù sau ngày của nó — chỉ nhận điểm gốc, không nhân tầng. */
+  late: boolean;
   created_at: string;
 };
 
@@ -80,7 +92,15 @@ export type SubmissionRow = {
 
 export type RewardRow = {
   id: string;
-  kind: 'hop_qua' | 'tho_ngoc' | 'bonus_quiz' | 'ca_rot';
+  kind:
+    | 'hop_qua'
+    | 'hoa_bi_mat'
+    | 'tang_hoa'
+    | 'vuon_chung'
+    | 'hoi_xuan'
+    | 'moc_3'
+    | 'moc_7'
+    | 'moc_14';
   week: number | null;
   day: number | null;
   title: string;
@@ -99,8 +119,12 @@ export type CheckinResult = {
   totalCount?: number;
   /** Đáp án đúng để hiện sau khi đã nộp. */
   reveal?: { questionId: string; correctIndex: number; explain: string | null }[];
-  fragmentAwarded?: string;
+  ribbonAwarded?: string;
   gifts?: { title: string; detail: string; points: number }[];
-  freezesUsed?: number;
   streak?: number;
+  /** Tên tầng hoa và hệ số đã nhân vào điểm của lần này. */
+  tierName?: string;
+  multiplier?: number;
+  /** Lần này là học bù. */
+  late?: boolean;
 };

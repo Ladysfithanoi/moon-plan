@@ -1,17 +1,24 @@
 import 'server-only';
 import { cache } from 'react';
 import { db } from './supabase';
-import { MOON_FRAGMENTS, WEEK_THEMES } from './event';
+import { RIBBONS, WEEK_THEMES } from './event';
 import {
-  CARROT_POINTS,
+  COMEBACK_POINTS,
+  DAY_PLAN,
+  GARDEN,
+  GIFT_POINTS,
+  MILESTONES,
   MYSTERY_BOX_CHANCE,
   MYSTERY_BOX_PRIZES,
-  RABBIT_DAY_POINTS,
   SCORING,
+  SECRET_DAY_POINTS,
+  TIERS,
+  tierIndexFor,
+  type DayType,
 } from './scoring';
 
 /**
- * Những thứ Trung đổi được ở /admin/cai-dat mà không cần sửa code hay deploy lại.
+ * Những thứ đổi được ở /admin/cai-dat mà không cần sửa code hay deploy lại.
  *
  * Giá trị lưu ở bảng `settings` dạng khoá → JSON. Chưa có bản ghi nào thì dùng
  * mặc định trong code, nên app chạy được ngay cả khi chưa ai vào trang cài đặt.
@@ -28,49 +35,62 @@ export type ScoringConfig = {
   thu_thach: { base: number };
   webinar: { base: number };
   case_study: { base: number };
+  /** Hệ số nhân của 4 tầng hoa: Nụ, Hé nở, Nở rộ, Hoa hồng. */
+  multipliers: [number, number, number, number];
+  garden: { threshold: number; points: number; sunnyPerDew: number };
   mysteryBoxChance: number;
-  rabbitDayPoints: number;
-  carrotPoints: number;
+  secretDayPoints: number;
+  giftPoints: number;
+  comebackPoints: number;
 };
 
 export type AppSettings = {
   rewardTiers: RewardTier[];
   weekThemes: string[];
-  moonFragments: string[];
+  ribbons: string[];
   boxPrizes: BoxPrize[];
   scoring: ScoringConfig;
 };
 
+/**
+ * Tên khoá mùa này khác hẳn mùa Trung Thu (ribbons thay cho moon_fragments,
+ * scoring_2010 thay cho scoring) — dùng lại DB cũ thì cài đặt của mùa trước
+ * không vô tình áp vào mùa mới.
+ */
 export const SETTING_KEYS = {
-  rewardTiers: 'reward_tiers',
-  weekThemes: 'week_themes',
-  moonFragments: 'moon_fragments',
+  rewardTiers: 'reward_tiers_2010',
+  weekThemes: 'week_themes_2010',
+  ribbons: 'ribbons',
   boxPrizes: 'box_prizes',
-  scoring: 'scoring',
+  scoring: 'scoring_2010',
 } as const;
 
 // ─── Mặc định ───────────────────────────────────────────────────────────────
 
 export const DEFAULT_REWARD_TIERS: RewardTier[] = [
   {
-    title: 'Đủ 6 mảnh trăng + case study',
+    title: 'Bó hoa đủ 3 dải ruy băng + nộp case study',
     detail:
-      'Giảm sâu khoá VPTA nâng cao, chứng chỉ "Mùa trăng Precision Coach", được feature trên trang cá nhân',
+      'Giảm sâu khoá VPTA nâng cao, chứng nhận "Người thấu hiểu khách hàng nữ", được feature trên trang cá nhân',
+  },
+  {
+    title: 'Chạm tầng Hoa hồng (chuỗi 14 ngày)',
+    detail: 'Một buổi hỏi riêng 1-1 với mình, không phụ thuộc các điều kiện khác',
   },
   {
     title: 'Hoàn thành 70–99% chặng đường',
-    detail: 'Giảm giá khoá học ở mức thấp hơn, chứng chỉ tham gia',
+    detail: 'Giảm giá khoá học ở mức thấp hơn, chứng nhận tham gia',
   },
   {
     title: 'Case study xuất sắc nhất',
-    detail: '1 buổi mentor 1-1 riêng, không phụ thuộc % hoàn thành',
+    detail: '1 buổi mentor 1-1 riêng về lập kế hoạch cho khách nữ',
   },
 ];
 
 export const DEFAULT_SETTINGS: AppSettings = {
   rewardTiers: DEFAULT_REWARD_TIERS,
   weekThemes: [...WEEK_THEMES],
-  moonFragments: [...MOON_FRAGMENTS],
+  ribbons: [...RIBBONS],
   boxPrizes: MYSTERY_BOX_PRIZES.map((p) => ({ ...p })),
   scoring: {
     kien_thuc: { ...SCORING.kien_thuc },
@@ -78,9 +98,12 @@ export const DEFAULT_SETTINGS: AppSettings = {
     thu_thach: { ...SCORING.thu_thach },
     webinar: { ...SCORING.webinar },
     case_study: { ...SCORING.case_study },
+    multipliers: TIERS.map((t) => t.mult) as ScoringConfig['multipliers'],
+    garden: { ...GARDEN },
     mysteryBoxChance: MYSTERY_BOX_CHANCE,
-    rabbitDayPoints: RABBIT_DAY_POINTS,
-    carrotPoints: CARROT_POINTS,
+    secretDayPoints: SECRET_DAY_POINTS,
+    giftPoints: GIFT_POINTS,
+    comebackPoints: COMEBACK_POINTS,
   },
 };
 
@@ -109,8 +132,8 @@ function parseRewardTiers(raw: unknown): RewardTier[] {
   return out.length ? out : DEFAULT_REWARD_TIERS;
 }
 
-/** Danh sách 6 phần tử — thiếu chỗ nào lấy mặc định chỗ đó. */
-function parseSix(raw: unknown, fallback: readonly string[]): string[] {
+/** Danh sách cố định số phần tử — thiếu chỗ nào lấy mặc định chỗ đó. */
+function parseFixed(raw: unknown, fallback: readonly string[]): string[] {
   if (!Array.isArray(raw)) return [...fallback];
   return fallback.map((def, i) => str(raw[i], def));
 }
@@ -131,25 +154,37 @@ function parseBoxPrizes(raw: unknown): BoxPrize[] {
 function parseScoring(raw: unknown): ScoringConfig {
   const d = DEFAULT_SETTINGS.scoring;
   if (!raw || typeof raw !== 'object') return d;
-  const s = raw as Record<string, Record<string, unknown> | number>;
-  const grp = (k: string) => (typeof s[k] === 'object' && s[k] ? (s[k] as Record<string, unknown>) : {});
+  const s = raw as Record<string, unknown>;
+  const grp = (k: string) =>
+    typeof s[k] === 'object' && s[k] && !Array.isArray(s[k]) ? (s[k] as Record<string, unknown>) : {};
+  const int = (v: unknown, fallback: number) => Math.round(num(v, fallback, 0, 100));
+
+  const rawMult = Array.isArray(s.multipliers) ? s.multipliers : [];
+  const multipliers = d.multipliers.map((def, i) => num(rawMult[i], def, 0, 10)) as ScoringConfig['multipliers'];
 
   return {
     kien_thuc: {
-      base: Math.round(num(grp('kien_thuc').base, d.kien_thuc.base, 0, 100)),
-      perCorrect: Math.round(num(grp('kien_thuc').perCorrect, d.kien_thuc.perCorrect, 0, 100)),
+      base: int(grp('kien_thuc').base, d.kien_thuc.base),
+      perCorrect: int(grp('kien_thuc').perCorrect, d.kien_thuc.perCorrect),
     },
     quiz_tuan: {
-      base: Math.round(num(grp('quiz_tuan').base, d.quiz_tuan.base, 0, 100)),
-      bonus: Math.round(num(grp('quiz_tuan').bonus, d.quiz_tuan.bonus, 0, 100)),
+      base: int(grp('quiz_tuan').base, d.quiz_tuan.base),
+      bonus: int(grp('quiz_tuan').bonus, d.quiz_tuan.bonus),
       threshold: num(grp('quiz_tuan').threshold, d.quiz_tuan.threshold, 0, 1),
     },
-    thu_thach: { base: Math.round(num(grp('thu_thach').base, d.thu_thach.base, 0, 100)) },
-    webinar: { base: Math.round(num(grp('webinar').base, d.webinar.base, 0, 100)) },
-    case_study: { base: Math.round(num(grp('case_study').base, d.case_study.base, 0, 100)) },
+    thu_thach: { base: int(grp('thu_thach').base, d.thu_thach.base) },
+    webinar: { base: int(grp('webinar').base, d.webinar.base) },
+    case_study: { base: int(grp('case_study').base, d.case_study.base) },
+    multipliers,
+    garden: {
+      threshold: num(grp('garden').threshold, d.garden.threshold, 0, 1),
+      points: int(grp('garden').points, d.garden.points),
+      sunnyPerDew: Math.max(1, int(grp('garden').sunnyPerDew, d.garden.sunnyPerDew)),
+    },
     mysteryBoxChance: num(s.mysteryBoxChance, d.mysteryBoxChance, 0, 1),
-    rabbitDayPoints: Math.round(num(s.rabbitDayPoints, d.rabbitDayPoints, 0, 200)),
-    carrotPoints: Math.round(num(s.carrotPoints, d.carrotPoints, 0, 100)),
+    secretDayPoints: Math.round(num(s.secretDayPoints, d.secretDayPoints, 0, 200)),
+    giftPoints: int(s.giftPoints, d.giftPoints),
+    comebackPoints: int(s.comebackPoints, d.comebackPoints),
   };
 }
 
@@ -167,8 +202,8 @@ export const getSettings = cache(async (): Promise<AppSettings> => {
 
   return {
     rewardTiers: parseRewardTiers(map.get(SETTING_KEYS.rewardTiers)),
-    weekThemes: parseSix(map.get(SETTING_KEYS.weekThemes), WEEK_THEMES),
-    moonFragments: parseSix(map.get(SETTING_KEYS.moonFragments), MOON_FRAGMENTS),
+    weekThemes: parseFixed(map.get(SETTING_KEYS.weekThemes), WEEK_THEMES),
+    ribbons: parseFixed(map.get(SETTING_KEYS.ribbons), RIBBONS),
     boxPrizes: parseBoxPrizes(map.get(SETTING_KEYS.boxPrizes)),
     scoring: parseScoring(map.get(SETTING_KEYS.scoring)),
   };
@@ -183,13 +218,40 @@ export async function saveSetting(key: string, value: unknown): Promise<{ error?
   return error ? { error: error.message } : {};
 }
 
-/** Tổng điểm tối đa của cả mùa, tính theo bảng điểm đang dùng. */
+// ─── Tính điểm ──────────────────────────────────────────────────────────────
+
+/** Điểm gốc tối đa của một loại ngày, chưa nhân tầng. */
+export function rawPointsFor(type: DayType, s: ScoringConfig, questions = 1): number {
+  switch (type) {
+    case 'kien_thuc':
+      return s.kien_thuc.base + questions * s.kien_thuc.perCorrect;
+    case 'quiz_tuan':
+      return s.quiz_tuan.base + s.quiz_tuan.bonus;
+    case 'thu_thach':
+      return s.thu_thach.base;
+    case 'webinar':
+      return s.webinar.base;
+    case 'case_study':
+      return s.case_study.base;
+    default:
+      return 0;
+  }
+}
+
+/** Nhân điểm gốc với hệ số của tầng, làm tròn về số nguyên. */
+export function applyMultiplier(raw: number, tier: number, s: ScoringConfig): number {
+  return Math.round(raw * (s.multipliers[tier] ?? 1));
+}
+
+/**
+ * Tổng điểm tối đa của cả mùa, tính theo bảng điểm đang dùng: học đều từ ngày
+ * đầu, đúng hết mỗi ngày một câu, cộng thưởng các mốc tầng. Chưa tính quà ngẫu
+ * nhiên và vườn chung.
+ */
 export function maxPoints(s: ScoringConfig): number {
-  return (
-    24 * (s.kien_thuc.base + s.kien_thuc.perCorrect) +
-    6 * (s.quiz_tuan.base + s.quiz_tuan.bonus) +
-    6 * s.thu_thach.base +
-    6 * s.webinar.base +
-    4 * s.case_study.base
-  );
+  let total = 0;
+  DAY_PLAN.forEach((type, i) => {
+    total += applyMultiplier(rawPointsFor(type, s), tierIndexFor(i + 1), s);
+  });
+  return total + MILESTONES.reduce((sum, m) => sum + m.points, 0);
 }

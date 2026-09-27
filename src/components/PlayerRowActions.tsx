@@ -76,17 +76,19 @@ function EditForm({ player, onClose }: { player: PlayerRow; onClose: () => void 
           placeholder="Messenger / Zalo / SĐT"
         />
       </div>
-      <div className="field" style={{ maxWidth: 180 }}>
-        <label htmlFor={`freezes-${player.id}`}>Vé cứu</label>
+      <div className="field" style={{ maxWidth: 220 }}>
+        <label htmlFor={`dews-${player.id}`}>Giọt sương được cấp</label>
         <input
-          id={`freezes-${player.id}`}
-          name="freezes_left"
+          id={`dews-${player.id}`}
+          name="dews"
           type="number"
           min={0}
-          max={10}
-          defaultValue={player.freezes_left}
+          max={20}
+          defaultValue={player.dews}
         />
-        <span className="hint">số vé cứu còn lại</span>
+        <span className="hint">
+          tổng cấp riêng, đang dùng {player.freezes_used} — muốn tặng thêm thì tăng số này
+        </span>
       </div>
       <label style={{ fontSize: 13, display: 'block', marginBottom: 4 }}>
         <input
@@ -147,7 +149,7 @@ function DeleteForm({ player, onClose }: { player: PlayerRow; onClose: () => voi
       </div>
 
       <ul className="confirm-list">
-        <li>Mất sạch check-in, câu trả lời, mảnh trăng và bài đã nộp.</li>
+        <li>Mất sạch check-in, câu trả lời, ruy băng và bài đã nộp.</li>
         <li>File đính kèm trong kho cũng bị xoá theo.</li>
         <li>Không khôi phục lại được.</li>
       </ul>

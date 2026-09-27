@@ -4,7 +4,7 @@
  *
  *   npm run make-codes -- 50
  *
- * In ra danh sách mã dạng CSV để Trung gửi qua Messenger.
+ * In ra danh sách mã dạng CSV để gửi qua Messenger.
  * Trang admin cũng tạo được từng mã một — script này dành cho lúc mở màn.
  */
 
@@ -38,7 +38,7 @@ const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 function makeCode() {
   let s = '';
   for (let i = 0; i < 4; i++) s += ALPHABET[randomInt(ALPHABET.length)];
-  return `THO-${s}`;
+  return `HOA-${s}`;
 }
 
 const db = createClient(url, key, { auth: { persistSession: false } });
@@ -57,7 +57,7 @@ while (codes.length < n) {
 const rows = codes.map((code, i) => ({
   code,
   display_name: `Người chạy ${String(i + 1).padStart(3, '0')}`,
-  freezes_left: 2,
+  dews: 2,
 }));
 
 const { error } = await db.from('players').insert(rows);

@@ -20,7 +20,7 @@ export default function TopBar({
             ))}
           </nav>
         ) : (
-          <span className="season-tag">MÙA TRĂNG · 2026</span>
+          <span className="season-tag">20/10 · 2026</span>
         )}
       </div>
     </header>

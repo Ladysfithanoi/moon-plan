@@ -3,6 +3,8 @@ import ActionForm from '@/components/ActionForm';
 import RepeatableRows from '@/components/RepeatableRows';
 import { isAdmin } from '@/lib/session';
 import { SETTING_KEYS, getSettings, maxPoints } from '@/lib/settings';
+import { RIBBON_WEEKS, TOTAL_DAYS, WEEKS } from '@/lib/event';
+import { TIERS } from '@/lib/scoring';
 import {
   resetSetting,
   saveBoxPrizes,
@@ -51,7 +53,7 @@ export default async function CaiDatPage() {
           </p>
           <h2 className="section-title">Bậc thưởng cuối sự kiện</h2>
           <p className="lede">
-            Đây là phần hiện ngay trên trang giới thiệu, mục &quot;Đêm hội trăng rằm, 25/09&quot; —
+            Đây là phần hiện ngay trên trang giới thiệu, mục &quot;Buổi hội 20/10&quot; —
             thứ học viên đọc trước khi quyết định tham gia. Tiêu đề là điều kiện đạt được, phần mô tả
             là quyền lợi.
           </p>
@@ -68,7 +70,7 @@ export default async function CaiDatPage() {
                 {
                   name: 'tier_title',
                   label: 'Điều kiện đạt được',
-                  placeholder: 'vd: Đủ 6 mảnh trăng + case study',
+                  placeholder: 'vd: Bó hoa đủ 3 dải ruy băng + case study',
                 },
                 {
                   name: 'tier_detail',
@@ -87,50 +89,60 @@ export default async function CaiDatPage() {
         </div>
       </section>
 
-      {/* ─── Chủ đề tuần & mảnh trăng ─────────────────────────────────── */}
+      {/* ─── Chủ đề tuần & ruy băng ───────────────────────────────────── */}
       <section className="fade-in">
         <div className="wrap-wide">
           <p className="eyebrow">
             <span className="rule" />
-            <span>Sáu chặng</span>
+            <span>{WEEKS.length} chặng</span>
           </p>
-          <h2 className="section-title">Chủ đề tuần và tên mảnh trăng</h2>
+          <h2 className="section-title">Chủ đề tuần và tên ruy băng</h2>
           <p className="lede">
-            Tên này hiện ở trang giới thiệu, ở vòng trăng của người chơi và ở bảng vinh danh. Đổi tên
-            mảnh trăng không làm mất mảnh ai đã thu — nhưng mảnh đã trao vẫn giữ tên cũ.
+            Tên này hiện ở trang giới thiệu, ở trang cành hoa của người chơi và ở bảng vinh danh. Đổi
+            tên ruy băng không làm mất dải ai đã nhận — nhưng dải đã trao vẫn giữ tên cũ.
           </p>
 
           <ActionForm
             action={saveWeekLabels}
-            submitLabel="Lưu sáu chặng"
+            submitLabel="Lưu các chặng"
             style={{ maxWidth: 680, marginTop: 26 }}
           >
-            {s.weekThemes.slice(0, 6).map((theme, i) => (
-              <div className="repeat-row" key={i}>
+            {WEEKS.map((w, i) => (
+              <div className="repeat-row" key={w.week}>
                 <div className="repeat-head">
-                  <span className="repeat-index mono">Tuần {i + 1}</span>
+                  <span className="repeat-index mono">
+                    {i < RIBBON_WEEKS ? `Tuần ${w.week}` : 'Về đích'} · ngày {w.first}–{w.last}
+                  </span>
                 </div>
                 <div className="field">
                   <label htmlFor={`theme-${i}`}>Chủ đề</label>
-                  <input id={`theme-${i}`} name="week_theme" type="text" defaultValue={theme} required />
-                </div>
-                <div className="field">
-                  <label htmlFor={`frag-${i}`}>Tên mảnh trăng</label>
                   <input
-                    id={`frag-${i}`}
-                    name="moon_fragment"
+                    id={`theme-${i}`}
+                    name="week_theme"
                     type="text"
-                    defaultValue={s.moonFragments[i] ?? ''}
+                    defaultValue={s.weekThemes[i] ?? ''}
                     required
                   />
                 </div>
+                {i < RIBBON_WEEKS ? (
+                  <div className="field">
+                    <label htmlFor={`ribbon-${i}`}>Tên ruy băng (trao ở Trạm hoa tuần này)</label>
+                    <input
+                      id={`ribbon-${i}`}
+                      name="ribbon"
+                      type="text"
+                      defaultValue={s.ribbons[i] ?? ''}
+                      required
+                    />
+                  </div>
+                ) : null}
               </div>
             ))}
           </ActionForm>
 
           <div style={{ marginTop: 14 }} className="btn-row">
             <ResetButton settingKey={SETTING_KEYS.weekThemes} label="Khôi phục chủ đề mặc định" />
-            <ResetButton settingKey={SETTING_KEYS.moonFragments} label="Khôi phục tên mảnh trăng" />
+            <ResetButton settingKey={SETTING_KEYS.ribbons} label="Khôi phục tên ruy băng" />
           </div>
         </div>
       </section>
@@ -246,11 +258,11 @@ export default async function CaiDatPage() {
                   <input id="tt_base" name="tt_base" type="number" min={0} max={100} defaultValue={s.scoring.thu_thach.base} />
                 </div>
                 <div className="field">
-                  <label htmlFor="wb_base">Webinar</label>
+                  <label htmlFor="wb_base">Trạm hoa</label>
                   <input id="wb_base" name="wb_base" type="number" min={0} max={100} defaultValue={s.scoring.webinar.base} />
                 </div>
                 <div className="field">
-                  <label htmlFor="cs_base">Mỗi phần case study</label>
+                  <label htmlFor="cs_base">Case study về đích</label>
                   <input id="cs_base" name="cs_base" type="number" min={0} max={100} defaultValue={s.scoring.case_study.base} />
                 </div>
               </div>
@@ -258,7 +270,55 @@ export default async function CaiDatPage() {
 
             <div className="repeat-row">
               <div className="repeat-head">
-                <span className="repeat-index mono">Phần thưởng ngẫu nhiên</span>
+                <span className="repeat-index mono">Hệ số nhân theo tầng hoa</span>
+              </div>
+              <div className="settings-grid">
+                {TIERS.map((t, i) => (
+                  <div className="field" key={t.key}>
+                    <label htmlFor={`mult_${i}`}>
+                      {t.name} ({t.min === 0 ? '1–2 ngày' : `từ ${t.min} ngày`})
+                    </label>
+                    <input
+                      id={`mult_${i}`}
+                      name={`mult_${i}`}
+                      type="number"
+                      step="0.1"
+                      min={0}
+                      max={10}
+                      defaultValue={s.scoring.multipliers[i]}
+                    />
+                  </div>
+                ))}
+              </div>
+              <span className="hint">
+                Điểm gốc của ngày học đúng hạn nhân với hệ số này rồi làm tròn. Học bù luôn nhận điểm gốc.
+              </span>
+            </div>
+
+            <div className="repeat-row">
+              <div className="repeat-head">
+                <span className="repeat-index mono">Vườn chung</span>
+              </div>
+              <div className="settings-grid">
+                <div className="field">
+                  <label htmlFor="garden_threshold">Ngưỡng nắng (% cả lớp)</label>
+                  <input id="garden_threshold" name="garden_threshold" type="number" min={0} max={100} defaultValue={Math.round(s.scoring.garden.threshold * 100)} />
+                </div>
+                <div className="field">
+                  <label htmlFor="garden_points">Điểm cho ai góp mặt ngày nắng</label>
+                  <input id="garden_points" name="garden_points" type="number" min={0} max={100} defaultValue={s.scoring.garden.points} />
+                </div>
+                <div className="field">
+                  <label htmlFor="garden_per_dew">Số ngày nắng đổi 1 giọt sương</label>
+                  <input id="garden_per_dew" name="garden_per_dew" type="number" min={1} max={20} defaultValue={s.scoring.garden.sunnyPerDew} />
+                  <span className="hint">Giọt này cộng cho tất cả mọi người.</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="repeat-row">
+              <div className="repeat-head">
+                <span className="repeat-index mono">Phần thưởng khác</span>
               </div>
               <div className="settings-grid">
                 <div className="field">
@@ -266,13 +326,18 @@ export default async function CaiDatPage() {
                   <input id="box_chance" name="box_chance" type="number" min={0} max={100} defaultValue={Math.round(s.scoring.mysteryBoxChance * 100)} />
                 </div>
                 <div className="field">
-                  <label htmlFor="rabbit_points">Điểm Ngày Thỏ Ngọc</label>
-                  <input id="rabbit_points" name="rabbit_points" type="number" min={0} max={100} defaultValue={s.scoring.rabbitDayPoints} />
+                  <label htmlFor="secret_points">Điểm Bông hoa bí mật</label>
+                  <input id="secret_points" name="secret_points" type="number" min={0} max={100} defaultValue={s.scoring.secretDayPoints} />
                   <span className="hint">Chỉ áp dụng cho ngày bí mật đặt sau này.</span>
                 </div>
                 <div className="field">
-                  <label htmlFor="carrot_points">Điểm mỗi củ cà rốt</label>
-                  <input id="carrot_points" name="carrot_points" type="number" min={0} max={100} defaultValue={s.scoring.carrotPoints} />
+                  <label htmlFor="gift_points">Điểm mỗi lần tặng hoa</label>
+                  <input id="gift_points" name="gift_points" type="number" min={0} max={100} defaultValue={s.scoring.giftPoints} />
+                </div>
+                <div className="field">
+                  <label htmlFor="comeback_points">Thưởng hồi xuân</label>
+                  <input id="comeback_points" name="comeback_points" type="number" min={0} max={100} defaultValue={s.scoring.comebackPoints} />
+                  <span className="hint">Khi cây đang ngủ và người chơi quay lại học 3 ngày liền.</span>
                 </div>
               </div>
             </div>
@@ -286,8 +351,8 @@ export default async function CaiDatPage() {
 
       <footer>
         <div className="wrap-wide">
-          Số ngày của sự kiện cố định ở 47 — đó là khoảng cách từ 10/08 tới đêm rằm 25/09, và vòng
-          cung khép kín dựa vào đúng con số đó.
+          Số ngày của sự kiện cố định ở {TOTAL_DAYS} — từ 01/10 tới 20/10. Cành hoa, khung tuần và
+          ngày Trạm hoa đều dựa vào đúng lịch đó.
         </div>
       </footer>
     </>

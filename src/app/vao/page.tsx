@@ -21,19 +21,19 @@ export default async function VaoPage() {
         <div className="wrap">
           <p className="eyebrow">
             <span className="rule" />
-            <span>Vào chặng đường</span>
+            <span>Vào cành hoa</span>
           </p>
           <h1 className="display">Mã của bạn</h1>
           <p className="body">
-            Mỗi người chạy có một mã riêng. Nhập mã vào đây là bạn thấy được vòng trăng của mình —
-            không cần mật khẩu, không cần đăng ký thêm gì.
+            Mỗi người có một mã riêng. Nhập mã vào đây là bạn thấy được cành hoa của mình — không
+            cần mật khẩu, không cần đăng ký thêm gì.
           </p>
 
           <LoginForm />
 
           {beforeStart ? (
             <p className="notice info" style={{ marginTop: 22 }}>
-              Sự kiện khởi động ngày 10/08/2026. Nếu bạn chưa có mã, comment &quot;THAM GIA&quot; dưới
+              Sự kiện khởi động ngày 01/10/2026. Nếu bạn chưa có mã, comment &quot;THAM GIA&quot; dưới
               bài khởi động trên trang TrungPrecisionCoach — mình sẽ gửi mã qua Messenger.
             </p>
           ) : (

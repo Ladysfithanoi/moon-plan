@@ -1,199 +1,261 @@
 [
   {
-    "day": 15,
-    "date": "2026-08-24",
+    "day": 12,
+    "date": "2026-10-12",
     "weekday": "Thứ Hai",
     "week": 3,
     "phase": "Scaffolding",
-    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
+    "week_theme": "Dinh dưỡng, thèm ăn & phòng chấn thương",
     "day_type": "kien_thuc",
-    "title": "Vì sao một giáo án cho tất cả là sai",
-    "body": "Hai tuần đầu là về đầu người khách. Từ tuần này mình quay về cơ thể.\n\nỞ cùng một mức phần trăm cường độ tối đa, nữ giới nhìn chung **chịu mỏi tốt hơn và hồi phục giữa các set nhanh hơn** nam. Nguyên nhân đến từ vài chỗ: tỉ lệ sợi cơ type I (chậm, bền, ưa oxy) thường cao hơn, mật độ mao mạch tương đối tốt hơn, và trong vận động dưới ngưỡng tối đa họ **oxy hoá mỡ nhiều hơn, dùng glycogen ít hơn** — một phần nhờ ảnh hưởng của estrogen lên chuyển hoá cơ chất.\n\nHệ quả rất thực tế với giáo án. Cùng một bài squat ở 70% 1RM, khách nữ của bạn thường làm được nhiều rep hơn tỉ lệ dự đoán, và nghỉ 90 giây có thể đã đủ trong khi khách nam cần 3 phút. Nếu bạn bê nguyên một mẫu giáo án viết cho nam sang, bạn thường **cho khách nữ nghỉ quá nhiều và tổng khối lượng quá thấp** — rồi kết luận là họ tiến bộ chậm.\n\nKhác biệt ở đây là khác biệt trung bình giữa hai nhóm, không phải luật áp cho từng cá nhân. Nhưng nó đủ lớn để đáng đưa vào lúc thiết kế.",
-    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "title": "Thuốc tránh thai có làm tăng cân không?",
+    "body": "Một trong những hiểu lầm phổ biến nhất: thuốc tránh thai chắc chắn làm tăng cân. Thực tế phụ thuộc nhiều vào **loại** thuốc.\n\n**Loại kết hợp** (estrogen + progestin) dường như không gây tăng cân. Một phân tích tổng hợp kết luận: ba thử nghiệm ngẫu nhiên có đối chứng giả dược không tìm thấy bằng chứng rằng thuốc uống kết hợp hay miếng dán kết hợp gây tăng cân. Phần lớn so sánh trong 40 thử nghiệm đối đầu giữa các loại kết hợp cũng không thấy khác biệt đáng kể về cân nặng, và tỉ lệ bỏ thuốc vì tăng cân không khác giữa các nhóm. Các tác giả nói chưa thể chắc chắn tuyệt đối, nhưng “không thấy tác động lớn”.\n\n**Loại chỉ có progestin** thì khác một chút. Một tổng quan hệ thống thấy bằng chứng hạn chế về tăng cân: mức tăng trung bình **dưới 2kg** trong phần lớn nghiên cứu, theo dõi tới 12 tháng, và thường không khác đáng kể so với nhóm dùng biện pháp khác. Tuy vậy, hai nghiên cứu có đo thành phần cơ thể thấy người dùng loại này tăng mỡ nhiều hơn và giảm khối nạc so với người dùng biện pháp không nội tiết.\n\nDạng **tiêm** (Depo-Provera) có thể tăng nhiều hơn dạng uống hay cấy. Một nghiên cứu theo dõi 703 phụ nữ thấy nhóm dùng Depo-Provera tăng cân nhiều hơn **5,1kg**, tăng mỡ nhiều hơn **4,1kg** và tỉ lệ mỡ cao hơn 3,4% so với nhóm dùng thuốc uống kết hợp hoặc biện pháp không nội tiết.\n\nNhưng có thể không phải bản thân progesterone gây tăng cân — thứ quyết định vẫn là cân bằng năng lượng — mà là **tác động của progesterone lên cảm giác thèm ăn**. Đó là chủ đề của ngày mai.",
+    "mechanic": "Hoa nở một bông: có mặt 1đ + mỗi câu đúng 1đ, nhân theo tầng",
+    "bonus_tip": "Khách lo “uống thuốc sẽ béo”: “Với loại kết hợp, các thử nghiệm có đối chứng không thấy tăng cân đáng kể. Loại chỉ có progestin, nhất là dạng tiêm, có thể làm tăng cân — chủ yếu qua việc thèm ăn hơn. Chọn loại nào là việc của em và bác sĩ; phần anh/chị là giúp em giữ nhịp ăn và tập.”",
+    "bonus_deep": "**Đọc con số 5,1kg thế nào cho đúng**\n\nĐây là chênh lệch so với nhóm đối chứng, trong một nghiên cứu theo dõi dài — không phải mức ai dùng Depo-Provera cũng sẽ tăng. Nhưng nó đủ lớn để PT chủ động: nếu khách bắt đầu dùng dạng tiêm, hãy theo dõi cảm giác đói, thay đổi khẩu phần và vòng eo sát hơn trong vài tháng đầu, thay vì đợi tới lúc cân đã tăng rồi mới xử lý.\n\n**Vì sao cân bằng năng lượng vẫn là gốc**\n\nNếu progesterone làm tăng cân chủ yếu qua thèm ăn, thì tăng cân không phải điều chắc chắn — môi trường ăn uống, cấu trúc bữa ăn và kế hoạch cho những lúc đói hơn vẫn tạo ra khác biệt. Đó là chỗ PT giúp được nhiều nhất.",
     "questions": [
       {
-        "prompt": "Ở cùng mức phần trăm cường độ tối đa, đặc điểm nào thường đúng với nữ giới hơn?",
+        "prompt": "Theo phân tích tổng hợp, thuốc tránh thai kết hợp (estrogen + progestin) và cân nặng thì sao?",
         "options": [
-          "Mệt nhanh hơn và cần nghỉ lâu hơn giữa các set",
-          "Chịu mỏi tốt hơn và hồi phục giữa các set nhanh hơn",
-          "Sinh lực tối đa tuyệt đối cao hơn",
-          "Dùng glycogen nhiều hơn trong vận động dưới ngưỡng tối đa"
+          "Gây tăng trung bình 5kg",
+          "Gây giảm cân",
+          "Chỉ gây tăng cân ở người tập tạ",
+          "Không thấy bằng chứng gây tăng cân đáng kể"
+        ],
+        "correct_index": 3,
+        "explain": "Ba thử nghiệm có đối chứng giả dược không thấy quan hệ nhân quả; phần lớn so sánh giữa các loại kết hợp không thấy khác biệt đáng kể."
+      },
+      {
+        "prompt": "Dạng nào có dữ liệu tăng cân rõ nhất trong bài?",
+        "options": [
+          "Thuốc tiêm chỉ có progestin (Depo-Provera)",
+          "Miếng dán kết hợp",
+          "Thuốc uống kết hợp",
+          "Biện pháp không nội tiết"
+        ],
+        "correct_index": 0,
+        "explain": "Nghiên cứu 703 phụ nữ: nhóm Depo-Provera tăng nhiều hơn 5,1kg cân và 4,1kg mỡ so với nhóm thuốc uống kết hợp hoặc biện pháp không nội tiết."
+      }
+    ]
+  },
+  {
+    "day": 13,
+    "date": "2026-10-13",
+    "weekday": "Thứ Ba",
+    "week": 3,
+    "phase": "Scaffolding",
+    "week_theme": "Dinh dưỡng, thèm ăn & phòng chấn thương",
+    "day_type": "kien_thuc",
+    "title": "Pha hoàng thể: ăn nhiều hơn, và cũng đốt nhiều hơn",
+    "body": "Estrogen và progesterone tác động ngược nhau lên việc ăn. **Estrogen** có xu hướng giảm cảm giác thèm ăn và lượng ăn (nhiều khả năng qua việc tăng nhạy leptin ở não), còn **progesterone** làm tăng.\n\nSo sánh lượng ăn giữa hai pha: trong 30 nghiên cứu với 37 nhóm phụ nữ, **27 nhóm ăn nhiều hơn ở pha hoàng thể**, 7 nhóm không khác biệt, 4 nhóm ăn nhiều hơn một chút (không có ý nghĩa thống kê) ở pha nang noãn. Mức tăng điển hình ở pha hoàng thể là **90–500 kcal mỗi ngày**.\n\nPhần lớn lượng ăn thêm đó được bù lại. Progesterone nâng điểm đặt thân nhiệt ở não, và cùng với thân nhiệt cao hơn là tiêu hao năng lượng tăng **2,5–11,5%** (khoảng **89–279 kcal mỗi ngày**).\n\nDễ thấy hai con số không khớp hoàn toàn ở phía trên: ăn thêm 500 kcal mà chỉ đốt thêm 279 kcal. Một giả thuyết cho sự khác biệt giữa phụ nữ cân nặng bình thường và phụ nữ béo phì: nhóm sau **kém nhạy với tác dụng giảm thèm ăn của estrogen** — ăn tăng nhiều hơn ở pha hoàng thể, nhưng không giảm đủ ở pha nang noãn để bù lại.\n\nPha hoàng thể cũng không phải lúc lý tưởng để ăn quá. Progesterone thúc đẩy tích mỡ qua **lipoprotein lipase** ở mô mỡ, và làm giảm axit béo trong máu — điều này có thể làm tăng thèm đồ béo. Cũng có bằng chứng (còn mâu thuẫn) rằng độ nhạy insulin giảm nhẹ ở pha này.\n\nỞ pha hoàng thể, người ta thèm đủ cả đạm, tinh bột lẫn chất béo — phản ánh sở thích riêng và việc đói hơn nói chung. Và thành thật mà nói, **85% phụ nữ** thừa nhận chiều theo cơn thèm ít nhất một nửa số lần.\n\nVới PT: đừng biến chuyện này thành đạo đức. Lên kế hoạch cho nó.",
+    "mechanic": "Hoa nở một bông: có mặt 1đ + mỗi câu đúng 1đ, nhân theo tầng",
+    "bonus_tip": "Thay vì cấm, lên kế hoạch: “Tuần trước kỳ, em có thể thấy đói hơn chừng một bữa phụ. Mình để sẵn một bữa phụ nhỏ có đạm và món tinh bột em thích.” Cơn thèm có chỗ trong kế hoạch thì ít phá kế hoạch hơn — và tiêu hao tăng ở pha này đã gánh bớt một phần.",
+    "bonus_deep": "**Vì sao con số 90–500 kcal rộng như vậy?**\n\nMột phần vì mỗi nghiên cứu đo khác nhau, một phần vì mỗi người khác nhau — đặc biệt là mức độ triệu chứng tiền kinh (ngày mai sẽ thấy rõ). Với một khách cụ thể, cách tốt nhất vẫn là quan sát hai, ba chu kỳ: tuần nào khách đói hơn, đói vào giờ nào, thèm món gì.\n\n**Giả thuyết về độ nhạy estrogen**\n\nNếu một khách giảm cân rất tốt ở nửa đầu chu kỳ nhưng “vỡ” ở tuần tiền kinh, tháng nào cũng vậy, đó chính là mô hình giả thuyết này mô tả. Cách tiếp cận hợp lý là không siết thêm ở nửa đầu, mà dựng sẵn cấu trúc cho tuần tiền kinh: bữa phụ dự trù, món ngọt có kiểm soát, và mục tiêu “giữ” thay vì “giảm” trong tuần đó.",
+    "questions": [
+      {
+        "prompt": "Trong 37 nhóm phụ nữ từ 30 nghiên cứu, bao nhiêu nhóm ăn nhiều hơn ở pha hoàng thể?",
+        "options": ["4", "7", "27", "37"],
+        "correct_index": 2,
+        "explain": "27 nhóm ăn nhiều hơn ở pha hoàng thể, 7 nhóm không khác biệt, 4 nhóm ăn nhiều hơn một chút ở pha nang noãn."
+      },
+      {
+        "prompt": "Vì sao lượng ăn thêm ở pha hoàng thể phần lớn được bù lại?",
+        "options": [
+          "Vì cơ thể ngừng hấp thu chất béo",
+          "Vì progesterone nâng điểm đặt thân nhiệt, làm tiêu hao năng lượng tăng khoảng 2,5–11,5%",
+          "Vì estrogen đốt mỡ trực tiếp",
+          "Vì phụ nữ tập gấp đôi ở pha này"
         ],
         "correct_index": 1,
-        "explain": "Tỉ lệ sợi type I cao hơn và xu hướng oxy hoá mỡ nhiều hơn giúp nữ giới bền hơn ở cùng cường độ tương đối. Điều này cho phép rút ngắn thời gian nghỉ và tăng tổng khối lượng."
+        "explain": "Thân nhiệt cao hơn kéo theo chuyển hoá cao hơn — khoảng 89–279 kcal mỗi ngày."
+      }
+    ]
+  },
+  {
+    "day": 14,
+    "date": "2026-10-14",
+    "weekday": "Thứ Tư",
+    "week": 3,
+    "phase": "Scaffolding",
+    "week_theme": "Dinh dưỡng, thèm ăn & phòng chấn thương",
+    "day_type": "kien_thuc",
+    "title": "Serotonin, sô-cô-la và magie",
+    "body": "Không phải ai cũng thèm ăn với tần suất và cường độ như nhau. Yếu tố dự đoán mạnh nhất là **triệu chứng trầm cảm**. Những người thấy buồn bã, sa sút hơn ở giai đoạn tiền kinh (kể cả người bị PMDD) có nhiều cơn thèm hơn và mạnh hơn — nhiều khả năng liên quan tới **serotonin**, chạm mức thấp nhất ngay trước kỳ kinh. Người có triệu chứng PMS nặng hơn thường có serotonin tiền kinh thấp hơn, và thèm nhiều hơn.\n\nVà thứ được thèm nhiều nhất? **Sô-cô-la.** Nghe như khuôn mẫu, nhưng đó là điều nghiên cứu ghi nhận. Không phải do bột cacao có tác dụng như thuốc — bột cacao không cải thiện tâm trạng và serotonin được như vậy. Điều quan trọng, theo các tác giả, là **trải nghiệm cảm giác**: mùi thơm, vị ngọt, kết cấu. Cảm nhận vị ngọt cũng thay đổi theo chu kỳ — ở giai đoạn tiền kinh, sô-cô-la không chỉ “có vẻ” ngon hơn mà thực sự có vị và mùi ngon hơn với người ăn.\n\nThêm vào đó, **chủ động ăn tinh bột** đã được chứng minh giúp giảm một phần triệu chứng PMS.\n\nMột điều nữa: **vitex agnus castus** (quả cây trinh nữ) giúp giảm **một nửa** triệu chứng ở khoảng **50%** phụ nữ dùng liên tục từ ba chu kỳ trở lên.\n\nCòn **magie**: một số triệu chứng như đau đầu và co thắt có thể liên quan tới mất cân bằng canxi – magie. Canxi cần cho co cơ, chủ yếu là cơ trơn quanh mạch máu; magie làm điều ngược lại — giúp cơ trơn và thần kinh thư giãn. Tỉ lệ canxi/magie tăng ở cuối pha hoàng thể, và tỉ lệ này từng được thấy gây co thắt cơ, góp phần khởi phát đau nửa đầu và đau đầu căng thẳng. Tác giả gợi ý bổ sung magie từ vài ngày trước khi triệu chứng thường bắt đầu cho tới đầu kỳ kinh.\n\nTóm lại cho khách có PMS: giữ tổng năng lượng, tăng tỉ lệ tinh bột, để sô-cô-la có chỗ trong thực đơn. Còn magie và vitex là **thực phẩm bổ sung** — khách nên hỏi bác sĩ hoặc dược sĩ, PT không kê.",
+    "mechanic": "Hoa nở một bông: có mặt 1đ + mỗi câu đúng 1đ, nhân theo tầng",
+    "bonus_tip": "Kế hoạch “sô-cô-la có chủ đích” cho tuần tiền kinh: giữ tổng calo như cũ, chuyển một phần chất béo sang tinh bột, và để sẵn một phần sô-cô-la nhỏ mỗi ngày. Khách ăn trong kế hoạch thì không có cảm giác “phá luật” — và ít ăn bù hơn.",
+    "bonus_deep": "**Vì sao cơ xương ít bị ảnh hưởng hơn cơ trơn?**\n\nCơ xương có kho canxi riêng trong lưới cơ tương, nên ít phụ thuộc vào dao động nhỏ của canxi trong máu. Cơ trơn — như cơ quanh mạch máu — thì nhạy hơn nhiều. Đó là lý do mất cân bằng canxi/magie được nghĩ tới với đau đầu và co thắt, chứ không phải với sức mạnh khi tập.\n\n**Khi nào không còn là chuyện ăn uống**\n\nThèm ăn mạnh đi kèm tâm trạng sa sút nặng, lặp lại mỗi chu kỳ, ảnh hưởng công việc và các mối quan hệ — có thể là PMDD. Phần của PT là lắng nghe không phán xét và gợi ý khách gặp bác sĩ. Một kế hoạch ăn khéo tới đâu cũng không thay được việc đó.",
+    "questions": [
+      {
+        "prompt": "Yếu tố dự đoán mạnh nhất cho tần suất và cường độ thèm ăn tiền kinh là gì?",
+        "options": [
+          "Cân nặng",
+          "Tuổi",
+          "Triệu chứng trầm cảm, tâm trạng sa sút ở giai đoạn tiền kinh",
+          "Số buổi tập mỗi tuần"
+        ],
+        "correct_index": 2,
+        "explain": "Người có tâm trạng sa sút hơn ở giai đoạn tiền kinh (kể cả PMDD) thèm nhiều và mạnh hơn — nhiều khả năng liên quan tới serotonin thấp."
+      },
+      {
+        "prompt": "Theo bài, vì sao sô-cô-la giúp dễ chịu hơn ở giai đoạn tiền kinh?",
+        "options": [
+          "Vì trải nghiệm cảm giác — mùi, vị ngọt, kết cấu — và vị ngọt được cảm nhận rõ hơn ở giai đoạn này",
+          "Vì bột cacao là chất tăng serotonin mạnh",
+          "Vì sô-cô-la làm giảm estrogen",
+          "Vì sô-cô-la giàu đạm"
+        ],
+        "correct_index": 0,
+        "explain": "Bột cacao không tạo hiệu ứng tương tự. Thứ quan trọng là trải nghiệm cảm giác, và vị ngọt thực sự được cảm nhận khác đi ở giai đoạn tiền kinh."
+      },
+      {
+        "prompt": "Tỉ lệ canxi/magie tăng ở cuối pha hoàng thể có thể liên quan tới triệu chứng nào?",
+        "options": [
+          "Tăng sức mạnh",
+          "Đau đầu và co thắt, chuột rút",
+          "Rụng tóc",
+          "Mất ngủ do estrogen"
+        ],
+        "correct_index": 1,
+        "explain": "Canxi thúc đẩy co cơ trơn, magie giúp thư giãn. Tỉ lệ canxi/magie cao từng được thấy gây co thắt và góp phần gây đau nửa đầu, đau đầu căng thẳng."
+      }
+    ]
+  },
+  {
+    "day": 15,
+    "date": "2026-10-15",
+    "weekday": "Thứ Năm",
+    "week": 3,
+    "phase": "Scaffolding",
+    "week_theme": "Dinh dưỡng, thèm ăn & phòng chấn thương",
+    "day_type": "kien_thuc",
+    "title": "Đầu gối, dây chằng chéo trước và chu kỳ",
+    "body": "Nữ vận động viên thi đấu có tỉ lệ chấn thương cao hơn nam — nhất là đứt **dây chằng chéo trước (ACL)**.\n\nLâu nay người ta cho rằng nguyên nhân chính là **góc Q** lớn hơn (góc giữa đường từ gai chậu trước dưới tới xương bánh chè và đường thẳng đứng). Nhưng một tổng quan trên bệnh nhân thay khớp gối thấy chênh lệch góc Q **là do chiều cao, không phải giới tính**: phụ nữ thường thấp hơn nên góc Q lớn hơn; so nam và nữ cùng chiều cao thì không khác. Tổng quan này cũng thấy phụ nữ không thực sự có hông rộng hơn nam. (Lưu ý: mẫu là người cần mổ gối, nên chưa chắc đại diện cho mọi người.) Và dù sao thì góc Q chỉ mô tả gối **lúc đứng yên**, còn chấn thương ACL xảy ra **khi vận động**.\n\nKhi so sánh nam và nữ ở các động tác đổi hướng, bật nhảy, tiếp đất từ bục, có khác biệt rõ về **cơ học khớp** khiến nữ chịu nguy cơ ACL cao hơn.\n\nPha chu kỳ cũng góp phần. Estrogen làm khớp và dây chằng **lỏng hơn một chút**, và độ lỏng gối cao nhất lúc estrogen đạt đỉnh — quanh rụng trứng — cả lúc nghỉ lẫn khi đổi hướng, tiếp đất. Vài nghiên cứu thấy chấn thương ACL tập trung nhiều quanh rụng trứng. Nhưng số khác lại thấy nguy cơ cao hơn ở **mấy ngày đầu hành kinh** so với pha hoàng thể — tức estrogen không giải thích được hết, và progesterone có thể đóng vai trò bảo vệ. Dù vậy, kể cả ở pha hoàng thể, phụ nữ vẫn có nguy cơ cao hơn nam nhiều lần, vì khác biệt trong cách tiếp đất và đổi hướng.\n\nNhưng không nhất thiết phải như vậy. **Nữ vũ công** có tỉ lệ đứt ACL thấp ngang nam vũ công, và thấp hơn nhiều so với nữ vận động viên các môn đồng đội. Cơ học tiếp đất của vũ công cả hai giới giống với nam vận động viên, còn nữ vận động viên đồng đội thì khác hẳn. Và yếu tố dự đoán lớn cho kỹ năng tiếp đất ở vũ công là **tuổi bắt đầu tập**.\n\nNghĩa là: cách tiếp đất và đổi hướng **dạy được**. Đó là việc của PT.",
+    "mechanic": "Hoa nở một bông: có mặt 1đ + mỗi câu đúng 1đ, nhân theo tầng",
+    "bonus_tip": "Năm phút đầu buổi cho khách có chơi môn nhảy hoặc đổi hướng (cầu lông, bóng chuyền, pickleball): bật nhảy tiếp đất hai chân thật êm, đầu gối không đổ vào trong, giữ tư thế 2 giây; rồi tiếp đất một chân; rồi đổi hướng chậm. Ưu tiên chất lượng tiếp đất hơn độ cao hay tốc độ.",
+    "bonus_deep": "**Những chấn thương khác**\n\nVới cầu thủ bóng đá nữ, nguy cơ chấn thương nói chung cao nhất ở giai đoạn tiền kinh — nhưng **chỉ ở những người có triệu chứng tiền kinh**. Điều đó gợi ý nguyên nhân chính là uể oải và giảm tập trung, như ta đã thấy ở ngày 3 và ngày 6.\n\n**Chấn động não**\n\nTriệu chứng chấn động não có xu hướng nặng hơn nếu bị ở pha hoàng thể so với pha nang noãn. Mới chỉ có một nghiên cứu, và các tác giả đưa ra “giả thuyết rút”: progesterone bảo vệ thần kinh, nên nếu bị chấn động ở pha hoàng thể rồi progesterone giảm ngay sau đó, triệu chứng nặng hơn và kéo dài hơn.\n\n**Thuốc tránh thai và băng gối**\n\nThuốc tránh thai làm giảm dao động độ lỏng khớp qua chu kỳ, nhưng bằng chứng về giảm chấn thương còn lẫn lộn. Tác giả bài gốc gợi ý có thể cân nhắc băng gối ở giai đoạn tiền kinh, vài ngày đầu hành kinh và quanh rụng trứng — nhưng gợi ý chắc chắn hơn là học đúng cơ học tiếp đất và đổi hướng (hoặc học ballet).",
+    "questions": [
+      {
+        "prompt": "Theo tổng quan trên bệnh nhân thay khớp gối, chênh lệch góc Q giữa nam và nữ chủ yếu do đâu?",
+        "options": ["Giới tính", "Cân nặng", "Tuổi", "Chiều cao"],
+        "correct_index": 3,
+        "explain": "So nam và nữ cùng chiều cao thì góc Q không khác. Phụ nữ thường thấp hơn nên góc Q trung bình lớn hơn."
+      },
+      {
+        "prompt": "Nhóm nào có tỉ lệ đứt ACL thấp ngang nam, và thấp hơn nhiều so với nữ vận động viên môn đồng đội?",
+        "options": ["Nữ vận động viên cử tạ", "Nữ vũ công", "Nữ chạy marathon", "Nữ vận động viên bơi"],
+        "correct_index": 1,
+        "explain": "Nữ vũ công có cơ học tiếp đất giống nam — và tỉ lệ ACL thấp như nam vũ công. Kỹ năng tiếp đất dạy được."
+      },
+      {
+        "prompt": "Điều gì cho thấy estrogen không giải thích hết nguy cơ ACL theo chu kỳ?",
+        "options": [
+          "Có nghiên cứu thấy nguy cơ cao ở mấy ngày đầu hành kinh, khi estrogen thấp",
+          "Estrogen không ảnh hưởng gì tới dây chằng",
+          "Estrogen cao nhất trong kỳ hành kinh",
+          "Chấn thương ACL chỉ xảy ra ở nam"
+        ],
+        "correct_index": 0,
+        "explain": "Nếu chỉ do estrogen, nguy cơ phải thấp ở đầu kỳ kinh. Việc nguy cơ cao cả lúc đó gợi ý progesterone có thể bảo vệ, và cơ học vận động quan trọng hơn."
       }
     ]
   },
   {
     "day": 16,
-    "date": "2026-08-25",
-    "weekday": "Thứ Ba",
+    "date": "2026-10-16",
+    "weekday": "Thứ Sáu",
     "week": 3,
     "phase": "Scaffolding",
-    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
-    "day_type": "kien_thuc",
-    "title": "Chu kỳ nội tiết và hiệu suất — nói cho đúng mức",
-    "body": "Đây là chủ đề mà mạng xã hội nói quá tay nhất, nên mình muốn bạn nắm cho chuẩn.\n\nVề lý thuyết, estrogen và progesterone dao động qua chu kỳ có ảnh hưởng tới thân nhiệt, giữ nước, chuyển hoá cơ chất và có thể cả độ lỏng lẻo dây chằng. Nhiều bảng \"tập theo chu kỳ\" trên mạng dựa vào đó để chia bốn pha, mỗi pha một kiểu tập.\n\nNhưng bằng chứng thực nghiệm thì yếu hơn nhiều. Các tổng quan hệ thống lớn kết luận rằng ảnh hưởng của pha chu kỳ lên hiệu suất là **nhỏ và rất khác nhau giữa từng người**, và phần lớn nghiên cứu gốc có chất lượng thấp — cỡ mẫu nhỏ, cách xác định pha không chính xác. Nói cách khác: khác biệt giữa hai người phụ nữ thường lớn hơn khác biệt giữa hai pha của cùng một người.\n\nCách làm mình khuyên: **đừng lập trình cứng theo pha, hãy ghi nhận theo cá nhân.** Cho khách đánh dấu cảm nhận về sức lực và mức mệt mỗi buổi trong hai đến ba chu kỳ. Nếu xuất hiện một mẫu lặp lại rõ ràng ở riêng người đó, bạn điều chỉnh theo mẫu đó. Nếu không có mẫu, đừng tạo ra một cái. Và quan trọng không kém: chỉ riêng việc bạn hỏi tới đã là điều nhiều khách nữ chưa từng gặp ở một PT.",
-    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
-    "questions": [
-      {
-        "prompt": "Cách tiếp cận nào phản ánh đúng nhất bằng chứng hiện có về chu kỳ kinh nguyệt và hiệu suất tập luyện?",
-        "options": [
-          "Lập trình cứng bốn pha, mỗi pha một kiểu tập cho mọi khách nữ",
-          "Bỏ qua hoàn toàn vì chu kỳ không ảnh hưởng gì",
-          "Theo dõi cảm nhận theo cá nhân qua vài chu kỳ, chỉ điều chỉnh khi thấy mẫu lặp lại rõ",
-          "Giảm cường độ toàn bộ trong nửa sau chu kỳ cho an toàn"
-        ],
-        "correct_index": 2,
-        "explain": "Ảnh hưởng trung bình là nhỏ và rất khác nhau giữa từng người, bằng chứng lại chất lượng thấp. Theo dõi cá nhân hoá vừa trung thực với khoa học vừa hữu ích hơn cho khách."
-      }
-    ]
+    "week_theme": "Dinh dưỡng, thèm ăn & phòng chấn thương",
+    "day_type": "thu_thach",
+    "title": "Thử thách áp dụng — một tin nhắn, một thực đơn, một bài khởi động",
+    "body": "Tuần này bạn đã đi qua cân nặng, thèm ăn, serotonin và đầu gối. Hôm nay gói tất cả vào ba việc bạn sẽ thật sự làm với khách.\n\nNộp xong có cơ hội mở **hộp quà bí ẩn** của tuần.",
+    "prompt": "Chọn một khách nữ (hoặc tình huống giả định nếu bạn chưa có khách phù hợp). Viết:\n\n1. **Tin nhắn trả lời** khi khách nhắn: “Tuần này em ăn không kiểm soát, lên 1,5kg rồi, chắc em bỏ cuộc quá anh ơi.” Dùng kiến thức ngày 3, 13, 14. Dưới 120 chữ, đúng giọng bạn vẫn nhắn.\n2. **Kế hoạch ăn tuần tiền kinh** cho khách đó: giữ gì, đổi gì, để sẵn gì. Một đoạn ngắn là đủ.\n3. **Một chuỗi khởi động 8–10 phút** dạy tiếp đất và đổi hướng cho khách có chơi môn nhảy hoặc đổi hướng (ngày 15): tên bài, số lần, điểm kỹ thuật bạn sẽ nhìn.\n\nKhông cần viết hay. Cần viết thật.",
+    "mechanic": "Nộp bài = +5đ, nhân theo tầng — có thể trúng Hộp quà bí ẩn",
+    "bonus_tip": "Tin nhắn cho khách đang nản nên có đủ ba nhịp: ghi nhận cảm xúc (“tuần này khó thật”), đưa lại bối cảnh (“phần lớn 1,5kg đó là nước quanh kỳ”), và một bước nhỏ tiếp theo (“mai mình tập như thường, cuối tuần cân lại”). Thiếu nhịp đầu thì khách thấy bị giảng bài.",
+    "questions": []
   },
   {
     "day": 17,
-    "date": "2026-08-26",
-    "weekday": "Thứ Tư",
+    "date": "2026-10-17",
+    "weekday": "Thứ Bảy",
     "week": 3,
     "phase": "Scaffolding",
-    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
-    "day_type": "kien_thuc",
-    "title": "Phân bổ mỡ và sức mạnh tương đối",
-    "body": "Hai khác biệt nữa có ảnh hưởng trực tiếp lên cách bạn đặt kỳ vọng cho khách.\n\n**Phân bổ mỡ.** Nam giới có xu hướng tích mỡ vùng bụng, trong đó có mỡ nội tạng — kiểu phân bố này liên quan chặt hơn tới rủi ro chuyển hoá. Nữ giới trước mãn kinh có xu hướng tích mỡ dưới da vùng mông đùi, ít liên quan tới rủi ro chuyển hoá hơn nhưng lại là vùng khách hay muốn giảm nhất và cũng là vùng giảm chậm nhất. Sau mãn kinh, kiểu phân bố dịch dần về phía bụng. Biết điều này giúp bạn nói trước với khách về thứ tự vùng giảm, thay vì để họ tự thất vọng.\n\n**Sức mạnh tương đối.** Về sinh lực tuyệt đối, nam cao hơn rõ rệt. Nhưng khi quy về khối lượng cơ nạc, khoảng cách thu hẹp đáng kể — và thu hẹp nhiều hơn ở **thân dưới** so với **thân trên**, nơi khác biệt về phân bố khối cơ lớn hơn. Trên thực tế, khách nữ của bạn thường tiến bộ ở squat và hip hinge nhanh hơn nhiều so với đẩy ngực hay kéo xà.\n\nỨng dụng: đừng để khách nữ đánh giá mình qua bài đẩy ngực trong tháng đầu. Chọn bài mà họ tiến bộ nhanh làm thước đo mở màn — đó chính là nuôi Competence trong SDT tuần trước.",
-    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "week_theme": "Dinh dưỡng, thèm ăn & phòng chấn thương",
+    "day_type": "quiz_tuan",
+    "title": "Quiz tổng hợp tuần 3 — ăn uống, cân nặng và chấn thương",
+    "body": "Quiz tổng hợp tuần cuối cùng, làm trong một lượt. Sai cũng không sao — cây vẫn lớn, chỉ là chưa nhận được phần thưởng thêm.\n\nCâu hỏi đi qua thuốc tránh thai và cân nặng, thèm ăn ở pha hoàng thể, serotonin và sô-cô-la, và chấn thương. Vài câu lấy từ phần đọc mở rộng — ai đang ở tầng Nở rộ sẽ thấy quen.",
+    "mechanic": "Có mặt 1đ; đạt ngưỡng nhận thêm 3đ thưởng — tất cả nhân theo tầng",
+    "bonus_tip": "Làm xong, ghi lại một câu bạn sai vào sổ tay nghề. Đó chính là câu hỏi mà một ngày nào đó khách sẽ hỏi bạn.",
     "questions": [
       {
-        "prompt": "Khi quy sức mạnh về khối lượng cơ nạc, khoảng cách nam–nữ thường thu hẹp nhiều nhất ở đâu?",
+        "prompt": "Với thuốc tránh thai chỉ có progestin, nhận định nào khớp với tổng quan hệ thống?",
         "options": [
-          "Thân trên (đẩy, kéo)",
-          "Thân dưới (squat, hip hinge)",
-          "Cả hai như nhau",
-          "Không có khác biệt nào giữa hai vùng"
+          "Tăng trung bình khoảng 10kg trong năm đầu",
+          "Tăng trung bình dưới 2kg trong phần lớn nghiên cứu tới 12 tháng",
+          "Luôn gây giảm cân",
+          "Không có nghiên cứu nào"
         ],
         "correct_index": 1,
-        "explain": "Khác biệt phân bố khối cơ khiến khoảng cách ở thân trên lớn hơn. Vì vậy nên chọn bài thân dưới làm thước đo tiến bộ mở màn cho khách nữ mới tập."
+        "explain": "Bằng chứng về tăng cân còn hạn chế: mức tăng trung bình dưới 2kg trong phần lớn nghiên cứu tới 12 tháng, thường không khác đáng kể so với nhóm dùng biện pháp khác."
+      },
+      {
+        "prompt": "Progesterone thúc đẩy tích mỡ qua cơ chế nào được nêu trong bài?",
+        "options": [
+          "Tăng testosterone",
+          "Giảm cortisol",
+          "Tác động lên lipoprotein lipase ở mô mỡ",
+          "Tăng hấp thu sắt"
+        ],
+        "correct_index": 2,
+        "explain": "Progesterone thúc đẩy tích mỡ qua lipoprotein lipase ở mô mỡ, và giảm axit béo trong máu — có thể làm tăng thèm đồ béo."
+      },
+      {
+        "prompt": "Vitex agnus castus được ghi nhận có tác dụng gì với PMS?",
+        "options": [
+          "Chữa khỏi PMDD cho mọi người",
+          "Tăng sức mạnh ở pha hoàng thể",
+          "Giảm cân nhanh",
+          "Giảm một nửa triệu chứng ở khoảng 50% phụ nữ dùng liên tục từ ba chu kỳ"
+        ],
+        "correct_index": 3,
+        "explain": "Khoảng một nửa số phụ nữ dùng liên tục từ ba chu kỳ thấy triệu chứng giảm một nửa. Đây là thực phẩm bổ sung — khách nên hỏi bác sĩ hoặc dược sĩ."
+      },
+      {
+        "prompt": "Nghiên cứu duy nhất về chấn động não và chu kỳ thấy gì?",
+        "options": [
+          "Triệu chứng nặng hơn nếu bị ở pha hoàng thể — giả thuyết “rút progesterone”",
+          "Triệu chứng nặng hơn ở pha nang noãn",
+          "Không khác biệt giữa các pha",
+          "Chấn động não chỉ xảy ra khi hành kinh"
+        ],
+        "correct_index": 0,
+        "explain": "Progesterone được cho là bảo vệ thần kinh. Bị chấn động ở pha hoàng thể rồi progesterone giảm ngay sau đó có thể làm triệu chứng nặng và kéo dài hơn."
+      },
+      {
+        "prompt": "Với cầu thủ bóng đá nữ, nguy cơ chấn thương nói chung cao nhất ở giai đoạn tiền kinh — nhưng ở ai?",
+        "options": [
+          "Ở tất cả mọi người như nhau",
+          "Chỉ ở người dùng thuốc tránh thai",
+          "Chỉ ở những người có triệu chứng tiền kinh",
+          "Chỉ ở người chu kỳ dài trên 35 ngày"
+        ],
+        "correct_index": 2,
+        "explain": "Chỉ người có triệu chứng mới tăng nguy cơ — gợi ý nguyên nhân là uể oải và giảm tập trung, chứ không phải bản thân pha chu kỳ."
       }
     ]
   },
   {
     "day": 18,
-    "date": "2026-08-27",
-    "weekday": "Thứ Năm",
-    "week": 3,
-    "phase": "Scaffolding",
-    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
-    "day_type": "thu_thach",
-    "title": "Thử thách áp dụng — rà soát một giáo án của chính bạn",
-    "body": "Bài này hơi khó chịu một chút, vì bạn sẽ soi lại việc mình đã làm.",
-    "prompt": "Mở **một giáo án bạn đang dùng cho khách nữ**. Rà lại theo ba câu hỏi:\n\n1. Thời gian nghỉ giữa set bạn đang đặt là bao nhiêu? Nó được lấy từ đâu — từ đặc điểm của khách này, hay từ một mẫu bạn dùng cho mọi người?\n2. Thước đo tiến bộ trong tháng đầu là bài nào? Đó có phải là bài khách dễ thấy mình tiến bộ không?\n3. Có chỗ nào trong giáo án giả định khách luôn có sẵn thời gian và ý chí không?\n\nViết ra **một thay đổi cụ thể** bạn sẽ áp dụng ngay tuần này, kèm lý do. Có thể đính kèm ảnh chụp giáo án.",
-    "mechanic": "Thỏ nhảy 2 bước khi nộp bài (+5đ) — có thể trúng Hộp quà bí ẩn",
-    "questions": []
-  },
-  {
-    "day": 19,
-    "date": "2026-08-28",
-    "weekday": "Thứ Sáu",
-    "week": 3,
-    "phase": "Scaffolding",
-    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
-    "day_type": "kien_thuc",
-    "title": "\"Tập tạ làm phụ nữ to cơ\" — nói lại cho rõ",
-    "body": "Đây vẫn là câu phản đối bạn nghe nhiều nhất, và cách bạn trả lời nó quyết định khách có ở lại hay không.\n\nSự thật khoa học: khi tính theo **phần trăm tăng trưởng so với mức ban đầu**, nữ giới đáp ứng với tập kháng lực gần tương đương nam giới. Nhưng vì điểm xuất phát về khối cơ tuyệt đối thấp hơn, cùng một tỉ lệ tăng sẽ ra một lượng cơ tuyệt đối nhỏ hơn nhiều. Cộng thêm nồng độ testosterone lưu hành thấp hơn khoảng một bậc độ lớn, việc \"to cơ\" theo nghĩa khách đang sợ gần như không xảy ra một cách vô tình.\n\nĐiều khách thực sự nhìn thấy trong vài tuần đầu thường là **hai thứ khác bị nhầm với to cơ**: giữ nước và sưng nhẹ sau các buổi tập mới, và cảm giác quần áo chật hơn ở đùi khi cơ săn lại trong khi mỡ chưa kịp giảm. Cả hai đều tạm thời và đều nên được nói trước — nếu khách gặp chúng mà không được báo, họ sẽ tự kết luận là bạn nói sai.\n\nVà đây là chỗ ghép về tuần 1: câu phản đối này thường xuất hiện ở khách giai đoạn Contemplation. Trả lời bằng nghiên cứu thì đúng, nhưng cái họ cần là được nói trước về những gì sẽ thấy trong sáu tuần tới.",
-    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
-    "questions": [
-      {
-        "prompt": "Phát biểu nào chính xác về đáp ứng tăng cơ ở nữ giới?",
-        "options": [
-          "Nữ giới hầu như không tăng cơ khi tập kháng lực",
-          "Tính theo phần trăm so với mức ban đầu, mức tăng gần tương đương nam, nhưng lượng tuyệt đối nhỏ hơn",
-          "Nữ giới tăng cơ nhanh hơn nam do hồi phục tốt hơn",
-          "Chỉ nữ giới dùng thực phẩm bổ sung mới tăng được cơ"
-        ],
-        "correct_index": 1,
-        "explain": "Đáp ứng tương đối là tương đương; khác biệt nằm ở điểm xuất phát tuyệt đối và nồng độ testosterone. Đó là lý do \"to cơ ngoài ý muốn\" gần như không xảy ra."
-      }
-    ]
-  },
-  {
-    "day": 20,
-    "date": "2026-08-29",
-    "weekday": "Thứ Bảy",
-    "week": 3,
-    "phase": "Scaffolding",
-    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
-    "day_type": "quiz_tuan",
-    "title": "Quiz tổng hợp tuần 3 — Sinh lý học nam–nữ",
-    "body": "Quiz tổng hợp tuần thứ ba, làm trong một lượt. Sai cũng không sao — thỏ vẫn đi tiếp.",
-    "mechanic": "Thỏ nhảy 1 bước; đạt ≥80% nhận thêm \"tia sáng\" bonus (+3đ)",
-    "questions": [
-      {
-        "prompt": "Khi bê nguyên mẫu giáo án viết cho nam sang cho khách nữ, sai lệch thường gặp nhất là gì?",
-        "options": [
-          "Cho nghỉ quá nhiều và tổng khối lượng quá thấp",
-          "Cường độ quá cao gây chấn thương",
-          "Quá nhiều bài thân dưới",
-          "Thiếu bài cardio"
-        ],
-        "correct_index": 0,
-        "explain": "Nữ giới hồi phục giữa set nhanh hơn ở cùng cường độ tương đối, nên khung nghỉ mượn từ giáo án nam thường dư, kéo tổng khối lượng xuống thấp."
-      },
-      {
-        "prompt": "Trong vận động dưới ngưỡng tối đa, nữ giới có xu hướng:",
-        "options": [
-          "Oxy hoá mỡ nhiều hơn và dùng glycogen ít hơn",
-          "Oxy hoá mỡ ít hơn và dùng glycogen nhiều hơn",
-          "Không dùng mỡ làm cơ chất",
-          "Chỉ dùng protein làm cơ chất"
-        ],
-        "correct_index": 0,
-        "explain": "Đây là một trong những khác biệt chuyển hoá rõ nhất, liên quan tới ảnh hưởng của estrogen lên lựa chọn cơ chất."
-      },
-      {
-        "prompt": "Về phân bổ mỡ, phát biểu nào đúng?",
-        "options": [
-          "Nam có xu hướng tích mỡ mông đùi, nữ tích mỡ bụng",
-          "Nam có xu hướng tích mỡ bụng gồm mỡ nội tạng; nữ trước mãn kinh tích mỡ dưới da vùng mông đùi",
-          "Không có khác biệt nào về vị trí tích mỡ",
-          "Mỡ mông đùi liên quan chặt tới rủi ro chuyển hoá hơn mỡ nội tạng"
-        ],
-        "correct_index": 1,
-        "explain": "Kiểu phân bố này cũng giải thích vì sao vùng khách nữ muốn giảm nhất lại thường là vùng giảm chậm nhất — nên nói trước với khách."
-      },
-      {
-        "prompt": "Khách nữ mới tập than \"em thấy đùi to ra\" sau ba tuần. Cách giải thích hợp lý nhất là gì?",
-        "options": [
-          "Cô ấy đã tăng cơ đáng kể, nên giảm tạ ngay",
-          "Nhiều khả năng là giữ nước, sưng nhẹ sau buổi tập mới và mỡ chưa kịp giảm — nên đã được báo trước từ đầu",
-          "Đó là do ăn quá nhiều protein",
-          "Cô ấy tưởng tượng ra, không cần bận tâm"
-        ],
-        "correct_index": 1,
-        "explain": "Ba tuần là quá sớm để tăng cơ đáng kể. Vấn đề thực sự không phải sinh lý mà là kỳ vọng — nếu không nói trước, khách sẽ kết luận bạn nói sai."
-      },
-      {
-        "prompt": "Vì sao nên chọn squat hoặc hip hinge làm thước đo tiến bộ mở màn cho khách nữ mới tập?",
-        "options": [
-          "Vì đó là bài an toàn nhất",
-          "Vì khoảng cách sức mạnh tương đối ở thân dưới nhỏ hơn, khách thấy mình tiến bộ nhanh hơn — nuôi cảm giác đủ năng lực",
-          "Vì bài thân trên không cần thiết cho nữ",
-          "Vì bài thân dưới đốt nhiều calo hơn"
-        ],
-        "correct_index": 1,
-        "explain": "Đây là chỗ sinh lý học gặp SDT: chọn thước đo mà khách tiến bộ được nhanh chính là thiết kế cho nhu cầu Competence."
-      }
-    ]
-  },
-  {
-    "day": 21,
-    "date": "2026-08-30",
+    "date": "2026-10-18",
     "weekday": "Chủ Nhật",
     "week": 3,
     "phase": "Scaffolding",
-    "week_theme": "Sinh lý học khác biệt nam–nữ trong tập luyện",
+    "week_theme": "Dinh dưỡng, thèm ăn & phòng chấn thương",
     "day_type": "webinar",
-    "title": "Trạm dừng gốc đa #3 — Giáo án tôn trọng sinh lý học nữ giới",
-    "body": "Trạm dừng thứ ba, và là buổi thực hành nhiều nhất từ đầu tới giờ. Mình sẽ viết trực tiếp một tuần giáo án cho khách nữ mới tập, giải thích từng lựa chọn: khung nghỉ, thứ tự bài, thước đo tháng đầu, và cách nói trước về những gì khách sẽ thấy trong sáu tuần.\n\nCuối buổi có **mã điểm danh** cho mảnh trăng \"Góc nhìn khác biệt\".",
-    "mechanic": "Tham dự = nhận Mảnh trăng \"Góc nhìn khác biệt\" + thỏ tới trạm dừng chân (+10đ)",
-    "webinar_at": "2026-08-30T20:00:00+07:00",
+    "title": "Trạm hoa #3 — Thèm ăn, cân nặng, đầu gối và đề case study",
+    "body": "Trạm hoa cuối cùng. Mình đọc vài tin nhắn trong bài thử thách ngày 16 và cùng sửa giọng, đi nhanh qua chuỗi khởi động tiếp đất, rồi **công bố đề case study về đích** — mở vào sáng mai.\n\nCuối buổi mình đọc **mã điểm danh** để bạn nhận dải **Ruy băng Chăm sóc** — dải thứ ba, đủ để buộc trọn bó hoa.\n\nVắng buổi này không làm héo hoa. Đề case study vẫn mở cho tất cả mọi người vào ngày 19/10.",
+    "prompt": "**Chuẩn bị trước buổi:** mang theo **một câu hỏi thật** mà một khách nữ từng hỏi bạn về ăn uống, cân nặng hoặc đau khớp quanh kỳ kinh — câu bạn đã trả lời chưa chắc chắn. Mình sẽ chọn vài câu để trả lời trực tiếp.",
+    "mechanic": "Tham dự = nhận Ruy băng Chăm sóc (+10đ, nhân theo tầng). Vắng không làm héo hoa",
+    "webinar_at": "2026-10-18T20:00:00+07:00",
     "questions": []
   }
 ]

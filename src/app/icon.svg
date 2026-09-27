@@ -1,25 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Trăng rằm">
-  <defs>
-    <radialGradient id="disc" cx="38%" cy="33%" r="74%">
-      <stop offset="0" stop-color="#FFFDF7" />
-      <stop offset="55%" stop-color="#F6F2EA" />
-      <stop offset="100%" stop-color="#E7C79C" />
-    </radialGradient>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Bông hoa 20/10">
+  <!-- nền -->
+  <rect width="64" height="64" rx="14" fill="#F6F2EA" />
 
-  <!-- trời đêm -->
-  <rect width="64" height="64" rx="14" fill="#14110E" />
+  <!-- cành và lá -->
+  <path d="M32 56 C31 46 33 40 32 32" fill="none" stroke="#5C6E48" stroke-width="3" stroke-linecap="round" />
+  <path d="M32 47 C24 46 20 41 19 37 C25 37 30 40 32 47Z" fill="#5C6E48" />
+  <path d="M32 43 C39 42 43 38 45 34 C39 34 34 37 32 43Z" fill="#5C6E48" opacity=".8" />
 
-  <!-- quầng trăng -->
-  <circle cx="32" cy="32" r="25.5" fill="#B5651E" opacity=".16" />
-
-  <!-- mặt trăng -->
-  <circle cx="32" cy="32" r="19" fill="url(#disc)" />
-
-  <!-- vết trăng -->
-  <g fill="#B5651E" opacity=".26">
-    <circle cx="25" cy="26" r="4.2" />
-    <circle cx="38.5" cy="36" r="3" />
-    <circle cx="29.5" cy="40" r="2" />
-  </g>
+  <!-- bông hồng -->
+  <circle cx="32" cy="23" r="13" fill="#A33A2A" />
+  <path
+    d="M32.4 23.8 a2 2 0 1 1 2-2.2 a4.8 4.8 0 1 1 -7.7 3.5 a7.9 7.9 0 1 1 14-4.8"
+    fill="none"
+    stroke="#F6F2EA"
+    stroke-width="1.7"
+    stroke-linecap="round"
+    opacity=".85"
+  />
 </svg>

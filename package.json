@@ -2,7 +2,7 @@
   "name": "moon-plan",
   "version": "1.0.0",
   "private": true,
-  "description": "Chạy dần đến Trung Thu — web-app sự kiện 47 ngày cho học viên PT (Precision Coach)",
+  "description": "Chạy dần đến 20/10 — web-app sự kiện 20 ngày cho học viên PT (Precision Coach)",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "seed": "node scripts/seed.mjs",
     "seed:noi-dung": "node scripts/seed.mjs --giu-cau-hoi",
-    "make-codes": "node scripts/make-codes.mjs"
+    "make-codes": "node scripts/make-codes.mjs",
+    "mua-moi": "node scripts/mua-moi.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",

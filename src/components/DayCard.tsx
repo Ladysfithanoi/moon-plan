@@ -37,8 +37,23 @@ export type DayCardProps = {
    */
   bonusThreshold?: number;
   bonusPoints?: number;
-  /** Xem lại ngày cũ — không cho thao tác nữa. */
-  readOnly?: boolean;
+  /**
+   * today    — ngày hôm nay, điểm nhân theo tầng
+   * makeup   — ngày bỏ lỡ còn trong 48 giờ, học bù được với điểm gốc
+   * readonly — xem lại, không ghi nhận nữa
+   */
+  mode?: 'today' | 'makeup' | 'readonly';
+  /** Nội dung mở theo tầng hoa. Server chỉ điền phần chữ khi đã đủ tầng. */
+  extras?: Extras;
+  /** Tầng và hệ số sẽ áp dụng nếu hoàn thành hôm nay. */
+  nextTier?: { name: string; multiplier: number } | null;
+};
+
+export type Extras = {
+  tip: string | null;
+  tipLocked: boolean;
+  deep: string | null;
+  deepLocked: boolean;
 };
 
 /**
@@ -89,7 +104,7 @@ function Review({ status, note }: { status: string; note: string | null }) {
   );
 }
 
-/** Thông báo sau khi ghi nhận: điểm, mảnh trăng, quà, vé cứu. */
+/** Thông báo sau khi ghi nhận: điểm, tầng hoa, ruy băng, quà. */
 function Feedback({ state }: { state: CheckinResult }) {
   return (
     <>
@@ -100,8 +115,19 @@ function Feedback({ state }: { state: CheckinResult }) {
         </p>
       ) : null}
 
-      {state.ok && state.fragmentAwarded ? (
-        <p className="notice ok">Bạn vừa thu được mảnh trăng &quot;{state.fragmentAwarded}&quot;.</p>
+      {state.ok && !state.late && state.tierName && (state.multiplier ?? 1) > 1 ? (
+        <p className="notice ok">
+          Tầng {state.tierName} — điểm hôm nay đã nhân ×{formatMult(state.multiplier ?? 1)}. Chuỗi
+          của bạn: {state.streak} ngày.
+        </p>
+      ) : null}
+
+      {state.ok && state.late ? (
+        <p className="notice info">Học bù nhận điểm gốc, không nhân tầng — nhưng chuỗi của bạn được nối lại.</p>
+      ) : null}
+
+      {state.ok && state.ribbonAwarded ? (
+        <p className="notice ok">Bạn vừa nhận dải &quot;{state.ribbonAwarded}&quot; để buộc bó hoa.</p>
       ) : null}
 
       {(state.gifts ?? []).map((g, i) => (
@@ -112,12 +138,42 @@ function Feedback({ state }: { state: CheckinResult }) {
         </div>
       ))}
 
-      {(state.freezesUsed ?? 0) > 0 ? (
-        <p className="notice info">
-          Bạn lỡ mất {state.freezesUsed} ngày — vé cứu đã tự bù vào để chuỗi của bạn không đứt.
-        </p>
-      ) : null}
     </>
+  );
+}
+
+function formatMult(m: number): string {
+  return String(m).replace('.', ',');
+}
+
+/** Mẹo ẩn và đọc mở rộng: mở thì hiện chữ, khoá thì chỉ hiện lời hẹn. */
+function ExtraBox({
+  label,
+  text,
+  locked,
+  lockNote,
+}: {
+  label: string;
+  text: string | null;
+  locked: boolean;
+  lockNote: string;
+}) {
+  if (text) {
+    return (
+      <div className="extra-box">
+        <p className="extra-label">{label}</p>
+        <RichText text={text} />
+      </div>
+    );
+  }
+  if (!locked) return null;
+  return (
+    <div className="extra-box locked">
+      <p className="extra-label">
+        {label} <span className="tag wait">đang khoá</span>
+      </p>
+      <p className="extra-lock">{lockNote}</p>
+    </div>
   );
 }
 
@@ -138,8 +194,11 @@ export default function DayCard(props: DayCardProps) {
     webinarLink,
     bonusThreshold,
     bonusPoints,
-    readOnly,
+    mode = 'today',
+    extras,
+    nextTier,
   } = props;
+  const readOnly = mode === 'readonly';
 
   const [checkinState, checkinAction] = useActionState<CheckinResult, FormData>(doCheckIn, EMPTY);
   const [submitState, submitAction] = useActionState<CheckinResult, FormData>(doSubmitWork, EMPTY);
@@ -161,7 +220,7 @@ export default function DayCard(props: DayCardProps) {
   // Luật thưởng viết ra từ số câu thật của ngày, không phải từ bài đọc.
   const bonusRule =
     dayType === 'quiz_tuan' && hasQuiz && bonusThreshold && bonusPoints
-      ? `Đúng từ ${neededCorrect(questions.length, bonusThreshold)}/${questions.length} câu trở lên bạn nhận thêm ${bonusPoints}đ tia sáng bonus.`
+      ? `Đúng từ ${neededCorrect(questions.length, bonusThreshold)}/${questions.length} câu trở lên bạn nhận thêm ${bonusPoints}đ thưởng quiz tuần.`
       : null;
 
   return (
@@ -174,12 +233,40 @@ export default function DayCard(props: DayCardProps) {
       </p>
       <h2 className="section-title">{title}</h2>
 
+      {mode === 'makeup' ? (
+        <p className="notice info makeup-note">
+          Bạn đang học bù ngày này. Làm xong thì bông hoa của ngày này nở lại và chuỗi được nối, nhưng
+          chỉ nhận điểm gốc — không nhân tầng.
+        </p>
+      ) : mode === 'today' && nextTier && nextTier.multiplier > 1 && !done ? (
+        <p className="notice ok makeup-note">
+          Hôm nay bạn ở tầng {nextTier.name}: điểm của ngày này được nhân ×{formatMult(nextTier.multiplier)}.
+        </p>
+      ) : null}
+
       <RichText text={body} />
 
+      {extras ? (
+        <>
+          <ExtraBox
+            label="Mẹo thực hành"
+            text={extras.tip}
+            locked={extras.tipLocked}
+            lockNote="Mở khi chuỗi của bạn đạt 3 ngày liền (tầng Hé nở). Ngày nào học lúc đang ở tầng đó thì mẹo của ngày ấy giữ lại cho bạn luôn."
+          />
+          <ExtraBox
+            label="Đọc mở rộng"
+            text={extras.deep}
+            locked={extras.deepLocked}
+            lockNote="Mở khi chuỗi của bạn đạt 7 ngày liền (tầng Nở rộ)."
+          />
+        </>
+      ) : null}
+
       {/*
-        Ô "Đề bài" của ngày không nộp bài — case study đọc trong buổi trạm dừng
-        gốc đa, tình huống kèm theo bài đọc. Ngày nộp bài đặt phần này ngay trên
-        khung nộp ở dưới, nên ở đây chỉ hiện cho những ngày còn lại.
+        Ô "Đề bài" của ngày không nộp bài — tình huống kèm theo bài đọc hoặc
+        case study cho buổi Trạm hoa. Ngày nộp bài đặt phần này ngay trên khung
+        nộp ở dưới, nên ở đây chỉ hiện cho những ngày còn lại.
       */}
       {prompt && !isSubmission ? (
         <>
@@ -214,8 +301,12 @@ export default function DayCard(props: DayCardProps) {
             </p>
           ) : null}
 
-          {locked ? (
-            <p className="notice ok">Bạn đã điểm danh buổi này.</p>
+          {locked || mode === 'makeup' ? (
+            <p className="notice ok">
+              {done || checkinState.ok
+                ? 'Bạn đã điểm danh buổi này.'
+                : 'Trạm hoa không điểm danh bù được — nhưng vắng buổi này không làm héo hoa của bạn.'}
+            </p>
           ) : (
             <form action={checkinAction}>
               <input type="hidden" name="day" value={day} />
@@ -231,7 +322,7 @@ export default function DayCard(props: DayCardProps) {
                   required
                 />
               </div>
-              <Submit label="Điểm danh nhận mảnh trăng" busyLabel="Đang gửi…" />
+              <Submit label="Điểm danh nhận ruy băng" busyLabel="Đang gửi…" />
             </form>
           )}
         </div>
@@ -251,7 +342,7 @@ export default function DayCard(props: DayCardProps) {
             </>
           ) : readOnly ? (
             <>
-              <p className="coach-note">Ngày này đã qua — xem lại đề được, nhưng không ghi điểm nữa.</p>
+              <p className="coach-note">Ngày này đã quá 48 giờ học bù — xem lại đề được, nhưng không ghi nhận nữa.</p>
               <button type="button" className="btn-ghost" onClick={() => setQuizOpen(true)}>
                 Xem bài quiz
               </button>
@@ -336,7 +427,7 @@ export default function DayCard(props: DayCardProps) {
               <div className="modal-foot">
                 <p className="coach-note">
                   {bonusRule ? `${bonusRule} ` : ''}
-                  Sai cũng không sao — thỏ vẫn đi tiếp, chỉ là chưa nhận được phần điểm thưởng.
+                  Sai cũng không sao — cây vẫn lớn, chỉ là chưa nhận được phần điểm thưởng.
                 </p>
                 <Submit label="Nộp bài quiz" busyLabel="Đang ghi…" />
               </div>
@@ -360,13 +451,19 @@ export default function DayCard(props: DayCardProps) {
       {questions.length === 0 && !isSubmission && dayType !== 'webinar' ? (
         locked ? (
           <p className="notice ok" style={{ marginTop: 18 }}>
-            {dayType === 'dem_hoi' ? 'Vòng của bạn đã khép lại.' : 'Bạn đã hoàn thành ngày này rồi.'}
+            {dayType === 'dem_hoi' ? 'Bó hoa của bạn đã buộc xong.' : 'Bạn đã hoàn thành ngày này rồi.'}
           </p>
         ) : (
           <form action={checkinAction} style={{ marginTop: 22 }}>
             <input type="hidden" name="day" value={day} />
             <Submit
-              label={dayType === 'dem_hoi' ? 'Khép vòng trăng' : 'Đánh dấu hoàn thành hôm nay'}
+              label={
+                dayType === 'dem_hoi'
+                  ? 'Buộc bó hoa 20/10'
+                  : mode === 'makeup'
+                    ? 'Đánh dấu đã học bù'
+                    : 'Đánh dấu hoàn thành hôm nay'
+              }
               busyLabel="Đang ghi…"
             />
           </form>
@@ -427,7 +524,7 @@ export default function DayCard(props: DayCardProps) {
                 ) : null}
               </div>
               <Submit
-                label={submission ? 'Cập nhật bài nộp' : 'Nộp bài'}
+                label={submission ? 'Cập nhật bài nộp' : mode === 'makeup' ? 'Nộp bài học bù' : 'Nộp bài'}
                 busyLabel="Đang gửi…"
               />
             </form>

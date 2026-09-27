@@ -184,7 +184,7 @@ export async function parseQuizWorkbook(buffer: ArrayBuffer): Promise<ParseResul
 /** Dựng file Excel từ bộ câu hỏi hiện có — vừa là bản xuất, vừa là file mẫu. */
 export async function buildQuizWorkbook(questions: QuizExportRow[]): Promise<Buffer> {
   const wb = new ExcelJS.Workbook();
-  wb.creator = 'Chạy dần đến Trung Thu';
+  wb.creator = 'Chạy dần đến 20/10';
   wb.created = new Date();
 
   const sheet = wb.addWorksheet(QUIZ_SHEET);

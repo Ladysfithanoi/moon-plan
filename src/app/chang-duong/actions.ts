@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { db, CASE_STUDY_BUCKET } from '@/lib/supabase';
 import { getPlayerSession } from '@/lib/session';
-import { checkIn, giveCarrot, submitWork } from '@/lib/game';
+import { checkIn, giveFlower, submitWork } from '@/lib/game';
 import type { CheckinResult } from '@/lib/types';
 
 const MAX_FILES = 3;
@@ -15,7 +15,7 @@ const NOT_LOGGED_IN: CheckinResult = {
   message: 'Phiên của bạn đã hết hạn. Bạn nhập lại mã cá nhân nhé.',
 };
 
-/** Đánh dấu hoàn thành ngày kiến thức / quiz tuần / webinar. */
+/** Đánh dấu hoàn thành ngày kiến thức / quiz tuần / Trạm hoa — hôm nay hoặc học bù. */
 export async function doCheckIn(_prev: CheckinResult, formData: FormData): Promise<CheckinResult> {
   const session = await getPlayerSession();
   if (!session) return NOT_LOGGED_IN;
@@ -38,11 +38,14 @@ export async function doCheckIn(_prev: CheckinResult, formData: FormData): Promi
     webinarCode: String(formData.get('webinarCode') ?? ''),
   });
 
-  if (result.ok) revalidatePath('/chang-duong');
+  if (result.ok) {
+    revalidatePath('/chang-duong');
+    revalidatePath(`/ngay/${day}`);
+  }
   return result;
 }
 
-/** Nộp bài thử thách áp dụng hoặc một phần case study chung kết. */
+/** Nộp bài thử thách áp dụng hoặc case study về đích. */
 export async function doSubmitWork(
   _prev: CheckinResult,
   formData: FormData,
@@ -96,6 +99,7 @@ export async function doSubmitWork(
   if (result.ok) {
     revalidatePath('/chang-duong');
     revalidatePath('/chung-ket');
+    revalidatePath(`/ngay/${day}`);
   }
   return result;
 }
@@ -108,19 +112,19 @@ export async function markRewardsSeen(): Promise<void> {
   revalidatePath('/chang-duong');
 }
 
-export type CarrotState = { ok?: boolean; message?: string };
+export type GiftState = { ok?: boolean; message?: string };
 
-/** Tặng điểm cho một người bạn cùng chạy. */
-export async function doGiveCarrot(
-  _prev: CarrotState,
+/** Tặng một bông hoa (kèm điểm) cho một người bạn cùng lớp. */
+export async function doGiveFlower(
+  _prev: GiftState,
   formData: FormData,
-): Promise<CarrotState> {
+): Promise<GiftState> {
   const session = await getPlayerSession();
   if (!session) return { ok: false, message: 'Phiên của bạn đã hết hạn.' };
 
   const code = String(formData.get('toCode') ?? '');
   const message = String(formData.get('message') ?? '');
-  const result = await giveCarrot(session.pid, code, message);
+  const result = await giveFlower(session.pid, code, message);
   if (result.ok) revalidatePath('/chang-duong');
   return result;
 }

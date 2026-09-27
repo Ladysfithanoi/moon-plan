@@ -3,7 +3,7 @@ import ExcelJS from 'exceljs';
 
 /**
  * Phần dùng chung cho mọi bảng Excel trong trang admin: đọc ô, dò tên cột,
- * gán ràng buộc theo vùng. Bộ câu hỏi quiz và nội dung 47 ngày đều xài lại.
+ * gán ràng buộc theo vùng. Bộ câu hỏi quiz và nội dung các ngày đều xài lại.
  */
 
 /** Ô Excel có thể là số, chuỗi, rich text, công thức… — quy hết về chuỗi. */

@@ -1,9 +1,85 @@
-# Chạy dần đến Trung Thu
+# Chạy dần đến 20/10
 
-Web-app sự kiện 47 ngày cho học viên PT — từ **10/08/2026** đến đêm rằm **25/09/2026**.
+Web-app sự kiện 20 ngày cho học viên PT — từ **01/10/2026** đến **20/10/2026**.
+Chủ đề: chu kỳ kinh nguyệt, thuốc tránh thai và tập luyện ở khách hàng nữ.
 
-Mỗi người chơi là một chú thỏ chạy trên một vòng cung khép kín. Điểm xuất phát và
-điểm đích trùng nhau; vầng trăng ở tâm tròn dần theo phần trăm hoàn thành.
+Mỗi người chơi có một **cành hoa** mọc từ dưới lên, mỗi ngày học là một đốt, mỗi
+đốt nở một bông. Bông to hay nhỏ tuỳ vào **chuỗi ngày** lúc học ngày đó — học đều
+thì hoa hồng, học lẻ tẻ thì toàn nụ. Đến 20/10 các bông gom lại thành **bó hoa**,
+buộc bằng những dải ruy băng nhận ở Trạm hoa Chủ Nhật.
+
+> Mùa trước (Chạy dần đến Trung Thu, 47 ngày) nằm trong lịch sử git. Mùa này dùng
+> lại toàn bộ bộ khung — đăng nhập bằng mã, admin, quiz, bài nộp, nhận xét — và
+> thay phần luật chơi bằng cơ chế tích luỹ chuỗi.
+
+---
+
+## Luật của cây
+
+Đây là phần khác biệt so với mùa trước. Mặc định nằm ở `src/lib/scoring.ts`, luật
+chuỗi ở `src/lib/bloom.ts`; hệ số nhân, vườn chung và các mức thưởng đổi được ở
+`/admin/cai-dat`.
+
+**Bốn tầng hoa** — điểm của ngày học đúng hạn được nhân theo tầng:
+
+| Chuỗi | Tầng | Hệ số | Mở khoá |
+|---|---|---|---|
+| 1–2 ngày | Nụ | ×1 | — |
+| 3–6 ngày | Hé nở | ×1,5 | Mẹo thực hành ẩn của mỗi ngày (+3đ khi chạm mốc lần đầu) |
+| 7–13 ngày | Nở rộ | ×2 | Bài đọc mở rộng của mỗi ngày (+7đ) |
+| 14+ ngày | Hoa hồng | ×2,5 | Một buổi hỏi riêng 1-1 (+14đ) |
+
+Nội dung mở khoá do server quyết định: chưa đủ tầng thì chỉ thấy khung "đang
+khoá", phần chữ không rời máy chủ. Ngày nào học lúc đang đủ tầng thì nội dung của
+ngày ấy giữ lại cho người đó luôn, kể cả khi sau này tụt tầng.
+
+**Khi bỏ học:**
+
+| Tình huống | Chuyện gì xảy ra |
+|---|---|
+| Bỏ 1 ngày | Còn **giọt sương** thì app tự tưới, chuỗi giữ nguyên. Hết giọt sương thì cây **khát nước**, tụt một tầng (vd chuỗi 9 → 3). |
+| Bỏ 2 ngày liền | Hoa **héo**, chuỗi về 0. |
+| Nghỉ từ 3 ngày | Cây **ngủ**; trang chính đổi sang màn hình chào quay lại. Học **3 ngày liền** là **hồi xuân**: lấy lại một nửa chuỗi cũ + 5đ. |
+| Học bù | Ngày bỏ lỡ làm lại được tới hết ngày thứ hai sau đó (~48 giờ). Nhận điểm gốc, không nhân tầng — nhưng chuỗi được nối lại, và giọt sương đã dùng cho ngày đó được trả về. |
+| Vắng Trạm hoa | Ngày trung tính: đến thì cây lớn thêm và nhận ruy băng, vắng thì cây giữ nguyên. Không điểm danh bù được. |
+
+Mỗi người có **2 giọt sương**. Chuỗi không lưu cứng mà tính lại từ lịch sử mỗi lần
+cần, nên học bù hay tặng thêm giọt sương đều tự làm đúng lại con số.
+
+**Vườn chung** — ngày nào từ **60%** người đang hoạt động học đúng hạn thì ngày đó
+"nắng": ai góp mặt được **+3đ**, và cứ **3 ngày nắng** thì **cả lớp** thêm một giọt
+sương. Trang cành hoa hiện số người đã học hôm nay so với ngưỡng — chỗ để mọi
+người nhắc nhau. Ngày được chốt sổ lúc có người mở app sau nửa đêm; học bù không
+tính vào vườn chung.
+
+**Điểm gốc** (trước khi nhân tầng):
+
+| Loại ngày | Điểm |
+|---|---|
+| Kiến thức + quiz nhanh | 1đ có mặt + 1đ mỗi câu đúng |
+| Thử thách áp dụng | 5đ khi nộp bài (+ cơ hội hộp quà bí ẩn) |
+| Quiz tổng hợp tuần | 1đ + 3đ thưởng nếu đúng ≥80% |
+| Trạm hoa Chủ Nhật | 10đ + 1 dải ruy băng |
+| Case study về đích | 10đ |
+
+Trả lời sai vẫn check-in được, cây vẫn lớn — chỉ mất phần điểm thưởng.
+
+**Giữ lại từ mùa trước, đổi tên:** hộp quà bí ẩn · Bông hoa bí mật (thay Ngày Thỏ
+Ngọc, 2 ngày bí mật +15đ) · tặng hoa (thay tặng cà rốt) · bảng vinh danh mềm.
+
+---
+
+## Lịch 20 ngày
+
+| Tuần | Ngày | Chủ đề | Trạm hoa |
+|---|---|---|---|
+| 1 | 01–04/10 | Hiểu chu kỳ của khách hàng nữ | CN 04/10 · Ruy băng Thấu hiểu |
+| 2 | 05–11/10 | Chu kỳ, thuốc tránh thai & hiệu suất tập | CN 11/10 · Ruy băng Đồng hành |
+| 3 | 12–18/10 | Dinh dưỡng, thèm ăn & phòng chấn thương | CN 18/10 · Ruy băng Chăm sóc |
+| Về đích | 19–20/10 | Case study (19/10) · Buộc bó hoa + buổi hội 20:00 (20/10) | — |
+
+Nội dung lấy từ bài tổng quan của Greg Nuckols (Stronger By Science) về chu kỳ,
+thuốc tránh thai và tập luyện; nằm trong `content/week-1.json` … `week-4.json`.
 
 ---
 
@@ -13,27 +89,56 @@ Mỗi người chơi là một chú thỏ chạy trên một vòng cung khép k�
 
 | Đường dẫn | Nội dung |
 |---|---|
-| `/` | Trang giới thiệu — luật chơi, 6 chặng, phần thưởng, đếm ngược |
+| `/` | Trang giới thiệu — bốn tầng hoa, luật bỏ học, lịch, phần thưởng, đếm ngược |
 | `/vao` | Nhập mã cá nhân |
-| `/chang-duong` | Vòng trăng, điểm, chuỗi ngày, vé cứu, nội dung + quiz hôm nay, danh sách ngày đã qua (lọc theo ngày/hạng mục, 10 ngày mỗi trang) |
-| `/ngay/[1-47]` | Xem lại một ngày đã qua (không ghi điểm lại) |
-| `/chung-ket` | 4 phần case study tuần chung kết |
-| `/vinh-danh` | Bảng vinh danh mềm + tặng cà rốt |
+| `/chang-duong` | Cành hoa, tầng + hệ số hôm nay, giọt sương, ruy băng, tình trạng cây (khát/héo/ngủ/hồi xuân) kèm link học bù, bài hôm nay, vườn chung, luật của cây, những ngày đã qua. Sau 20/10 cành hoa đổi thành bó hoa. |
+| `/ngay/[1-20]` | Xem một ngày; học bù nếu còn trong 48 giờ |
+| `/chung-ket` | Về đích — bó hoa, đề case study, phần thưởng |
+| `/vinh-danh` | Bảng vinh danh mềm + tặng hoa |
 
-**Trang điều hành của Trung**
+**Trang điều hành**
 
 | Đường dẫn | Nội dung |
 |---|---|
-| `/admin/vao` | Đăng nhập bằng `ADMIN_PASSWORD` |
-| `/admin` | Số người tham gia, tỉ lệ hoàn thành, bốc bảng vinh danh mỗi tuần |
-| `/admin/nguoi-choi` | Tạo mã, sửa tên/liên hệ, cấp thêm vé cứu, khoá mã |
-| `/admin/bai-nop` | Đọc bài, duyệt, **nhận xét gửi học viên** + ghi chú riêng, chọn case study xuất sắc nhất |
-| `/admin/noi-dung` | Sửa bài đọc, đề bài, câu hỏi quiz, **đặt giờ + link + mã điểm danh webinar** |
-| `/admin/cai-dat` | Bậc thưởng cuối sự kiện, chủ đề 6 tuần, tên mảnh trăng, quà hộp bí ẩn, bảng điểm |
+| `/admin` | Số người tham gia, tỉ lệ hoàn thành, **tầng hoa của cả lớp**, lượt học bù, bốc bảng vinh danh mỗi tuần |
+| `/admin/nguoi-choi` | Tạo mã, sửa tên/liên hệ, **cấp thêm giọt sương**, khoá mã; xem hành trình từng người theo trạng thái cây |
+| `/admin/bai-nop` | Đọc bài, duyệt, nhận xét gửi học viên + ghi chú riêng, chọn case study xuất sắc nhất |
+| `/admin/noi-dung` | Sửa bài đọc, **mẹo ẩn, đọc mở rộng**, đề bài, câu hỏi quiz, giờ + link + mã điểm danh Trạm hoa |
+| `/admin/cai-dat` | Bậc thưởng, chủ đề tuần, tên ruy băng, quà hộp bí ẩn, bảng điểm, **hệ số tầng, vườn chung, thưởng hồi xuân** |
 
 ---
 
-## Cài đặt
+## Chuyển từ mùa Trung Thu sang
+
+Hai cách. **Khuyến nghị: tạo một project Supabase mới** — dữ liệu Trung Thu còn
+nguyên ở project cũ để xem lại khi cần.
+
+### Cách 1 — project Supabase mới (khuyến nghị)
+
+1. Tạo project mới tại [supabase.com](https://supabase.com) (region Singapore).
+2. **SQL Editor → New query**, chạy lần lượt `0001_init.sql`, `0002_player_note.sql`,
+   `0003_mua_20_10.sql` trong `supabase/migrations/`.
+3. Đổi `NEXT_PUBLIC_SUPABASE_URL` và `SUPABASE_SERVICE_ROLE_KEY` trong `.env.local`
+   và trên Vercel sang project mới.
+4. `npm run seed`, rồi `npm run make-codes -- 50`.
+
+### Cách 2 — dùng lại project cũ
+
+1. Chạy `0003_mua_20_10.sql` trong SQL Editor.
+2. Xem trước sẽ xoá những gì: `npm run mua-moi`
+3. Xoá thật (người chơi, lịch sử, bài nộp, file đính kèm, nội dung ngày của mùa
+   trước — **không hoàn tác được**): `npm run mua-moi -- --xac-nhan`
+4. `npm run seed`, rồi `npm run make-codes -- 50`.
+
+`npm run seed` tự dừng nếu thấy DB còn ngày 21–47 của mùa trước, để không nạp chồng
+lên dữ liệu cũ. Cài đặt của mùa này lưu dưới tên khoá khác mùa trước, nên chỉnh
+sửa cũ ở `/admin/cai-dat` không vô tình áp vào mùa mới.
+
+Mã mới có dạng `HOA-XXXX`.
+
+---
+
+## Cài đặt từ đầu
 
 Cần Node 20 trở lên.
 
@@ -42,232 +147,107 @@ npm install
 cp .env.example .env.local     # rồi điền giá trị thật
 ```
 
-### 1. Dựng Supabase
-
-1. Tạo project mới tại [supabase.com](https://supabase.com) (chọn region Singapore cho gần Việt Nam).
-2. Vào **SQL Editor → New query**, dán toàn bộ `supabase/migrations/0001_init.sql`, bấm **Run**.
-3. Vào **Project Settings → API**, chép hai giá trị vào `.env.local`:
-   - `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
-   - `service_role` key → `SUPABASE_SERVICE_ROLE_KEY`
-
-> `service_role` bỏ qua mọi ràng buộc bảo mật của Supabase. Chỉ đặt nó ở biến môi
-> trường phía server, không bao giờ thêm tiền tố `NEXT_PUBLIC_`.
-
-### 2. Sinh khoá phiên và mật khẩu admin
+Sinh khoá phiên:
 
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-Dán kết quả vào `SESSION_SECRET`. Đặt `ADMIN_PASSWORD` là mật khẩu Trung dùng để vào `/admin`.
+Dán kết quả vào `SESSION_SECRET`. Đặt `ADMIN_PASSWORD` là mật khẩu vào `/admin`.
 
-### 3. Nạp nội dung 47 ngày
+> `service_role` bỏ qua mọi ràng buộc bảo mật của Supabase. Chỉ đặt nó ở biến môi
+> trường phía server, không bao giờ thêm tiền tố `NEXT_PUBLIC_`.
 
-```bash
-npm run seed
-```
+Rồi làm theo **Cách 1** ở trên.
 
-Script đọc `content/week-1.json` … `week-7.json` rồi ghi vào Supabase: 47 ngày,
-54 câu hỏi quiz, và chọn ngẫu nhiên **Ngày Thỏ Ngọc** (giữ kín phía server).
-
-Chạy lại `npm run seed` bất cứ lúc nào để cập nhật nội dung — mã điểm danh
-webinar và Ngày Thỏ Ngọc đã chọn sẽ không bị đụng tới.
-
-Lưu ý: `npm run seed` **xoá sạch câu hỏi rồi nạp lại** theo file. Nếu đã thêm
-hoặc sửa câu hỏi trong `/admin/noi-dung` mà chỉ muốn cập nhật phần chữ (tiêu đề,
-bài đọc, đề bài), chạy `npm run seed:noi-dung` — câu hỏi trong cơ sở dữ liệu
-được giữ nguyên. Thêm `-- --ngay 6,13` để chỉ nạp đúng vài ngày:
-
-```bash
-npm run seed:noi-dung -- --ngay 6,13,20,27,34,41   # 6 ngày quiz tổng hợp tuần
-```
-
-### 4. Tạo mã cho học viên
-
-```bash
-npm run make-codes -- 50
-```
-
-In ra CSV gồm mã và tên hiển thị để gửi qua Messenger. Từng mã lẻ thì tạo trực
-tiếp ở `/admin/nguoi-choi`.
-
-### 5. Chạy thử
+### Chạy thử
 
 ```bash
 npm run dev
 ```
 
-Mở http://localhost:3000
-
 Muốn xem app ở một ngày bất kỳ trong sự kiện, đặt trong `.env.local`:
 
 ```
-EVENT_DATE_OVERRIDE=2026-08-20
+EVENT_DATE_OVERRIDE=2026-10-08
 ```
 
-Nhớ **xoá dòng này trước khi lên production**.
+Nhớ **xoá dòng này trước khi lên production**. Lưu ý: mở trang cành hoa khi đang
+đặt ngày giả sẽ chốt sổ vườn chung cho những ngày "đã qua" theo ngày giả đó — chỉ
+thử trên project Supabase dùng để thử.
 
 ---
 
 ## Đưa lên Vercel
 
 ```bash
-npx vercel            # lần đầu, để liên kết project
 npx vercel --prod
 ```
 
-Hoặc đẩy repo lên GitHub rồi **Import Project** trong Vercel — cả hai cách đều được.
-
-Trong **Vercel → Settings → Environment Variables**, thêm cho cả ba môi trường
-(Production, Preview, Development):
+Trong **Vercel → Settings → Environment Variables** (cả Production, Preview,
+Development):
 
 | Biến | Giá trị |
 |---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | URL project Supabase |
 | `SUPABASE_SERVICE_ROLE_KEY` | service_role key |
-| `SESSION_SECRET` | chuỗi ngẫu nhiên đã sinh ở bước 2 |
+| `SESSION_SECRET` | chuỗi ngẫu nhiên |
 | `ADMIN_PASSWORD` | mật khẩu trang admin |
 
-Không cần thêm `EVENT_DATE_OVERRIDE` trên production.
-
 App tính "hôm nay là ngày thứ mấy" theo giờ Việt Nam (`Asia/Ho_Chi_Minh`), nên
-Vercel chạy theo UTC vẫn hiển thị đúng ngày.
+Vercel chạy theo UTC vẫn đúng ngày.
 
 ---
 
-## Việc Trung cần làm khi vận hành
+## Việc cần làm khi vận hành
 
-**Trước 10/08** — chạy seed, tạo mã, gửi mã cho học viên qua Messenger.
+**Trước 01/10** — chạy seed, tạo mã, gửi mã cho học viên qua Messenger.
 
-**Mỗi ngày** — không cần làm gì. Nội dung tự mở theo lịch.
+**Mỗi ngày** — không cần làm gì. Nội dung tự mở, vườn chung tự chốt sổ.
 
-**Mỗi Chủ Nhật (ngày webinar)** — vào `/admin/noi-dung`, mở ngày webinar hôm đó,
-đặt **mã điểm danh** và link phòng họp. Cuối buổi đọc mã lên cho học viên nhập.
-Chưa đặt mã thì không ai điểm danh được.
+**Mỗi Chủ Nhật (Trạm hoa)** — vào `/admin/noi-dung`, mở ngày Trạm hoa, đặt **mã
+điểm danh** và link phòng họp. Cuối buổi đọc mã lên. Giờ đã seed sẵn 20:00; người
+chơi được nhắc bằng dải báo trên đầu mọi trang từ sáng hôm trước.
 
-Giờ buổi học đã seed sẵn 20:00 mỗi Chủ Nhật (đêm hội 25/09 là 19:00). Cần dời
-giờ thì sửa ô **Giờ vào phòng** ở cùng trang đó — người chơi được nhắc bằng một
-dải báo trên đầu mọi trang, từ sáng hôm trước cho tới khi buổi tan.
+**Cuối mỗi tuần** — vào `/admin`, bấm **Bốc** cho tuần vừa xong. Liếc qua bảng
+**tầng hoa của cả lớp** và **cần nhắc một câu**: nhiều người dồn ở tầng Nụ là lúc
+nên nhắn cả nhóm.
 
-Dải báo chỉ hiện trong app, không tự gửi ra Messenger hay email — nó lo phần
-người hay quên, còn tin nhắn nhóm vẫn nên gửi như thường.
+**Ai xin thêm giọt sương** (ốm, đi công tác…) — `/admin/nguoi-choi`, bấm sửa, tăng
+ô **Giọt sương được cấp**. Chuỗi tự tính lại ở lần mở app kế tiếp.
 
-**Cuối mỗi tuần** — vào `/admin`, bấm **Bốc** cho tuần vừa xong để cập nhật bảng
-vinh danh mềm.
-
-**Tuần chung kết (21–25/09)** — vào `/admin/bai-nop` đọc bài, duyệt, và chọn một
-bài là *case study xuất sắc nhất*. Nhận xét viết ở ô **"Nhận xét gửi học viên"**
-sẽ hiện ở trang ngày đó của họ; ô **"Ghi chú riêng"** thì chỉ mình đọc.
-
----
-
-## Luật chơi được cài đặt thế nào
-
-Các con số dưới đây là **mặc định**. Đổi chúng ở `/admin/cai-dat` — lưu là có hiệu
-lực ngay, không cần deploy lại. Mặc định nằm trong `src/lib/scoring.ts`, còn logic
-ở `src/lib/game.ts`.
-
-**Điểm**
-
-| Loại ngày | Điểm |
-|---|---|
-| Kiến thức + quiz nhanh | 1đ có mặt + 1đ trả lời đúng |
-| Thử thách áp dụng | 5đ khi nộp bài |
-| Quiz tổng hợp tuần | 1đ + 3đ bonus nếu đúng ≥80% |
-| Trạm dừng gốc đa (webinar) | 10đ + 1 mảnh trăng |
-| Mỗi phần case study chung kết | 5đ |
-
-Trả lời sai vẫn check-in được, chuỗi ngày vẫn giữ — chỉ mất phần điểm thưởng.
-Tổng điểm tối đa nếu đi trọn vòng: **182đ** (chưa tính quà ngẫu nhiên).
-
-**Vé cứu** — mỗi người 2 vé, tự kích hoạt khi lỡ ngày, không cần bấm gì. Nếu quãng
-đứt dài hơn số vé còn lại thì không tiêu vé nào (tiêu một phần cũng không cứu được
-chuỗi), chuỗi đứt và bắt đầu lại.
-
-**Hộp quà bí ẩn** — 35% cơ hội sau khi nộp thử thách áp dụng, tối đa 1 lần mỗi tuần
-mỗi người. Sửa tỉ lệ và danh sách quà ở `/admin/cai-dat`.
-
-**Ngày Thỏ Ngọc** — 2 ngày bí mật chọn ngẫu nhiên lúc seed, cách nhau ít nhất 7
-ngày, lưu ở bảng `secret_days`. Ai check-in trúng ngày đó được +15đ và một thông
-báo bất ngờ.
-
-**Bảng vinh danh mềm** — bốc ngẫu nhiên 10% người có check-in thật trong tuần.
-Không có bảng xếp hạng cá nhân ở bất kỳ đâu.
-
-**Mảnh trăng** — trao khi điểm danh webinar. Muốn siết lại thành "phải đủ 6 ngày
-trong tuần mới được nhận", đổi `FRAGMENT_REQUIRES_FULL_WEEK = true` ở đầu
-`src/lib/game.ts`.
+**19–20/10** — `/admin/bai-nop` đọc case study, nhận xét, chọn bài xuất sắc nhất.
 
 ---
 
 ## Vì sao bí mật không lộ được
 
-Đây là ràng buộc quan trọng nhất trong brief, nên nó được cài ở tầng cơ sở dữ liệu
-chứ không chỉ ở code:
-
-- **Mọi bảng đều bật RLS và không có policy nào** cho `anon`. Trình duyệt không đọc
-  được bảng nào, kể cả khi ai đó tìm ra URL Supabase.
-- Toàn bộ truy cập đi qua server Next.js bằng `service_role` key — key này chỉ tồn
-  tại trong biến môi trường phía server.
-- `correct_index` (đáp án quiz), `webinar_code` (mã điểm danh) và bảng `secret_days`
-  (Ngày Thỏ Ngọc) **không bao giờ** nằm trong props gửi xuống client. Hàm
-  `getPublicQuestions()` cắt bỏ đáp án trước khi trả về.
-- Đáp án chỉ được gửi xuống sau khi người chơi đã nộp bài của ngày đó.
-- Ngày Thỏ Ngọc được chọn ngẫu nhiên trong script seed và không in ra màn hình —
-  không ai cần biết, kể cả Trung.
-- File đính kèm case study nằm trong bucket riêng tư; trang admin tạo link có hạn
-  1 giờ mỗi lần xem.
-- Bài nộp có **hai ô nhận xét tách rời**: `player_note` gửi cho học viên đọc, còn
-  `admin_note` là ghi chú riêng của Trung và không bao giờ đi vào props client.
-- Trang giới thiệu đặt `robots: noindex` để sự kiện không bị Google lập chỉ mục.
+- **Mọi bảng đều bật RLS và không có policy nào** cho `anon`. Toàn bộ truy cập đi
+  qua server Next.js bằng `service_role` key.
+- `correct_index`, `webinar_code`, `bonus_tip` / `bonus_deep` (khi chưa đủ tầng) và
+  bảng `secret_days` **không bao giờ** nằm trong props gửi xuống client.
+- Đáp án chỉ gửi xuống sau khi người chơi đã nộp bài ngày đó.
+- Ngày Bông hoa bí mật chọn ngẫu nhiên trong script seed, không in ra màn hình.
+- File đính kèm nằm trong bucket riêng tư; admin xem bằng link có hạn 1 giờ.
+- Bài nộp có hai ô nhận xét tách rời: `player_note` gửi học viên, `admin_note` chỉ
+  người điều hành đọc.
 
 ---
 
-## Sửa gì ở đâu
+## Sửa nội dung
 
-| Muốn đổi | Vào đâu |
-|---|---|
-| Bài đọc, đề bài, câu hỏi quiz của một ngày | `/admin/noi-dung` → chọn ngày |
-| Giờ vào phòng, mã điểm danh, link webinar | `/admin/noi-dung` → chọn ngày webinar |
-| Bậc thưởng cuối sự kiện | `/admin/cai-dat` |
-| Chủ đề 6 tuần, tên 6 mảnh trăng | `/admin/cai-dat` |
-| Quà trong hộp quà bí ẩn | `/admin/cai-dat` |
-| Bảng điểm, tỉ lệ trúng quà | `/admin/cai-dat` |
-| Số ngày của sự kiện | không đổi được — xem ghi chú dưới |
-
-Mỗi nhóm cài đặt có nút **khôi phục mặc định** riêng, nên lỡ tay vẫn quay lại được.
-
-**Vì sao 47 ngày không đổi được:** đó là khoảng cách từ 10/08 tới đêm rằm 25/09.
-Vòng cung khép kín, con thỏ và độ tròn của trăng đều tính theo đúng con số đó —
-thêm hay bớt ngày thì vòng không khép đúng đêm trăng tròn nữa. Nội dung của từng
-ngày thì sửa thoải mái.
-
-Vài lưu ý khi đổi cài đặt giữa chừng:
-
-- Đổi **bảng điểm** không tính lại điểm cũ. Người chơi giữ nguyên số điểm đã có,
-  luật mới áp dụng từ lần check-in tiếp theo.
-- Đổi **tên mảnh trăng** không làm mất mảnh ai đã thu, nhưng mảnh đã trao vẫn mang
-  tên cũ. Nên đổi trước khi tuần đó diễn ra.
-- Đổi **điểm Ngày Thỏ Ngọc** chỉ áp dụng cho ngày bí mật đặt sau này; hai ngày đã
-  bốc lúc seed giữ nguyên số điểm của chúng.
-
-## Sửa nội dung bài học
-
-Hai cách, dùng cách nào cũng được:
-
-**Trong app** — `/admin/noi-dung`, chọn ngày, sửa bài đọc và câu hỏi. Đổi có hiệu
-lực ngay. Bài đọc nhận định dạng tối giản: dòng trống ngăn đoạn, `**chữ đậm**`.
-Không nhận thẻ HTML (cố ý, để nội dung không chèn được mã vào trang).
+**Trong app** — `/admin/noi-dung`, chọn ngày. Bài đọc nhận định dạng tối giản: dòng
+trống ngăn đoạn, `**chữ đậm**`, không nhận HTML.
 
 **Trong file** — sửa `content/week-*.json` rồi `npm run seed` (hoặc
-`npm run seed:noi-dung` nếu muốn giữ nguyên câu hỏi đang có trong cơ sở dữ liệu).
-Cách này hợp khi cần sửa nhiều ngày cùng lúc, và giữ được lịch sử trong git.
+`npm run seed:noi-dung` để giữ nguyên câu hỏi trong DB; thêm `-- --ngay 10,17` để
+chỉ nạp vài ngày).
 
-Đừng viết số câu quiz vào bài đọc ("năm câu", "đúng từ 4 câu…") — thêm một câu là
-dòng đó sai ngay. Số câu và ngưỡng nhận bonus được app tự tính từ số câu thật của
-ngày cộng với bảng điểm trong `/admin/cai-dat`.
+**Bằng Excel** — tải file ở `/admin/noi-dung`, sửa, nạp lại. File có thêm hai cột
+*Mẹo ẩn (Hé nở)* và *Đọc mở rộng (Nở rộ)*. Đừng gửi file này cho học viên — nó có
+mã điểm danh và nội dung mở khoá.
 
-Cấu trúc một câu hỏi:
+Một câu hỏi:
 
 ```json
 {
@@ -278,29 +258,31 @@ Cấu trúc một câu hỏi:
 }
 ```
 
-`correct_index` đếm từ 0.
+`correct_index` đếm từ 0. Đừng viết số câu quiz vào bài đọc — ngưỡng thưởng được
+tính từ số câu thật.
 
 ---
 
 ## Cấu trúc thư mục
 
 ```
-content/          47 ngày nội dung, dạng JSON — nguồn cho script seed
-scripts/          seed.mjs (nạp nội dung) · make-codes.mjs (tạo mã hàng loạt)
-supabase/         migration SQL
-src/lib/          event.ts (lịch) · scoring.ts (bảng điểm) · game.ts (luật chơi)
-                  session.ts (cookie có chữ ký) · supabase.ts (kết nối server)
-src/components/   MoonRing (vòng cung SVG) · DayCard · Countdown · RichText
+content/          20 ngày nội dung, dạng JSON — nguồn cho script seed
+scripts/          seed.mjs · make-codes.mjs · mua-moi.mjs (dọn mùa cũ)
+supabase/         migration SQL (0003 là phần của mùa 20/10)
+src/lib/          event.ts (lịch) · scoring.ts (bảng điểm, tầng) · bloom.ts (luật chuỗi)
+                  game.ts (check-in, học bù, vườn chung) · settings.ts · session.ts
+src/components/   FlowerStem (cành hoa) · Bouquet (bó hoa) · Flower · Garden · DayCard
 src/app/          các trang
 ```
 
 ## Lệnh
 
 ```bash
-npm run dev          # chạy máy mình
-npm run build        # dựng bản production
-npm run typecheck    # kiểm tra kiểu
-npm run seed         # nạp nội dung 47 ngày (nạp lại cả câu hỏi)
-npm run seed:noi-dung # chỉ nạp phần chữ, giữ nguyên câu hỏi trong DB
+npm run dev            # chạy máy mình
+npm run build          # dựng bản production
+npm run typecheck      # kiểm tra kiểu
+npm run seed           # nạp nội dung 20 ngày (nạp lại cả câu hỏi)
+npm run seed:noi-dung  # chỉ nạp phần chữ, giữ nguyên câu hỏi trong DB
 npm run make-codes -- 50
+npm run mua-moi        # xem/dọn dữ liệu mùa trước (thêm -- --xac-nhan để xoá)
 ```

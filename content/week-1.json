@@ -1,189 +1,121 @@
 [
   {
     "day": 1,
-    "date": "2026-08-10",
-    "weekday": "Thứ Hai",
+    "date": "2026-10-01",
+    "weekday": "Thứ Năm",
     "week": 1,
     "phase": "Onboarding",
-    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
+    "week_theme": "Hiểu chu kỳ của khách hàng nữ",
     "day_type": "kien_thuc",
-    "title": "Vì sao khách biết mà vẫn không tập",
-    "body": "Bạn đã gặp kiểu khách này rồi: hỏi rất kỹ, gật đầu rất nhiệt, hiểu rõ mình cần giảm mỡ, rồi ba tuần sau vẫn chưa bước chân vào phòng tập. Phản xạ thường thấy của một PT trẻ là giải thích thêm — thêm bằng chứng, thêm số liệu, thêm ảnh trước sau. Và nó gần như không hiệu quả.\n\nLý do là kiến thức và hành vi nằm ở hai tầng khác nhau. Mô hình Xuyên lý thuyết (Transtheoretical Model — TTM) của Prochaska và DiClemente mô tả thay đổi hành vi như một chuỗi năm giai đoạn: **Precontemplation** (chưa nghĩ tới), **Contemplation** (đang cân nhắc), **Preparation** (đang chuẩn bị), **Action** (đang làm), **Maintenance** (đang duy trì). Người ở giai đoạn một cần thứ hoàn toàn khác với người ở giai đoạn ba.\n\nĐiều này đổi cách mình làm việc: trước khi bán một giáo án, mình xác định khách đang đứng ở đâu. Đưa kế hoạch tập 5 buổi/tuần cho một người còn đang cân nhắc thì không phải là tận tâm — đó là nhảy cóc. Tuần này mình sẽ đi lần lượt qua từng giai đoạn, và cuối tuần bạn sẽ có một cách đọc khách hàng thực dụng hơn hẳn.",
-    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "title": "Chu kỳ 28 ngày không phải chuẩn của ai cả",
+    "body": "Sớm muộn gì bạn cũng nhận được tin nhắn này: “Nay em tới tháng, em nghỉ buổi tập nha.” Phản xạ của nhiều PT là hoặc gật đầu cho qua, hoặc khuyên theo cảm tính. 20 ngày tới mình đi qua điều nghiên cứu thực sự nói, dựa trên bài tổng quan của Greg Nuckols (Stronger By Science) tổng hợp khoảng 60 nghiên cứu về chu kỳ kinh nguyệt, thuốc tránh thai và tập luyện.\n\nBắt đầu từ nền. Một chu kỳ bình thường dài **20 đến 35 ngày**, trung bình khoảng 28. Chu kỳ tính từ **ngày đầu tiên hành kinh**. Từ đó tới lúc rụng trứng là **pha nang noãn** (follicular phase — FP). Rụng trứng xảy ra quanh giữa chu kỳ, với đa số người là khoảng ngày 12–16. Từ rụng trứng tới ngày hành kinh kế tiếp là **pha hoàng thể** (luteal phase — LP).\n\nChu kỳ được đánh dấu bằng bốn hormone: estrogen, progesterone, FSH và LH. Cả bốn đều thấp lúc đầu chu kỳ. **Estrogen** tăng dần suốt pha nang noãn, đạt đỉnh trong vòng một hai ngày quanh rụng trứng, giảm một chút, tăng lần nữa ở giữa pha hoàng thể rồi xuống thấp nhất vào ngày đầu hành kinh. **Progesterone** tăng rất chậm trong pha nang noãn, tăng mạnh ở đầu pha hoàng thể, đạt đỉnh giữa pha này rồi giảm trước kỳ kinh. FSH và LH gần như nằm yên ở mức thấp, trừ một đỉnh ngay trước rụng trứng.\n\nTrong 20 ngày tới, hai cái tên bạn cần nhớ là **estrogen** và **progesterone** — gần như mọi thay đổi đáng bàn đều xoay quanh hai hormone này.\n\nMột hệ quả thực tế ngay hôm nay: đừng mặc định “ngày 14 là rụng trứng”. Với một khách có chu kỳ 23 ngày và một khách có chu kỳ 34 ngày, “ngày 14” rơi vào hai thời điểm rất khác nhau.",
+    "mechanic": "Hoa nở một bông: có mặt 1đ + mỗi câu đúng 1đ, nhân theo tầng",
+    "bonus_tip": "Đừng mở đầu bằng “em đang ngày mấy của chu kỳ?”. Hỏi mở và trung tính hơn: “Trong tháng có giai đoạn nào em thấy tập nặng nề hơn hẳn không?” Khách tự kể thì bạn có thông tin mà khách không thấy bị soi chuyện riêng. Ghi lại vào hồ sơ và đối chiếu sau hai, ba tháng — lúc đó bạn mới thấy được nhịp của riêng người đó.",
+    "bonus_deep": "**Thuốc tránh thai làm gì với chu kỳ?**\n\nThuốc tránh thai nội tiết ngăn mang thai bằng cách ngăn rụng trứng, cản trứng làm tổ bằng cách làm đặc lớp nhầy tử cung, hoặc (thường là) cả hai. Ngoài tránh thai, người ta còn dùng thuốc để làm đều chu kỳ, giảm triệu chứng tiền kinh và hành kinh — và đôi khi vì thi đấu: dùng liều cao estrogen hoặc progesterone vào thời điểm nhất định để lùi kỳ kinh qua ngày thi, hoặc kéo nó tới sớm để xong trước ngày thi.\n\nVới PT, điều cần nhớ là: khách đang dùng thuốc tránh thai nội tiết thì không còn một “pha hoàng thể thật” như chu kỳ tự nhiên. Nửa sau chu kỳ của họ là do thuốc quyết định. Vì vậy phần lớn những gì bạn đọc về “tập theo pha” không áp dụng nguyên xi cho người dùng thuốc — ngày 8 mình sẽ thấy rõ điều này qua một nghiên cứu cụ thể.\n\nCòn chọn loại nào, dùng hay ngừng — đó luôn là việc giữa khách và bác sĩ.",
     "questions": [
       {
-        "prompt": "Theo TTM, khi khách hàng nói \"em biết em cần tập, nhưng chắc để qua tháng sau\", họ đang ở giai đoạn nào?",
-        "options": ["Precontemplation", "Contemplation", "Action", "Maintenance"],
+        "prompt": "Pha hoàng thể (luteal phase) là khoảng thời gian nào trong chu kỳ?",
+        "options": [
+          "Từ ngày đầu hành kinh tới lúc rụng trứng",
+          "Từ lúc rụng trứng tới ngày đầu kỳ kinh tiếp theo",
+          "Chỉ những ngày đang hành kinh",
+          "Ba ngày quanh thời điểm rụng trứng"
+        ],
         "correct_index": 1,
-        "explain": "Đã nhận ra vấn đề và có ý định thay đổi nhưng chưa đặt mốc cụ thể — đó là Contemplation. Precontemplation là còn chưa thấy mình có vấn đề gì."
+        "explain": "Chu kỳ tính từ ngày đầu hành kinh. Pha nang noãn là từ đó tới rụng trứng; pha hoàng thể là từ rụng trứng tới kỳ kinh kế tiếp."
+      },
+      {
+        "prompt": "Hormone nào tăng mạnh ở đầu pha hoàng thể và đạt đỉnh ở giữa pha này?",
+        "options": ["Estrogen", "FSH", "LH", "Progesterone"],
+        "correct_index": 3,
+        "explain": "Progesterone tăng rất chậm ở pha nang noãn, rồi tăng nhanh đầu pha hoàng thể và đạt đỉnh giữa pha. Estrogen đạt đỉnh quanh rụng trứng; FSH và LH chỉ có một đỉnh ngay trước rụng trứng."
       }
     ]
   },
   {
     "day": 2,
-    "date": "2026-08-11",
-    "weekday": "Thứ Ba",
+    "date": "2026-10-02",
+    "weekday": "Thứ Sáu",
     "week": 1,
     "phase": "Scaffolding",
-    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
+    "week_theme": "Hiểu chu kỳ của khách hàng nữ",
     "day_type": "kien_thuc",
-    "title": "Hai giai đoạn đầu — khách chưa sẵn sàng",
-    "body": "**Precontemplation** là người chưa thấy mình có vấn đề, hoặc thấy rồi nhưng đã quen sống chung với nó. Họ tới phòng tập vì vợ giục, vì công ty tặng thẻ, vì bạn rủ. Dấu hiệu nhận ra: họ nói về mục tiêu bằng lời của người khác. \"Chồng em bảo em nên giảm cân.\"\n\n**Contemplation** là người đã thấy vấn đề và đang cân nhắc, nhưng bị kẹt giữa cái được và cái mất. Họ muốn giảm mỡ nhưng ngại đau, ngại mất thời gian, ngại người khác nhìn. Đặc trưng của giai đoạn này là sự lưỡng lự kéo dài — có người ở đây hàng năm trời.\n\nSai lầm phổ biến nhất là dùng cùng một kịch bản cho cả hai. Với Precontemplation, việc của bạn là gieo một câu hỏi chứ không phải một kế hoạch: \"Anh thấy sức khoẻ mình mấy năm nay thế nào?\" Với Contemplation, việc của bạn là giúp họ cân lại hai đầu — nói thẳng cái giá phải trả, và làm cho cái được trở nên cụ thể. Cả hai giai đoạn này đều chưa phải lúc đưa bảng giá.",
-    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "title": "Đọc nghiên cứu về chu kỳ cho tỉnh táo",
+    "body": "Trước khi đi vào “chu kỳ ảnh hưởng tập luyện thế nào”, cần biết mảng nghiên cứu này yếu ở đâu. Không phải để nghi ngờ mọi thứ — mà để khi thấy một bài báo giật tít, bạn biết hỏi câu gì.\n\n**Mẫu nhỏ.** Chuyện phổ biến trong khoa học thể thao, nhưng ở đây còn rõ hơn: có nghiên cứu chỉ năm người mỗi nhóm, và khá nhiều nghiên cứu mười người trở xuống.\n\n**Không đo hormone để xác định pha.** Cho tới khoảng giữa thập niên 90, cách phổ biến là đếm ngày từ kỳ kinh (ngày 14 thì gọi là “giai đoạn rụng trứng”) hoặc đo thân nhiệt — thân nhiệt thường tăng khoảng 0,3–0,5°C quanh rụng trứng do progesterone. Không hẳn là sai, nhưng kém chính xác hơn đo hormone.\n\n**Progesterone thấp bất thường.** Trong những nghiên cứu có đo hormone, khá nhiều nghiên cứu trên vận động viên thấy progesterone pha hoàng thể thấp hơn bình thường — có thể là chu kỳ không rụng trứng. Nếu nghiên cứu đó kết luận “không khác biệt giữa hai pha”, ta không biết điều đó có còn đúng với chu kỳ bình thường hay không.\n\n**Chỉ lấy hai, ba thời điểm.** “Pha nang noãn” lúc đầu (estrogen và progesterone đều thấp) khác hẳn lúc cuối (estrogen ở đỉnh). Hai nghiên cứu cùng so “nang noãn với hoàng thể” có thể ra kết luận ngược nhau chỉ vì lấy mẫu ở hai thời điểm khác nhau.\n\n**Gộp đủ loại thuốc tránh thai** — uống, tiêm, cấy, miếng dán; loại kết hợp, loại chỉ progestin, một pha, hai pha, ba pha — vào chung một nhóm “người dùng thuốc”.\n\n**Biến thiên cá nhân rất lớn.** Khoa học nói về trung bình, còn khách của bạn là một người cụ thể.\n\n**Mặc định chu kỳ 28 ngày.** Rụng trứng xê dịch theo độ dài chu kỳ, nên “ngày 14” có thể đã sau rụng trứng với người chu kỳ ngắn, và còn trước rụng trứng cả tuần với người chu kỳ dài.",
+    "mechanic": "Hoa nở một bông: có mặt 1đ + mỗi câu đúng 1đ, nhân theo tầng",
+    "bonus_tip": "Checklist bốn câu khi đọc một nghiên cứu về chu kỳ: (1) Bao nhiêu người? (2) Xác định pha bằng gì — đếm ngày, thân nhiệt hay đo hormone? (3) So sánh những thời điểm nào? (4) Người tham gia có dùng thuốc tránh thai không, loại gì? Hai câu trả lời đáng ngờ là đủ để bạn nói với khách: “Cái này chưa chắc đâu em.”",
+    "bonus_deep": "**Vì sao “khác biệt trung bình” không nói hết chuyện?**\n\nPhần lớn thay đổi về hiệu suất quanh kỳ kinh — như ngày 8 sẽ cho thấy — gắn với mức độ nặng nhẹ của triệu chứng tiền kinh và hành kinh hơn là với thay đổi sinh lý giới hạn hiệu suất. Mà triệu chứng thì mỗi người một khác: có người gần như không cảm thấy gì, có người mất hẳn vài ngày mỗi tháng.\n\nKhi một nghiên cứu gộp cả hai kiểu người đó rồi tính trung bình, kết quả có thể là “không khác biệt” — trong khi với từng người lại có khác biệt rất thật. Đó là lý do cách làm tốt nhất với khách không phải là áp một lịch “tập theo pha” lấy từ bài báo, mà là theo dõi chính người đó qua vài chu kỳ.",
     "questions": [
       {
-        "prompt": "Với khách đang ở Precontemplation, việc nào sau đây phù hợp nhất?",
+        "prompt": "Vì sao cách đếm “ngày 14 = rụng trứng” cho mọi người tham gia dễ dẫn tới kết luận sai?",
         "options": [
-          "Gửi ngay giáo án 12 tuần để họ thấy sự chuyên nghiệp",
-          "Đặt câu hỏi giúp họ tự nhìn lại tình trạng hiện tại",
-          "Cho xem ảnh trước–sau của khách cũ để tạo động lực",
-          "Chốt gói tập ngắn hạn cho họ thử"
+          "Vì rụng trứng luôn xảy ra vào ngày 7",
+          "Vì độ dài chu kỳ mỗi người khác nhau (20–35 ngày) nên thời điểm rụng trứng lệch theo",
+          "Vì phụ nữ không rụng trứng mỗi tháng",
+          "Vì ngày 14 luôn là ngày hành kinh"
         ],
         "correct_index": 1,
-        "explain": "Người chưa thấy mình có vấn đề thì mọi kế hoạch đều là nhảy cóc. Việc cần làm là gieo nhận thức bằng câu hỏi, không phải đẩy giải pháp."
+        "explain": "Chu kỳ bình thường dài 20–35 ngày. Rụng trứng xê dịch theo đó, nên cùng là “ngày 14” nhưng có người đã qua rụng trứng, có người còn cách cả tuần."
+      },
+      {
+        "prompt": "Một nghiên cứu trên vận động viên nữ thấy progesterone pha hoàng thể thấp hơn bình thường, và kết luận “không khác biệt giữa hai pha”. Vì sao kết luận này cần dè dặt?",
+        "options": [
+          "Vì đó có thể là chu kỳ không rụng trứng, không đại diện cho chu kỳ bình thường",
+          "Vì progesterone không liên quan gì tới tập luyện",
+          "Vì vận động viên không có kinh nguyệt",
+          "Vì đo progesterone luôn cho kết quả sai"
+        ],
+        "correct_index": 0,
+        "explain": "Progesterone thấp ở pha hoàng thể gợi ý chu kỳ không rụng trứng — vẫn hành kinh nhưng không phóng trứng. Nhiều thay đổi ở pha hoàng thể gắn với progesterone, nên “không khác biệt” ở nhóm này chưa chắc đúng với chu kỳ bình thường."
       }
     ]
   },
   {
     "day": 3,
-    "date": "2026-08-12",
-    "weekday": "Thứ Tư",
+    "date": "2026-10-03",
+    "weekday": "Thứ Bảy",
     "week": 1,
     "phase": "Scaffolding",
-    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
+    "week_theme": "Hiểu chu kỳ của khách hàng nữ",
     "day_type": "kien_thuc",
-    "title": "Preparation và Action — khách đã sẵn sàng",
-    "body": "**Preparation** là giai đoạn dễ nhận ra nhất, và cũng dễ bị bỏ lỡ nhất. Khách bắt đầu hỏi những câu rất cụ thể: tập mấy buổi, đi giờ nào được, có cần mua giày không. Họ đã ra quyết định trong đầu, đang tìm cách thực hiện. Khoảng cửa sổ này thường chỉ mở trong vài tuần — nếu bạn để họ chờ, họ trượt ngược về Contemplation.\n\n**Action** là sáu tháng đầu thực sự tập. Đây là lúc hành vi mới còn tốn ý chí, chưa thành nếp. Khách dễ bỏ nhất ở tuần thứ ba đến thứ sáu, khi cảm giác mới mẻ đã hết mà kết quả thì chưa thấy.\n\nĐiều mình muốn bạn nhớ: hai giai đoạn này cần hai loại hỗ trợ khác nhau. Preparation cần bạn gỡ rào cản — chốt lịch cụ thể, giảm số quyết định họ phải tự đưa ra. Action cần bạn thiết kế thắng lợi sớm — chọn bài tập họ tiến bộ nhanh, đo thứ tiến bộ được trong hai tuần thay vì chỉ cân nặng. Người ở Action cần thấy mình đang đi đúng, chứ chưa cần thấy đích.",
-    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "title": "PMS là thật — và vận động giúp được",
+    "body": "Hội chứng tiền kinh nguyệt (PMS) là thật. Ước tính khoảng **85% phụ nữ** thường xuyên gặp ít nhất một triệu chứng: đau, đầy hơi, uể oải hoặc thay đổi tâm trạng. Thêm **3–8%** có dạng nặng hơn gọi là rối loạn khí sắc tiền kinh nguyệt (PMDD), có cả triệu chứng trầm cảm.\n\nTrong giai đoạn tiền kinh và vài ngày đầu hành kinh, phần lớn phụ nữ bị giảm tập trung, đau nhiều hơn, cảm xúc tiêu cực tăng (bực bội, lo sợ, xấu hổ, tội lỗi, tức giận, buồn) và cảm xúc tích cực giảm (hứng thú, niềm vui).\n\nTin tốt: nghiên cứu thấy **tập luyện đều đặn** — chủ yếu là aerobic cường độ vừa — giúp giảm nhiều triệu chứng. Phụ nữ có tập luyện thường ít đau hơn, tâm trạng tiêu cực nhẹ hơn và tập trung tốt hơn ở mọi thời điểm trong tháng. Nói cách khác, “tới tháng thì nghỉ hẳn” không phải lời khuyên mặc định đúng.\n\nCòn **đầy hơi** thì sao? Hầu hết phụ nữ thấy đầy ở giai đoạn tiền kinh và đầu kỳ, nhưng nghiên cứu lẫn lộn: có nghiên cứu thấy giữ thêm vài cân nước, có nghiên cứu không. Có ba khả năng, không loại trừ nhau: một số người giữ nước còn số khác thì không; hoặc tổng lượng nước không đổi nhưng điện giải thay đổi làm nước dồn từ máu và cơ ra khoảng kẽ nên thấy phù; hoặc cân tăng thực ra là phần bù lại lượng nước đã mất ở giữa pha hoàng thể. Dù là khả năng nào, kết luận cho PT đều giống nhau: **cân tăng tuần tiền kinh phần lớn là nước, không phải mỡ.**\n\nMột lưu ý về ngôn từ: PMS là tên một nhóm triệu chứng có thật, không phải cái cớ để gạt đi cảm xúc của khách. “Chắc tới tháng nên khó chịu” là câu không bao giờ nên nói ra.",
+    "mechanic": "Hoa nở một bông: có mặt 1đ + mỗi câu đúng 1đ, nhân theo tầng",
+    "bonus_tip": "Nhắn trước cho khách đang giảm mỡ: “Mấy ngày trước kỳ, cân có thể nhích 1–2kg do nước. Mình sẽ so với cùng thời điểm tháng trước, không so với tuần trước.” Nói trước thì là kiến thức; nói sau khi cân đã tăng thì nghe như bào chữa.",
+    "bonus_deep": "**Giả thuyết thứ ba về đầy hơi — cơ chế progesterone và aldosterone**\n\nProgesterone cạnh tranh với aldosterone (hormone tuyến thượng thận làm tăng giữ nước và muối) ở cùng một vị trí gắn trên ống thận. Khi progesterone cao ở giữa pha hoàng thể, cơ thể thải nhiều nước hơn, nên aldosterone tăng lên để bù. Tới cuối pha hoàng thể, progesterone giảm, lượng aldosterone đã tích lại khiến cơ thể giữ nước vượt đà.\n\nVí dụ trong bài gốc: cân tăng khoảng 1,4kg (3 pound) có thể chỉ gồm chừng 0,45kg nước “dư” thật, còn khoảng 0,9kg là phần bù lại lượng nước đã mất trước đó.\n\n**Tai nạn và sự tập trung**\n\nPhụ nữ dễ gặp tai nạn hơn ở giai đoạn tiền kinh và hành kinh: một nghiên cứu thấy 52% phụ nữ vào cấp cứu vì tai nạn đang ở cuối pha hoàng thể hoặc đang hành kinh. Nhiều khả năng là do uể oải và giảm tập trung. Với PT: những ngày khách mệt, đừng dạy bài phức tạp mới, và để mắt kỹ hơn tới kỹ thuật.",
     "questions": [
       {
-        "prompt": "Khách đang ở giai đoạn Action thường bỏ cuộc nhiều nhất vào lúc nào, và vì sao?",
+        "prompt": "Theo ước tính trong bài, khoảng bao nhiêu phụ nữ thường xuyên gặp ít nhất một triệu chứng PMS?",
+        "options": ["Khoảng 15%", "Khoảng 40%", "Khoảng 85%", "Gần như 100%"],
+        "correct_index": 2,
+        "explain": "Khoảng 85% phụ nữ thường xuyên có ít nhất một triệu chứng; 3–8% có dạng nặng là PMDD."
+      },
+      {
+        "prompt": "Khách nói tuần trước kỳ kinh chị thấy uể oải, đau và khó tập trung. Phản hồi nào khớp với bằng chứng nhất?",
         "options": [
-          "Ngay buổi đầu, vì bài tập quá nặng",
-          "Tuần 3–6, khi cảm giác mới mẻ hết mà kết quả chưa thấy rõ",
-          "Sau 6 tháng, khi đã đạt mục tiêu",
-          "Không có thời điểm nào đặc biệt, tỉ lệ bỏ đều nhau"
+          "Khuyên chị nghỉ hẳn tập cho tới hết kỳ",
+          "Tăng cường độ để “đánh bại” PMS",
+          "Giữ vận động, ưu tiên cường độ vừa phải và điều chỉnh theo cảm nhận của chị",
+          "Nói với chị rằng đó chỉ là tâm lý"
         ],
-        "correct_index": 1,
-        "explain": "Giai đoạn giữa là chỗ trũng: động lực ban đầu đã cạn, thay đổi hình thể thì chưa đủ rõ. Đây là lúc cần thắng lợi sớm đo được, không phải lúc tăng cường độ."
+        "correct_index": 2,
+        "explain": "Tập luyện đều, nhất là aerobic cường độ vừa, gắn với ít đau hơn, tâm trạng tốt hơn và tập trung tốt hơn. Điều chỉnh theo cảm nhận của khách vẫn là nguyên tắc."
       }
     ]
   },
   {
     "day": 4,
-    "date": "2026-08-13",
-    "weekday": "Thứ Năm",
-    "week": 1,
-    "phase": "Scaffolding",
-    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
-    "day_type": "thu_thach",
-    "title": "Thử thách áp dụng — đọc vị một khách hàng thật",
-    "body": "Đến lúc mang TTM ra khỏi trang giấy. Bài này không cần dài, cần đúng người thật việc thật.",
-    "prompt": "Chọn **một khách hàng bạn đang làm việc cùng** (hoặc một người quen đang cân nhắc tập luyện). Viết ra:\n\n1. Bạn đoán họ đang ở giai đoạn nào trong 5 giai đoạn TTM?\n2. Hai dấu hiệu cụ thể khiến bạn kết luận như vậy — trích đúng câu họ nói càng tốt.\n3. Một việc bạn sẽ làm khác đi trong buổi gặp tới, dựa trên giai đoạn đó.\n\nKhông cần viết hay. Cần viết thật. Nếu tiện, bạn đính kèm ảnh chụp đoạn tin nhắn (nhớ che tên khách).",
-    "mechanic": "Thỏ nhảy 2 bước khi nộp bài (+5đ) — có thể trúng Hộp quà bí ẩn",
-    "questions": []
-  },
-  {
-    "day": 5,
-    "date": "2026-08-14",
-    "weekday": "Thứ Sáu",
-    "week": 1,
-    "phase": "Scaffolding",
-    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
-    "day_type": "kien_thuc",
-    "title": "Maintenance và Relapse — vì sao khách bỏ giữa chừng",
-    "body": "**Maintenance** bắt đầu khi hành vi mới đã chạy được khoảng sáu tháng và tốn ít ý chí hơn hẳn. Nghe thì yên tâm, nhưng đây lại là giai đoạn PT hay buông tay sớm nhất — khách tập ổn rồi, mình chuyển sự chú ý sang người mới. Trong khi đó Maintenance vẫn cần được nuôi: đổi mục tiêu, đổi kích thích, cho họ vai trò mới.\n\n**Relapse** — tái phát — không phải một giai đoạn thất bại nằm ngoài mô hình. Prochaska mô tả nó là một phần bình thường của vòng thay đổi. Đa số người thành công đều đi qua vòng này vài lần trước khi trụ được. Một chuyến công tác, một đợt ốm, một lần chuyển nhà là đủ để cắt chuỗi.\n\nVì vậy điều quan trọng nhất bạn làm cho khách không phải là ngăn tái phát, mà là rút ngắn thời gian quay lại. Nói trước với họ ngay từ đầu rằng sẽ có lúc đứt quãng, và thống nhất sẵn một kịch bản quay lại thật nhẹ: buổi đầu tiên sau khi nghỉ chỉ cần 20 phút, cường độ thấp. Khách bỏ hẳn thường không phải vì nghỉ một tuần — mà vì thấy xấu hổ khi quay lại.",
-    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
-    "questions": [
-      {
-        "prompt": "Theo TTM, cách hiểu nào về Relapse (tái phát) là đúng?",
-        "options": [
-          "Là dấu hiệu khách không phù hợp với tập luyện",
-          "Là một phần bình thường của vòng thay đổi, cần chuẩn bị trước kịch bản quay lại",
-          "Chỉ xảy ra với người ở giai đoạn Precontemplation",
-          "Là lý do chính đáng để dừng hợp tác với khách"
-        ],
-        "correct_index": 1,
-        "explain": "Prochaska xem tái phát là một phần của vòng, không phải ngoại lệ. Việc của PT là rút ngắn thời gian quay lại, chứ không phải cố ngăn nó xảy ra."
-      }
-    ]
-  },
-  {
-    "day": 6,
-    "date": "2026-08-15",
-    "weekday": "Thứ Bảy",
-    "week": 1,
-    "phase": "Scaffolding",
-    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
-    "day_type": "quiz_tuan",
-    "title": "Quiz tổng hợp tuần 1 — Mô hình TTM",
-    "body": "Quiz tổng hợp cả tuần đầu tiên, làm trong một lượt. Sai cũng không sao — thỏ vẫn đi tiếp, chỉ là chưa nhận được phần thưởng thêm.",
-    "mechanic": "Thỏ nhảy 1 bước; đạt ≥80% nhận thêm \"tia sáng\" bonus (+3đ)",
-    "questions": [
-      {
-        "prompt": "Thứ tự đúng của năm giai đoạn trong TTM là gì?",
-        "options": [
-          "Contemplation → Precontemplation → Preparation → Action → Maintenance",
-          "Precontemplation → Contemplation → Preparation → Action → Maintenance",
-          "Preparation → Contemplation → Precontemplation → Action → Maintenance",
-          "Precontemplation → Preparation → Contemplation → Maintenance → Action"
-        ],
-        "correct_index": 1,
-        "explain": "Chưa nghĩ tới → đang cân nhắc → đang chuẩn bị → đang làm → đang duy trì."
-      },
-      {
-        "prompt": "Khách nhắn: \"Chị ơi tuần sau em bắt đầu được không, em đi giờ nào thì phòng vắng?\" — đây là dấu hiệu của giai đoạn nào?",
-        "options": ["Precontemplation", "Contemplation", "Preparation", "Maintenance"],
-        "correct_index": 2,
-        "explain": "Câu hỏi đã chuyển từ \"có nên không\" sang \"làm thế nào\" — đặc trưng của Preparation. Đây là lúc cần chốt lịch ngay, đừng để nguội."
-      },
-      {
-        "prompt": "Vì sao đưa giáo án chi tiết cho khách ở giai đoạn Contemplation thường không hiệu quả?",
-        "options": [
-          "Vì giáo án đó chắc chắn sai về mặt khoa học",
-          "Vì họ chưa giải quyết xong sự lưỡng lự giữa cái được và cái mất",
-          "Vì họ không đủ tiền chi trả",
-          "Vì giai đoạn này khách không đọc tin nhắn"
-        ],
-        "correct_index": 1,
-        "explain": "Vấn đề của Contemplation là cân nhắc chưa ngã ngũ, không phải thiếu thông tin. Thêm chi tiết kỹ thuật chỉ làm cán cân nặng thêm về phía \"phức tạp quá\"."
-      },
-      {
-        "prompt": "Với khách đã vào Maintenance, sai lầm thường gặp của PT là gì?",
-        "options": [
-          "Tăng cường độ quá nhanh",
-          "Giảm sự quan tâm vì thấy khách đã ổn định",
-          "Đổi giáo án quá thường xuyên",
-          "Yêu cầu khách ghi nhật ký ăn uống"
-        ],
-        "correct_index": 1,
-        "explain": "Khách ổn định không có nghĩa là khách không cần gì. Maintenance vẫn cần mục tiêu mới và vai trò mới để không nguội dần."
-      },
-      {
-        "prompt": "Cách chuẩn bị tốt nhất cho khả năng khách tái phát là gì?",
-        "options": [
-          "Yêu cầu khách cam kết không nghỉ buổi nào",
-          "Thống nhất trước một kịch bản quay lại thật nhẹ khi có gián đoạn",
-          "Phạt tiền mỗi buổi khách vắng mặt",
-          "Không nhắc tới khả năng nghỉ để tránh gieo ý nghĩ"
-        ],
-        "correct_index": 1,
-        "explain": "Gián đoạn gần như chắc chắn xảy ra. Điều quyết định là buổi quay lại có dễ bước vào hay không — khách bỏ hẳn phần lớn vì ngại quay lại, không phải vì nghỉ."
-      }
-    ]
-  },
-  {
-    "day": 7,
-    "date": "2026-08-16",
+    "date": "2026-10-04",
     "weekday": "Chủ Nhật",
     "week": 1,
     "phase": "Scaffolding",
-    "week_theme": "Tâm lý thay đổi hành vi khách hàng (TTM)",
+    "week_theme": "Hiểu chu kỳ của khách hàng nữ",
     "day_type": "webinar",
-    "title": "Trạm dừng gốc đa #1 — Áp dụng TTM vào buổi tư vấn đầu tiên",
-    "body": "Buổi đầu tiên trong sáu trạm dừng. Mình sẽ đi qua một kịch bản tư vấn hoàn chỉnh: hỏi gì trong ba phút đầu để định vị giai đoạn của khách, nói gì tiếp theo cho từng giai đoạn, và chỗ nào thì im lặng.\n\nCuối buổi mình đọc **mã điểm danh**. Bạn nhập mã đó vào ô bên dưới để nhận mảnh trăng đầu tiên — \"Tia sáng đầu tiên\".",
-    "mechanic": "Tham dự = nhận Mảnh trăng \"Tia sáng đầu tiên\" + thỏ tới trạm dừng chân (+10đ)",
-    "webinar_at": "2026-08-16T20:00:00+07:00",
+    "title": "Trạm hoa #1 — Nói chuyện chu kỳ với khách nữ mà không ngượng",
+    "body": "Buổi đầu tiên trong ba Trạm hoa. Mình đi thẳng vào chuyện nhiều PT ngại nhất: nói chuyện chu kỳ với khách nữ. Hỏi gì, hỏi lúc nào, ghi vào đâu — và chỗ nào thì dừng lại, nhường cho bác sĩ.\n\nCuối buổi mình đọc **mã điểm danh**. Bạn nhập mã vào ô bên dưới để nhận dải **Ruy băng Thấu hiểu** — dải đầu tiên buộc bó hoa của bạn.\n\nKhông dự được cũng không sao: Trạm hoa là ngày trung tính, vắng thì cây giữ nguyên, không héo.",
+    "prompt": "**Chuẩn bị trước buổi:** khách nữ 29 tuổi, dân văn phòng, tập với bạn 3 buổi/tuần. Tới buổi thứ ba trong tuần, chị nhắn: “Nay em tới tháng, em nghỉ nha anh.”\n\nBạn trả lời tin nhắn đó thế nào? Viết sẵn câu trả lời của bạn — trong buổi mình sẽ đọc vài câu và cùng sửa.",
+    "mechanic": "Tham dự = nhận Ruy băng Thấu hiểu (+10đ, nhân theo tầng). Vắng không làm héo hoa",
+    "webinar_at": "2026-10-04T20:00:00+07:00",
     "questions": []
   }
 ]

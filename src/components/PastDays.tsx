@@ -2,26 +2,37 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import type { CellState } from '@/lib/bloom';
 
 export type PastDay = {
   day: number;
   /** YYYY-MM-DD — dùng để lọc, so sánh chuỗi là đủ vì cùng định dạng. */
   date: string;
-  /** "10/08/2026" — đã dựng sẵn ở server để client không phải gọi lịch. */
+  /** "01/10/2026" — đã dựng sẵn ở server để client không phải gọi lịch. */
   dateLabel: string;
   title: string;
   dayType: string;
   typeLabel: string;
   week: number;
-  status: 'done' | 'freeze' | 'missed';
+  status: CellState;
+  /** Bỏ lỡ nhưng còn trong 48 giờ học bù. */
+  open: boolean;
   points: number;
+};
+
+const STATUS_TAG: Partial<Record<CellState, string>> = {
+  today: 'hôm nay',
+  rest: 'vắng Trạm hoa',
+  dew: 'giọt sương',
+  thirsty: 'khát nước',
+  wilted: 'héo',
 };
 
 const PER_PAGE = 10;
 
 /**
  * Danh sách những ngày đã đi qua: lọc theo khoảng ngày và hạng mục, chia trang
- * 10 ngày một lượt. Lọc ngay trong trình duyệt — cả sự kiện chỉ 47 ngày nên
+ * 10 ngày một lượt. Lọc ngay trong trình duyệt — cả sự kiện chỉ 20 ngày nên
  * không đáng để đi vòng lại server mỗi lần đổi bộ lọc.
  */
 export default function PastDays({ days }: { days: PastDay[] }) {
@@ -135,17 +146,21 @@ export default function PastDays({ days }: { days: PastDay[] }) {
       {shown.length ? (
         <ol className="ladder-list">
           {shown.map((d) => (
-            <li key={d.day} className={d.status === 'done' ? 'done' : ''}>
+            <li key={d.day} className={d.status === 'done' || d.status === 'late' ? 'done' : ''}>
               <Link href={`/ngay/${d.day}`} style={{ color: 'inherit', textDecoration: 'none' }}>
                 Ngày {d.day} · {d.dateLabel} — {d.title}
                 <span className="day-type-tag">{d.typeLabel}</span>
               </Link>
               {d.status === 'done' ? (
                 <span className="ladder-check">✓ +{d.points}đ</span>
-              ) : d.status === 'freeze' ? (
-                <span className="ladder-current">vé cứu</span>
+              ) : d.status === 'late' ? (
+                <span className="ladder-check">✓ học bù +{d.points}đ</span>
+              ) : d.open ? (
+                <Link href={`/ngay/${d.day}`} className="ladder-current makeup-link">
+                  học bù được →
+                </Link>
               ) : (
-                <span className="ladder-current">chưa xong</span>
+                <span className="ladder-current">{STATUS_TAG[d.status] ?? 'chưa xong'}</span>
               )}
             </li>
           ))}

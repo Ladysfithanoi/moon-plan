@@ -1,184 +1,276 @@
 [
   {
-    "day": 8,
-    "date": "2026-08-17",
+    "day": 5,
+    "date": "2026-10-05",
     "weekday": "Thứ Hai",
     "week": 2,
     "phase": "Scaffolding",
-    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
+    "week_theme": "Chu kỳ, thuốc tránh thai & hiệu suất tập",
     "day_type": "kien_thuc",
-    "title": "SDT — ba nhu cầu tâm lý nền tảng",
-    "body": "Tuần trước bạn học cách xác định khách đang ở đâu. Tuần này là câu hỏi tiếp theo: cái gì giữ họ ở lại.\n\nThuyết Tự quyết (Self-Determination Theory — Deci & Ryan) cho rằng động lực bền vững mọc lên từ ba nhu cầu tâm lý: **Autonomy** (quyền tự quyết — tôi được chọn), **Competence** (cảm giác đủ năng lực — tôi làm được), **Relatedness** (cảm giác được kết nối — tôi thuộc về nơi này). Thiếu một trong ba, động lực vẫn chạy được nhưng chạy bằng ý chí, và ý chí thì có hạn.\n\nĐiều đáng nói là phần lớn giáo án tốt về mặt kỹ thuật lại bóp nghẹt cả ba. Khách được đưa một danh sách bài tập không được góp ý (mất Autonomy), bắt đầu bằng những động tác họ làm sai liên tục trong hai tuần đầu (mất Competence), và tập một mình ở góc phòng (mất Relatedness). Rồi khi họ nghỉ, ta kết luận là họ thiếu quyết tâm.\n\nBa nhu cầu này không phải thứ để thêm vào sau. Chúng là thứ bạn thiết kế ngay từ buổi đầu.",
-    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "title": "Thuốc tránh thai: hormone ngoại sinh và tâm trạng",
+    "body": "Nhiều phụ nữ dùng thuốc tránh thai không chỉ để tránh thai. Thuốc thường giảm triệu chứng tiền kinh và hành kinh ở nhiều người (không phải tất cả) và giúp chu kỳ đều hơn — với người có triệu chứng nặng, đó là thay đổi rất lớn. Có người còn dùng để ngừng hẳn kinh nguyệt, nhưng chuyện này vẫn còn tranh cãi trong y khoa và tác động dài hạn chưa rõ hết. Người để hỏi luôn là bác sĩ.\n\nĐiều PT nên hiểu là cơ chế. Đưa lượng lớn hormone ngoại sinh vào cơ thể làm thay đổi cách phần còn lại của hệ nội tiết vận hành. Thuốc tránh thai nội tiết **giảm sản xuất testosterone và DHEA**, đồng thời **tăng SHBG** — một protein gắn vào androgen và estrogen trong máu khiến chúng không phát huy tác dụng. Kết quả: testosterone đã ít đi, **testosterone tự do** còn giảm nhiều hơn nữa.\n\nTestosterone tự do được cho là đóng vai trò lớn trong tâm trạng và ham muốn ở cả nam lẫn nữ. Nhưng mỗi người nhạy khác nhau. Một khảo sát trên 60 phụ nữ khi bắt đầu dùng thuốc:\n\n**Thể chất** — 8 không đổi, 21 tích cực, 31 tiêu cực\n**Cảm xúc** — 19 không đổi, 17 tích cực, 24 tiêu cực\n**Tình dục** — 20 không đổi, 20 tích cực, 20 tiêu cực\n\nĐừng quy giản tâm trạng về vài phản ứng hormone. Bù lại cho testosterone tự do giảm là việc bớt lo mang thai ngoài ý muốn. Kỳ vọng cũng ảnh hưởng mạnh: ai tin thuốc sẽ làm mình tệ đi thì khả năng thấy tệ đi cao hơn.\n\nVới PT, bài học là **ranh giới nghề**. Bạn không khuyên dùng, đổi hay ngừng thuốc. Bạn ghi nhận khi khách kể về thay đổi, chỉnh buổi tập theo năng lượng thực tế của họ, và gợi ý họ trao đổi với bác sĩ.",
+    "mechanic": "Hoa nở một bông: có mặt 1đ + mỗi câu đúng 1đ, nhân theo tầng",
+    "bonus_tip": "Câu nên thuộc lòng: “Chuyện thuốc thì em hỏi bác sĩ nhé — phần anh/chị là buổi tập. Em cứ kể cảm giác của em, mình chỉnh buổi tập theo đó.” Vừa giữ ranh giới nghề, vừa khiến khách thấy được lắng nghe chứ không bị đẩy đi.",
+    "bonus_deep": "**Thay đổi có mất đi khi ngừng thuốc không?**\n\nSHBG tăng và testosterone tự do giảm có thể không trở về mức trước khi dùng, kể cả sau khi đã ngừng. Nhưng tác giả chỉ biết một nghiên cứu duy nhất xem xét điều này, và người tham gia là phụ nữ đang có rối loạn chức năng tình dục — nên có thể thay đổi đó không kéo dài ở những người khác.\n\n**Đọc bảng khảo sát 60 người thế nào cho đúng**\n\nCon số không nói “thuốc làm hại” hay “thuốc tốt”. Nó nói rằng phản ứng rất khác nhau giữa người với người — ở mảng tình dục, số người thấy tốt lên, tệ đi và không đổi gần như bằng nhau. Với một khách cụ thể, điều đáng tin nhất là chính trải nghiệm của họ, ghi lại theo thời gian.",
     "questions": [
       {
-        "prompt": "Theo SDT, đâu KHÔNG phải là một trong ba nhu cầu tâm lý cơ bản?",
-        "options": ["Autonomy", "Competence", "Relatedness", "Discipline"],
+        "prompt": "Thuốc tránh thai nội tiết làm tăng SHBG. Hệ quả là gì?",
+        "options": [
+          "Testosterone tự do tăng lên",
+          "Estrogen tự do tăng mạnh",
+          "Testosterone tự do giảm, vì SHBG gắn vào androgen và estrogen khiến chúng không hoạt động",
+          "Không ảnh hưởng tới hormone nào khác"
+        ],
+        "correct_index": 2,
+        "explain": "Thuốc vừa giảm sản xuất testosterone và DHEA, vừa tăng SHBG. SHBG gắn vào androgen và estrogen trong máu, nên testosterone tự do giảm còn nhiều hơn tổng testosterone."
+      },
+      {
+        "prompt": "Trong khảo sát 60 phụ nữ, thay đổi về mặt tình dục khi dùng thuốc tránh thai phân bố thế nào?",
+        "options": [
+          "Đa số thay đổi tiêu cực",
+          "Chia đều: 20 không đổi, 20 tích cực, 20 tiêu cực",
+          "Đa số thay đổi tích cực",
+          "Không ai thay đổi"
+        ],
+        "correct_index": 1,
+        "explain": "Mảng tình dục chia đều 20/20/20 — minh hoạ rõ nhất việc mỗi người phản ứng một kiểu."
+      },
+      {
+        "prompt": "Khách kể từ khi đổi thuốc tránh thai, chị hay bực bội và mất hứng tập. Bạn nên làm gì?",
+        "options": [
+          "Khuyên chị ngừng thuốc",
+          "Tăng cường độ để chị có thêm endorphin",
+          "Ghi nhận, chỉnh buổi tập theo năng lượng của chị, và gợi ý chị trao đổi với bác sĩ",
+          "Bảo chị đó là do tâm lý"
+        ],
+        "correct_index": 2,
+        "explain": "PT không tư vấn thuốc. Việc của bạn là lắng nghe, điều chỉnh phần tập, và chuyển câu hỏi về thuốc cho bác sĩ."
+      }
+    ]
+  },
+  {
+    "day": 6,
+    "date": "2026-10-06",
+    "weekday": "Thứ Ba",
+    "week": 2,
+    "phase": "Scaffolding",
+    "week_theme": "Chu kỳ, thuốc tránh thai & hiệu suất tập",
+    "day_type": "kien_thuc",
+    "title": "Hiệu suất: phần lớn là cảm nhận, không phải sinh lý",
+    "body": "Trước hết: huy chương vàng đã được giành và kỷ lục thế giới đã được lập ở **mọi pha** của chu kỳ. Ngay cả ở đỉnh cao — nơi người thắng và kẻ thua cách nhau vài phần trăm giây — thay đổi hiệu suất theo chu kỳ cũng không đủ lớn để xoá khoảng cách về trình độ.\n\nNhưng cảm nhận thì rất khác nhau. Một khảo sát về hiệu suất khi hành kinh: **63%** thấy không ảnh hưởng, **8%** thấy tệ hơn, **29%** thấy tốt hơn. Một khảo sát khác: 43% không đổi, 38% tệ hơn, 19% tốt hơn. So sánh vận động viên đỉnh cao với người tập phong trào: 59% vận động viên đỉnh cao thấy hiệu suất giảm ở giai đoạn tiền kinh và hành kinh, so với 11% người phong trào — có lẽ vì người tập lâu nhạy hơn với thay đổi nhỏ. Dù vậy, một khảo sát trên các vận động viên Olympic chỉ có 17% nói hiệu suất giảm.\n\nMột nghiên cứu (không phải khảo sát) trên vận động viên Hungary nhiều môn: **48,2%** không thay đổi hiệu suất qua chu kỳ, **30,7%** hơi kém ở tiền kinh và vài ngày đầu hành kinh, **13,1%** tốt hơn.\n\nĐiểm đáng chú ý nhất: trong một khảo sát, **69,7%** phụ nữ không dùng thuốc tránh thai nói kinh nguyệt làm giảm hiệu suất, so với **31%** ở người dùng thuốc. Và lý do chính **không phải** giảm sức mạnh hay sức bền, mà là uể oải và tâm thế “chẳng buồn làm”.\n\nGộp lại: biến thiên rất lớn, và phần lớn thay đổi đến từ **cảm nhận và động lực** — gắn với mức độ triệu chứng — hơn là từ sinh lý. Thuốc tránh thai làm “phẳng” cảm nhận này, nhiều khả năng vì làm nhẹ triệu chứng.\n\nVới PT, điều đó đổi cách hỏi: thay vì đoán khách đang ở pha nào, **hỏi khách hôm nay thấy thế nào.**",
+    "mechanic": "Hoa nở một bông: có mặt 1đ + mỗi câu đúng 1đ, nhân theo tầng",
+    "bonus_tip": "Thang 1–5 trước buổi tập: “Năng lượng hôm nay của em mấy điểm?” Dưới 3: giữ bài quen, bớt một set, không thử mức tạ mới. Từ 3 trở lên: tập như kế hoạch. Đơn giản hơn nhiều so với đoán pha chu kỳ — và bắt trúng thứ thực sự ảnh hưởng buổi tập.",
+    "bonus_deep": "**Estrogen, không gian và sự phối hợp**\n\nKhá nhiều nghiên cứu thấy estrogen làm giảm nhẹ khả năng không gian và phối hợp (vài nghiên cứu không thấy khác biệt — nhiều khả năng do độ khó của bài kiểm tra khác nhau). Nhưng tai nạn lại tăng ở giai đoạn tiền kinh và hành kinh — lúc estrogen không cao. Nếu estrogen là thủ phạm chính, ta phải thấy tai nạn nhiều hơn quanh rụng trứng hoặc giữa pha hoàng thể. Vì vậy tác giả cho rằng tai nạn liên quan tới uể oải và giảm tập trung nhiều hơn.\n\n**Vì sao vận động viên đỉnh cao “thấy” nhiều hơn?**\n\nNgười tập lâu năm quen lắng nghe cơ thể, nên dễ nhận ra những thay đổi nhỏ mà người khác không thấy. Điều này nhắc PT: khách càng có kinh nghiệm, phản hồi chủ quan của họ càng đáng để bạn ghi chép.",
+    "questions": [
+      {
+        "prompt": "Theo phần lớn bằng chứng trong bài, thay đổi hiệu suất quanh kỳ kinh chủ yếu đến từ đâu?",
+        "options": [
+          "Sức mạnh tối đa giảm mạnh",
+          "Triệu chứng như uể oải, giảm động lực và tập trung",
+          "VO2max giảm một nửa",
+          "Cơ bắp teo đi trong kỳ kinh"
+        ],
+        "correct_index": 1,
+        "explain": "Thay đổi chủ yếu gắn với mức độ triệu chứng — uể oải, giảm động lực, giảm tập trung — hơn là thay đổi sinh lý giới hạn hiệu suất."
+      },
+      {
+        "prompt": "Trong khảo sát so sánh, lý do chính khiến phụ nữ không dùng thuốc tránh thai thấy hiệu suất giảm khi hành kinh là gì?",
+        "options": [
+          "Sức mạnh giảm",
+          "Sức bền giảm",
+          "Hay bị chấn thương",
+          "Uể oải và tâm thế “chẳng buồn làm”"
+        ],
         "correct_index": 3,
-        "explain": "Ba nhu cầu là Autonomy, Competence, Relatedness. Kỷ luật là kết quả khi ba nhu cầu này được đáp ứng, không phải nguyên nhân."
+        "explain": "Lý do được nêu nhiều nhất không phải sức mạnh hay sức bền, mà là uể oải và cảm giác không muốn làm gì."
+      }
+    ]
+  },
+  {
+    "day": 7,
+    "date": "2026-10-07",
+    "weekday": "Thứ Tư",
+    "week": 2,
+    "phase": "Scaffolding",
+    "week_theme": "Chu kỳ, thuốc tránh thai & hiệu suất tập",
+    "day_type": "kien_thuc",
+    "title": "Cardio, sprint và cái nóng của pha hoàng thể",
+    "body": "**Aerobic** phần lớn không bị ảnh hưởng bởi pha chu kỳ hay thuốc tránh thai. Nghiên cứu khá lộn xộn, nhưng nhìn chung ở pha hoàng thể phụ nữ thấy **gắng sức nặng hơn** (RPE cao hơn) ở cùng cường độ, nhịp tim và áp lực tim mạch cao hơn, hiệu quả vận động giảm nhẹ; vài nghiên cứu thấy VO2max giảm chút ít. Ngược lại, cũng có vài nghiên cứu thấy thời gian tới kiệt sức ở pha hoàng thể lại **dài hơn**, số khác không thấy khác biệt. Chuyện dùng mỡ hay tinh bột làm nhiên liệu cũng lẫn lộn, và ít nghiên cứu kiểm soát chặt chế độ ăn.\n\n**Anaerobic** — phần lớn nghiên cứu dùng chạy nước rút lặp lại hoặc chạy con thoi — cũng gần như không khác biệt giữa các pha, hay giữa người dùng và không dùng thuốc.\n\nCó hai điều đáng mang về.\n\n**Một: nhiệt độ.** Ở pha hoàng thể, progesterone làm thân nhiệt cao hơn một chút, và mức cao hơn này giữ nguyên khi vận động. Vì vậy phụ nữ ở pha hoàng thể **dễ bị stress nhiệt hơn** khi tập trong môi trường nóng ẩm — và ở môi trường đó hiệu suất sprint cũng giảm nhẹ. Điều này đúng cả với người dùng thuốc tránh thai nội tiết, ở nửa sau chu kỳ của họ. Với phòng tập không điều hoà hay buổi chạy trưa ở Việt Nam, đây là chuyện rất thực tế.\n\n**Hai: hemoglobin.** Trung bình mỗi kỳ kinh mất khoảng **47 mL** máu — so với khoảng 5 lít máu trong cơ thể thì không nhiều, và cơ thể bù lại khá nhanh. Nhưng khoảng **11% phụ nữ** mất từ **80 mL** trở lên, đủ để ảnh hưởng tới hemoglobin và khả năng vận động trong kỳ kinh.",
+    "mechanic": "Hoa nở một bông: có mặt 1đ + mỗi câu đúng 1đ, nhân theo tầng",
+    "bonus_tip": "Ngày nóng + nửa sau chu kỳ: hạ cường độ interval một bậc, kéo dài thời gian nghỉ, có sẵn nước và quạt. Nói trước với khách: “Hôm nay thấy thở nặng hơn là bình thường — cơ thể em đang ấm hơn một chút thôi, không phải em yếu đi.”",
+    "bonus_deep": "**Vì sao thở nhanh hơn nhưng không yếu đi?**\n\nThân nhiệt cao hơn ở pha hoàng thể làm tăng nhịp thở cả lúc nghỉ lẫn lúc vận động — não khiến bạn muốn thở nhanh hơn khi máu ấm hơn một chút. Điều này không thực sự giới hạn hiệu suất, nhưng cảm giác thở dốc làm bài tập có vẻ nặng hơn. Đó là một lý do RPE ở pha hoàng thể thường cao hơn.\n\n**Khi nào nên để ý chuyện mất máu**\n\nNếu khách kể kỳ kinh rất nhiều, kéo dài, kèm mệt mỏi bất thường, chóng mặt khi tập — đừng tự kết luận thiếu máu hay khuyên bổ sung sắt. Gợi ý khách đi khám và xét nghiệm. Trong lúc đó, giảm cường độ những ngày khách mệt là đủ.",
+    "questions": [
+      {
+        "prompt": "Khách nữ chạy ngoài trời buổi trưa oi bức. Theo bài, ở pha nào cô ấy dễ bị stress nhiệt hơn?",
+        "options": [
+          "Pha nang noãn",
+          "Ngày rụng trứng",
+          "Pha hoàng thể, vì progesterone làm thân nhiệt cao hơn một chút",
+          "Không pha nào khác biệt"
+        ],
+        "correct_index": 2,
+        "explain": "Progesterone nâng thân nhiệt ở pha hoàng thể, và mức cao hơn đó duy trì khi vận động — nên môi trường nóng ẩm đè nặng hơn."
+      },
+      {
+        "prompt": "Về lượng máu mất trong kỳ kinh, nhận định nào đúng?",
+        "options": [
+          "Trung bình khoảng 47 mL; khoảng 11% phụ nữ mất từ 80 mL trở lên, đủ ảnh hưởng hemoglobin",
+          "Trung bình khoảng 500 mL, ai cũng thiếu máu sau mỗi kỳ",
+          "Không bao giờ ảnh hưởng tới khả năng vận động",
+          "Chỉ người dùng thuốc tránh thai mới mất máu"
+        ],
+        "correct_index": 0,
+        "explain": "47 mL so với khoảng 5 lít máu là nhỏ và được bù nhanh. Nhóm khoảng 11% mất từ 80 mL trở lên mới là nhóm có thể bị ảnh hưởng hemoglobin và khả năng vận động."
+      }
+    ]
+  },
+  {
+    "day": 8,
+    "date": "2026-10-08",
+    "weekday": "Thứ Năm",
+    "week": 2,
+    "phase": "Scaffolding",
+    "week_theme": "Chu kỳ, thuốc tránh thai & hiệu suất tập",
+    "day_type": "kien_thuc",
+    "title": "Sức mạnh, và tập dồn vào pha nang noãn",
+    "body": "Bạn có thể đã nghe “phụ nữ khỏe hơn 10–20% lúc rụng trứng”. Hãy nhìn các nghiên cứu đó: nhiều nghiên cứu đo lực tối đa **có kích điện** hỗ trợ, số còn lại đo **lực đẳng trường ở một khớp** — có khi là những cơ chẳng liên quan tới tập luyện như cơ khép ngón cái. Sức mạnh ở bài phức hợp cần phối hợp nhiều cơ, nên một chút lực đẳng trường tăng thêm ở một khớp không nói lên nhiều. Và **đa số nghiên cứu không thấy khác biệt**. Sức mạnh tối đa nhiều khả năng không đổi đáng kể qua chu kỳ. Với người dùng thuốc tránh thai còn rõ hơn: không khác biệt qua chu kỳ, và không khác biệt so với người không dùng.\n\n**Khả năng tăng sức mạnh khi tập** cũng như nhau dù có dùng thuốc hay không. Một nghiên cứu trên nữ vận động viên bóng mềm và bóng nước, 12 tuần tập bài phức hợp nặng (set 5–8 rep) và bài đơn khớp (10–15 rep): tăng sức mạnh tốt, không khác biệt giữa nhóm dùng và không dùng thuốc. Một nghiên cứu 10 tuần khác cho kết quả tương tự.\n\nĐiều thú vị nhất đến từ một nghiên cứu tập **một chân**: 20 phụ nữ, 12 tuần. Một chân tập **dồn vào pha nang noãn** (4 buổi/tuần ở pha nang noãn, 1 buổi/tuần ở pha hoàng thể), chân kia làm ngược lại. Sau ba chu kỳ, chân tập theo pha nang noãn tăng sức mạnh nhiều hơn khoảng **42%** và cơ nhiều hơn khoảng **46%** (267N so với 188N; đường kính cơ tăng 0,59cm so với 0,37cm). Tỉ lệ nhân tế bào cơ trên sợi cơ chỉ tăng ở chân tập theo pha nang noãn.\n\nKhi lặp lại nghiên cứu trên **người dùng thuốc tránh thai**: vẫn tăng sức mạnh và cơ như thường, nhưng **không còn khác biệt** giữa hai cách chia.\n\nÁp dụng: với khách chu kỳ tự nhiên muốn tăng sức mạnh, có thể **đẩy mạnh hơn trong khoảng hai tuần đầu** tính từ ngày hành kinh. Không có nghĩa là bỏ tập ở pha hoàng thể — chỉ là chỗ nên đặt những buổi nặng nhất.",
+    "mechanic": "Hoa nở một bông: có mặt 1đ + mỗi câu đúng 1đ, nhân theo tầng",
+    "bonus_tip": "Với khách theo dõi chu kỳ và muốn tối ưu: xếp các buổi “đẩy mốc” (thử mức tạ mới, tăng khối lượng) vào khoảng hai tuần đầu tính từ ngày hành kinh; nửa sau giữ khối lượng và ưu tiên kỹ thuật. Khách dùng thuốc tránh thai nội tiết thì không cần chia như vậy — nghiên cứu không thấy khác biệt.",
+    "bonus_deep": "**Vì sao pha nang noãn lại “ăn tập” hơn?**\n\nMột giả thuyết là tổn thương cơ và phục hồi khác nhau giữa hai pha. Trong một nghiên cứu, phụ nữ làm 75 lần duỗi tay sau thiên về pha lệch tâm, ở pha nang noãn hoặc pha hoàng thể. Nhóm pha hoàng thể phục hồi sức mạnh chậm hơn rõ rệt và creatine kinase (một chỉ dấu tổn thương cơ) tăng nhiều hơn — tức ở pha nang noãn tổn thương ít hơn và phục hồi nhanh hơn.\n\n**Giao thức của nghiên cứu một chân**\n\nMỗi tuần ở pha nang noãn, chân “nang noãn” tập đạp đùi 80% 1RM, 3 set tới thất bại (tăng tạ khi đạt từ 12 rep) vào Thứ Hai và Thứ Sáu, cả hai chân cùng tập vào Thứ Tư, thêm một buổi squat một chân 3 × 15–20 vào Thứ Bảy. Ở pha hoàng thể, chân còn lại nhận lịch dày đó.\n\n**Giữ đúng tầm của bằng chứng**\n\nĐây là hai nghiên cứu trong một luận án, 20 người. Đáng tin để gợi ý cách xếp lịch, chưa đủ để thành luật cứng.\n\n**Chuyện progesterone và steroid**\n\nDeca Durabolin và Trenbolone đều thuộc nhóm progestin, và từng có thời thuốc tránh thai nhiều progesterone bị cấm ở Olympic vì bị cho là tăng cơ và sức mạnh. Nghiên cứu sau đó đã bác bỏ điều này — thuốc tiêm tránh thai không cho bạn kết quả của một chu kỳ steroid.",
+    "questions": [
+      {
+        "prompt": "Trong nghiên cứu tập một chân theo pha, chân tập dồn vào pha nang noãn so với chân dồn vào pha hoàng thể thế nào?",
+        "options": [
+          "Không khác biệt",
+          "Kém hơn rõ rệt",
+          "Tăng sức mạnh nhiều hơn khoảng 42% và cơ nhiều hơn khoảng 46%",
+          "Chỉ tăng sức bền, không tăng sức mạnh"
+        ],
+        "correct_index": 2,
+        "explain": "Sau ba chu kỳ: 267N so với 188N về sức mạnh, đường kính cơ tăng 0,59cm so với 0,37cm — tương ứng khoảng 42% và 46% nhiều hơn."
+      },
+      {
+        "prompt": "Vì sao các nghiên cứu “sức mạnh tăng 10–20% lúc rụng trứng” ít giá trị với PT?",
+        "options": [
+          "Vì chúng đo bằng kích điện hoặc lực đẳng trường ở một khớp, không phải bài phức hợp",
+          "Vì chúng chỉ đo trên nam giới",
+          "Vì chúng đo lúc người tham gia đang ngủ",
+          "Vì chúng chỉ có một người tham gia"
+        ],
+        "correct_index": 0,
+        "explain": "Lực tối đa có kích điện hay lực đẳng trường một khớp không phản ánh sức mạnh ở squat, deadlift hay bench — những bài cần phối hợp nhiều cơ. Và đa số nghiên cứu không thấy khác biệt."
+      },
+      {
+        "prompt": "Lặp lại nghiên cứu tập theo pha trên người dùng thuốc tránh thai cho kết quả gì?",
+        "options": [
+          "Không tăng sức mạnh chút nào",
+          "Tập dồn vào pha hoàng thể lại tốt hơn",
+          "Thuốc làm tăng cơ như steroid",
+          "Vẫn tăng sức mạnh và cơ như thường, nhưng không còn khác biệt giữa hai cách chia"
+        ],
+        "correct_index": 3,
+        "explain": "Thuốc tránh thai không cản trở tăng sức mạnh hay tăng cơ, nhưng làm “phẳng” khác biệt giữa hai nửa chu kỳ."
       }
     ]
   },
   {
     "day": 9,
-    "date": "2026-08-18",
-    "weekday": "Thứ Ba",
+    "date": "2026-10-09",
+    "weekday": "Thứ Sáu",
     "week": 2,
     "phase": "Scaffolding",
-    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
-    "day_type": "kien_thuc",
-    "title": "COM-B — ba mảnh phải có đủ thì hành vi mới xảy ra",
-    "body": "Mô hình COM-B (Michie và cộng sự) gọn hơn SDT và cực kỳ hữu dụng khi chẩn đoán. Nó nói: một hành vi chỉ xảy ra khi có đủ ba thứ — **Capability** (khả năng: thể chất và kiến thức để làm), **Opportunity** (cơ hội: thời gian, không gian, môi trường xã hội cho phép), **Motivation** (động lực: cả phần lý trí lẫn phần thói quen, cảm xúc).\n\nGiá trị lớn nhất của COM-B là nó buộc bạn hỏi đúng câu. Khách không tập buổi sáng — vì họ không biết tập gì (Capability), vì con họ dậy lúc 6h (Opportunity), hay vì họ ghét dậy sớm (Motivation)? Ba nguyên nhân này cần ba can thiệp hoàn toàn khác nhau, mà nếu chỉ nhìn từ ngoài thì trông giống hệt nhau: một người không tập.\n\nSai lầm nghề nghiệp phổ biến nhất của PT trẻ là mặc định mọi vấn đề đều là Motivation. Nên ta động viên, ta truyền lửa, ta gửi câu nói truyền cảm hứng lúc 6h sáng. Trong khi vấn đề thật có thể chỉ là phòng tập cách nhà 40 phút. Trước khi tăng động lực, hãy kiểm tra hai mảnh kia đã.",
-    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
-    "questions": [
-      {
-        "prompt": "Khách nói: \"Em muốn tập lắm nhưng công ty em tăng ca liên tục tới 9h tối.\" Theo COM-B, đây chủ yếu là vấn đề của thành phần nào?",
-        "options": ["Capability", "Opportunity", "Motivation", "Cả ba như nhau"],
-        "correct_index": 1,
-        "explain": "Đây là rào cản về cơ hội — thời gian và hoàn cảnh bên ngoài. Động viên thêm sẽ không giải quyết được; đổi khung giờ hoặc rút ngắn buổi tập thì có."
-      }
-    ]
+    "week_theme": "Chu kỳ, thuốc tránh thai & hiệu suất tập",
+    "day_type": "thu_thach",
+    "title": "Thử thách áp dụng — bộ câu hỏi và nhịp tập cho một khách nữ",
+    "body": "Tới lúc mang kiến thức cả tuần ra khỏi trang giấy. Bài không cần dài, cần đúng người thật việc thật.\n\nBạn sẽ viết ba thứ nhỏ cho một khách nữ cụ thể: cách bạn hỏi, cách bạn chỉnh buổi tập những ngày khách mệt, và cách bạn xếp một tuần “đẩy” với một tuần “giữ”. Nộp xong có cơ hội mở **hộp quà bí ẩn**.",
+    "prompt": "Chọn **một khách nữ bạn đang dạy** (hoặc một người quen đang tập). Viết:\n\n1. **Năm câu hỏi** bạn dùng để hiểu chu kỳ và triệu chứng của khách — viết đúng lời bạn sẽ nói, sao cho tôn trọng, không soi mói (ngày 1, 3).\n2. **Quy tắc chỉnh buổi tập** cho ngày khách uể oải hoặc đau: giữ gì, bớt gì, dừng khi nào (ngày 3, 6, 7).\n3. **Một tuần “đẩy” và một tuần “giữ”** nếu khách không dùng thuốc tránh thai và muốn tăng sức mạnh (ngày 8). Mỗi tuần ghi ngắn: số buổi, bài chính, mức gắng sức mục tiêu (RIR hoặc RPE). Nếu khách có dùng thuốc, viết một câu giải thích bạn làm khác đi thế nào.\n\nKhông cần viết hay. Cần viết thật. Nhớ che tên khách nếu đính kèm ảnh.",
+    "mechanic": "Nộp bài = +5đ, nhân theo tầng — có thể trúng Hộp quà bí ẩn",
+    "bonus_tip": "Viết câu hỏi xong, đọc to lên như thể bạn là khách. Câu nào bạn thấy ngượng khi bị hỏi thì khách cũng thấy vậy — sửa nó thành câu hỏi về cảm nhận (“em thấy thế nào”) thay vì câu hỏi về cơ thể (“em đang ngày mấy”).",
+    "questions": []
   },
   {
     "day": 10,
-    "date": "2026-08-19",
-    "weekday": "Thứ Tư",
+    "date": "2026-10-10",
+    "weekday": "Thứ Bảy",
     "week": 2,
     "phase": "Scaffolding",
-    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
-    "day_type": "kien_thuc",
-    "title": "Ego depletion — vì sao khách hết ý chí vào cuối ngày",
-    "body": "Ego depletion là giả thuyết cho rằng tự chủ dùng chung một nguồn lực có hạn: dùng nhiều vào buổi sáng thì buổi tối còn ít. Nó giải thích rất hợp lý chuyện khách ăn uống kỷ luật cả ngày rồi đổ vỡ lúc 10h đêm.\n\nMình cần nói thẳng một điều: **đây là lý thuyết đang gây tranh cãi trong giới nghiên cứu.** Nhiều nghiên cứu lặp lại quy mô lớn không tìm thấy hiệu ứng rõ như các thí nghiệm gốc, và cách hiểu \"ý chí như bình xăng\" gần như chắc chắn là quá đơn giản. Mình đưa nó vào tuần này không phải để bạn tin tuyệt đối, mà vì phần ứng dụng của nó vẫn đứng vững kể cả khi cơ chế còn tranh cãi.\n\nPhần đứng vững đó là: **đừng thiết kế kế hoạch dựa trên giả định khách luôn có sẵn ý chí.** Xếp buổi tập vào lúc trong ngày mà họ ít bị bào mòn nhất. Giảm số quyết định họ phải tự đưa ra — chuẩn bị sẵn bữa ăn, sẵn túi đồ tập, sẵn giáo án in ra. Một kế hoạch cần ít tự chủ hơn thì sống lâu hơn một kế hoạch hoàn hảo trên giấy.",
-    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
+    "week_theme": "Chu kỳ, thuốc tránh thai & hiệu suất tập",
+    "day_type": "quiz_tuan",
+    "title": "Quiz tổng hợp tuần 2 — chu kỳ, thuốc và hiệu suất",
+    "body": "Quiz tổng hợp cả tuần, làm trong một lượt. Sai cũng không sao — cây vẫn lớn, chỉ là chưa nhận được phần thưởng thêm.\n\nCâu hỏi đi qua bốn ngày: thuốc tránh thai và tâm trạng, hiệu suất cảm nhận, cardio trong cái nóng, và tập sức mạnh theo pha. Đọc lại mẹo ẩn của từng ngày nếu bạn đã mở được — vài câu nằm ở đó.",
+    "mechanic": "Có mặt 1đ; đạt ngưỡng nhận thêm 3đ thưởng — tất cả nhân theo tầng",
+    "bonus_tip": "Câu nào sai, mở lại đúng ngày đó trong mục “Những ngày đã qua” — đọc lại lúc vừa sai là lúc nhớ lâu nhất.",
     "questions": [
       {
-        "prompt": "Cách dùng khái niệm ego depletion nào là hợp lý nhất với hiểu biết hiện nay?",
+        "prompt": "Khách dùng thuốc tránh thai nội tiết hỏi có cần xếp lịch tập theo pha chu kỳ không. Câu trả lời khớp với nghiên cứu nhất?",
         "options": [
-          "Coi ý chí là bình xăng có dung tích cố định, đo được chính xác",
-          "Bác bỏ hoàn toàn, vì lý thuyết này đã bị chứng minh là sai",
-          "Giữ phần ứng dụng — giảm số quyết định và chọn khung giờ ít bị bào mòn — dù cơ chế còn tranh cãi",
-          "Dùng nó để giải thích mọi thất bại của khách hàng"
+          "Có, phải dồn hết buổi nặng vào tuần đầu",
+          "Không cần — ở người dùng thuốc, tập dồn theo pha không tạo ra khác biệt",
+          "Chỉ nên tập trong những ngày hành kinh",
+          "Người dùng thuốc không nên tập tạ"
+        ],
+        "correct_index": 1,
+        "explain": "Nghiên cứu lặp lại trên người dùng thuốc thấy tăng sức mạnh và cơ như thường nhưng không còn khác biệt giữa hai cách chia."
+      },
+      {
+        "prompt": "Thân nhiệt cao hơn ở pha hoàng thể làm nhịp thở tăng khi tập. Điều đó ảnh hưởng thế nào?",
+        "options": [
+          "Trực tiếp giới hạn hiệu suất",
+          "Làm VO2max giảm một nửa",
+          "Không trực tiếp giới hạn hiệu suất, nhưng làm bài tập có cảm giác nặng hơn",
+          "Chỉ xảy ra khi nghỉ ngơi"
         ],
         "correct_index": 2,
-        "explain": "Cơ chế còn đang tranh luận, nhưng nguyên tắc thực hành thì vẫn đúng: kế hoạch đòi hỏi ít tự chủ sẽ bền hơn. Đó là cách dùng lý thuyết một cách trung thực."
+        "explain": "Não khiến ta thở nhanh hơn khi máu ấm hơn. Nhịp thở tăng không giới hạn hiệu suất, nhưng cảm giác thở dốc làm RPE cao hơn."
+      },
+      {
+        "prompt": "Nghiên cứu duỗi tay sau thiên về lệch tâm (75 lần) cho thấy gì ở pha hoàng thể?",
+        "options": [
+          "Phục hồi sức mạnh chậm hơn và creatine kinase tăng nhiều hơn",
+          "Phục hồi nhanh hơn pha nang noãn",
+          "Không có tổn thương cơ nào",
+          "Creatine kinase giảm"
+        ],
+        "correct_index": 0,
+        "explain": "Pha hoàng thể phục hồi chậm hơn và CK — chỉ dấu tổn thương cơ — tăng nhiều hơn. Đây là một giả thuyết giải thích vì sao tập dồn vào pha nang noãn hiệu quả hơn."
+      },
+      {
+        "prompt": "69,7% phụ nữ không dùng thuốc thấy kinh nguyệt làm giảm hiệu suất, so với 31% ở người dùng thuốc. Giải thích hợp lý nhất?",
+        "options": [
+          "Thuốc tránh thai làm tăng sức mạnh",
+          "Người dùng thuốc tập nhiều hơn",
+          "Thuốc thường làm nhẹ triệu chứng, nên cảm nhận hiệu suất đều hơn",
+          "Chỉ là ngẫu nhiên"
+        ],
+        "correct_index": 2,
+        "explain": "Thay đổi hiệu suất chủ yếu đến từ triệu chứng và cảm nhận. Thuốc làm nhẹ triệu chứng ở nhiều người, nên cảm nhận “phẳng” hơn."
+      },
+      {
+        "prompt": "Vì sao testosterone tự do giảm khi dùng thuốc tránh thai nội tiết?",
+        "options": [
+          "Vì thuốc chứa testosterone",
+          "Vì cơ thể giảm sản xuất testosterone và tăng SHBG gắn vào nó",
+          "Vì estrogen chuyển hết thành testosterone",
+          "Vì người dùng thuốc ngừng tập tạ"
+        ],
+        "correct_index": 1,
+        "explain": "Hai tác động cộng lại: sản xuất testosterone và DHEA giảm, SHBG tăng và gắn vào phần còn lại."
       }
     ]
   },
   {
     "day": 11,
-    "date": "2026-08-20",
-    "weekday": "Thứ Năm",
-    "week": 2,
-    "phase": "Scaffolding",
-    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
-    "day_type": "thu_thach",
-    "title": "Thử thách áp dụng — thiết kế một buổi tập có quyền tự quyết",
-    "body": "Autonomy là nhu cầu dễ trả lại cho khách nhất, mà cũng bị lấy đi thường xuyên nhất.",
-    "prompt": "Lấy **một buổi tập bạn thường cho khách**, viết lại nó theo hướng tăng Autonomy:\n\n1. Buổi tập gốc: liệt kê nhanh các bài, set, rep.\n2. Ba chỗ bạn có thể trao lựa chọn cho khách mà không phá cấu trúc buổi tập (ví dụ: chọn giữa hai bài cùng nhóm cơ, chọn thứ tự, chọn mức rep trong khoảng).\n3. Một câu bạn sẽ nói để khách hiểu họ đang được chọn — chứ không phải đang bị hỏi cho có.\n\nGợi ý: trao lựa chọn không có nghĩa là bỏ mặc. Hai phương án bạn đưa ra đều phải là phương án bạn đồng ý.",
-    "mechanic": "Thỏ nhảy 2 bước khi nộp bài (+5đ) — có thể trúng Hộp quà bí ẩn",
-    "questions": []
-  },
-  {
-    "day": 12,
-    "date": "2026-08-21",
-    "weekday": "Thứ Sáu",
-    "week": 2,
-    "phase": "Scaffolding",
-    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
-    "day_type": "kien_thuc",
-    "title": "Khi nào thưởng phạt phản tác dụng",
-    "body": "SDT phân biệt động lực nội tại (làm vì bản thân việc đó) và động lực ngoại sinh (làm vì phần thưởng hoặc để tránh hình phạt). Cả hai đều dùng được — nhưng chúng không cộng dồn đơn giản như ta tưởng.\n\nHiện tượng đáng chú ý nhất là **overjustification**: khi bạn treo phần thưởng ngoại sinh cho một việc người ta vốn đã thích làm, động lực nội tại có thể tụt xuống. Khách vốn thích cảm giác nâng tạ nặng hơn; bạn thưởng cho họ mỗi lần lên mốc; dừng thưởng, họ hụt hẫng. Việc từng có nghĩa với họ giờ thành việc để lấy thưởng.\n\nQuy tắc thực dụng mình dùng: **dùng phần thưởng ngoại sinh cho việc khách chưa thích, và rút dần khi họ bắt đầu thích.** Giai đoạn đầu, một tấm thẻ đánh dấu chuỗi buổi tập là hữu ích. Sáu tháng sau, thứ giữ họ lại phải là cảm giác khoẻ lên và mối quan hệ trong phòng tập, chứ không phải tấm thẻ.\n\nVà một điều nữa: phần thưởng mang tính công nhận năng lực (\"kỹ thuật squat của em tháng này chắc hơn hẳn\") ít khi phá động lực nội tại, vì nó nuôi Competence chứ không thay thế lý do.",
-    "mechanic": "Thỏ nhảy 1 bước (đúng +2đ, sai vẫn đi tiếp)",
-    "questions": [
-      {
-        "prompt": "Hiệu ứng overjustification mô tả điều gì?",
-        "options": [
-          "Người ta cần nhiều lý do thì mới hành động",
-          "Phần thưởng ngoại sinh cho việc vốn đã yêu thích có thể làm giảm động lực nội tại",
-          "Càng nhiều phần thưởng thì hành vi càng bền",
-          "Hình phạt hiệu quả hơn phần thưởng trong dài hạn"
-        ],
-        "correct_index": 1,
-        "explain": "Khi lý do bên ngoài thay thế lý do bên trong, việc từng có nghĩa trở thành việc để lấy thưởng — và mất thưởng thì mất luôn hành vi."
-      }
-    ]
-  },
-  {
-    "day": 13,
-    "date": "2026-08-22",
-    "weekday": "Thứ Bảy",
-    "week": 2,
-    "phase": "Scaffolding",
-    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
-    "day_type": "quiz_tuan",
-    "title": "Quiz tổng hợp tuần 2 — SDT & COM-B",
-    "body": "Quiz tổng hợp tuần thứ hai, làm trong một lượt. Sai cũng không sao — thỏ vẫn đi tiếp.",
-    "mechanic": "Thỏ nhảy 1 bước; đạt ≥80% nhận thêm \"tia sáng\" bonus (+3đ)",
-    "questions": [
-      {
-        "prompt": "Ba thành phần của mô hình COM-B là gì?",
-        "options": [
-          "Commitment, Opportunity, Motivation",
-          "Capability, Opportunity, Motivation",
-          "Capability, Outcome, Mindset",
-          "Consistency, Optimism, Momentum"
-        ],
-        "correct_index": 1,
-        "explain": "Capability (khả năng), Opportunity (cơ hội), Motivation (động lực) — thiếu bất kỳ mảnh nào thì hành vi không xảy ra."
-      },
-      {
-        "prompt": "Khách mới tập tuần đầu liên tục làm sai kỹ thuật deadlift và tỏ ra nản. Theo SDT, nhu cầu nào đang bị đe doạ nhiều nhất?",
-        "options": ["Autonomy", "Competence", "Relatedness", "Không nhu cầu nào"],
-        "correct_index": 1,
-        "explain": "Cảm giác \"tôi làm được\" đang bị bào mòn. Cách xử lý là hạ độ khó xuống mức họ thành công được, rồi tăng dần — chứ không phải giải thích kỹ hơn."
-      },
-      {
-        "prompt": "PT nào đang áp dụng COM-B đúng nhất?",
-        "options": [
-          "Gửi câu nói truyền cảm hứng mỗi sáng cho khách hay bỏ buổi",
-          "Hỏi rõ khách vướng ở khả năng, ở hoàn cảnh hay ở động lực, rồi mới chọn cách can thiệp",
-          "Tăng số buổi tập để tạo thói quen nhanh hơn",
-          "Yêu cầu khách cam kết bằng văn bản"
-        ],
-        "correct_index": 1,
-        "explain": "Giá trị của COM-B nằm ở khâu chẩn đoán. Ba nguyên nhân trông giống nhau từ bên ngoài nhưng cần ba cách xử lý khác nhau."
-      },
-      {
-        "prompt": "Cách trao Autonomy cho khách nào là hợp lý?",
-        "options": [
-          "Để khách tự chọn toàn bộ bài tập mỗi buổi",
-          "Đưa hai phương án mà bạn đều đồng ý, để khách chọn một",
-          "Hỏi khách hôm nay muốn tập gì rồi làm theo",
-          "Không thay đổi gì, vì PT phải là người quyết định"
-        ],
-        "correct_index": 1,
-        "explain": "Autonomy là được chọn trong khuôn khổ có chuyên môn, không phải bị bỏ mặc. Cả hai phương án đều phải nằm trong kế hoạch của bạn."
-      },
-      {
-        "prompt": "Với khách đã tập đều một năm và yêu thích cảm giác tiến bộ, bạn nên làm gì với các phần thưởng ngoại sinh đang dùng?",
-        "options": [
-          "Tăng giá trị phần thưởng để giữ chân họ",
-          "Rút dần và chuyển sang công nhận năng lực, kết nối trong nhóm",
-          "Giữ nguyên mãi mãi cho ổn định",
-          "Đổi sang hình phạt khi họ nghỉ buổi"
-        ],
-        "correct_index": 1,
-        "explain": "Phần thưởng ngoại sinh hợp lý ở giai đoạn đầu. Khi động lực nội tại đã mọc, giữ nguyên phần thưởng có nguy cơ thay thế chính lý do khách ở lại."
-      }
-    ]
-  },
-  {
-    "day": 14,
-    "date": "2026-08-23",
+    "date": "2026-10-11",
     "weekday": "Chủ Nhật",
     "week": 2,
     "phase": "Scaffolding",
-    "week_theme": "Động lực nội tại & rào cản tâm lý (SDT · COM-B)",
+    "week_theme": "Chu kỳ, thuốc tránh thai & hiệu suất tập",
     "day_type": "webinar",
-    "title": "Trạm dừng gốc đa #2 — Ghép SDT và COM-B vào kịch bản tư vấn",
-    "body": "Trạm dừng thứ hai. Mình sẽ dựng một kịch bản tư vấn hoàn chỉnh dùng cả hai mô hình: COM-B để chẩn đoán rào cản, SDT để thiết kế phần giữ chân. Có phần chữa bài từ thử thách ngày 11 của các bạn.\n\nCuối buổi mình đọc **mã điểm danh** cho mảnh trăng \"Nhịp bước vững vàng\".",
-    "mechanic": "Tham dự = nhận Mảnh trăng \"Nhịp bước vững vàng\" + thỏ tới trạm dừng chân (+10đ)",
-    "webinar_at": "2026-08-23T20:00:00+07:00",
+    "title": "Trạm hoa #2 — Giáo án theo chu kỳ: làm gì, bỏ gì",
+    "body": "Buổi thứ hai. Mình đọc vài bài thử thách ngày 9 và cùng sửa, rồi trả lời câu hỏi lớn của tuần: khi nào “tập theo chu kỳ” đáng công, và khi nào nó chỉ làm giáo án rối thêm — với khách dùng thuốc, khách chu kỳ không đều, hay khách tập trong phòng nóng.\n\nCuối buổi mình đọc **mã điểm danh** để bạn nhận dải **Ruy băng Đồng hành**.\n\nVắng buổi này không làm héo hoa — nhưng bạn sẽ lỡ phần sửa bài trực tiếp.",
+    "prompt": "**Chuẩn bị trước buổi:** khách 26 tuổi hỏi bạn: “Em đọc trên mạng là phải tập theo chu kỳ, tuần trước kỳ chỉ được tập yoga thôi. Có đúng không anh?”\n\nViết câu trả lời 3–4 câu của bạn, dựa trên ngày 6–8.",
+    "mechanic": "Tham dự = nhận Ruy băng Đồng hành (+10đ, nhân theo tầng). Vắng không làm héo hoa",
+    "webinar_at": "2026-10-11T20:00:00+07:00",
     "questions": []
   }
 ]
