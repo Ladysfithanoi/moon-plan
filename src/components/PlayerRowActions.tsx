@@ -76,6 +76,31 @@ function EditForm({ player, onClose }: { player: PlayerRow; onClose: () => void 
           placeholder="Messenger / Zalo / SĐT"
         />
       </div>
+      <div className="settings-grid">
+        <div className="field">
+          <label htmlFor={`phone-${player.id}`}>Số điện thoại</label>
+          <input
+            id={`phone-${player.id}`}
+            name="phone"
+            type="tel"
+            defaultValue={player.phone ?? ''}
+            placeholder="dùng để đăng nhập"
+          />
+        </div>
+        <div className="field">
+          <label htmlFor={`pin-${player.id}`}>Đặt lại PIN</label>
+          <input
+            id={`pin-${player.id}`}
+            name="new_pin"
+            type="text"
+            inputMode="numeric"
+            maxLength={4}
+            className="mono"
+            placeholder="để trống = giữ PIN cũ"
+            autoComplete="off"
+          />
+        </div>
+      </div>
       <div className="field" style={{ maxWidth: 220 }}>
         <label htmlFor={`dews-${player.id}`}>Giọt sương được cấp</label>
         <input

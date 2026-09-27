@@ -2,8 +2,8 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { randomInt } from 'node:crypto';
 import { db, CASE_STUDY_BUCKET } from '@/lib/supabase';
+import { hashPin, isValidPin, makePlayerCode, normalizePhone } from '@/lib/auth';
 import { checkAdminPassword, endAdminSession, isAdmin, startAdminSession } from '@/lib/session';
 import { drawHonorRoll } from '@/lib/game';
 import { DAY_TYPE_LABEL, DEWS_PER_PLAYER } from '@/lib/scoring';
@@ -45,14 +45,6 @@ export async function adminLogout(): Promise<void> {
 
 // ─── Người chơi ─────────────────────────────────────────────────────────────
 
-const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // bỏ I, O, 0, 1
-
-function makeCode(): string {
-  let s = '';
-  for (let i = 0; i < 4; i++) s += ALPHABET[randomInt(ALPHABET.length)];
-  return `HOA-${s}`;
-}
-
 export async function createPlayer(_prev: ActionState, formData: FormData): Promise<ActionState> {
   await requireAdmin();
 
@@ -61,7 +53,7 @@ export async function createPlayer(_prev: ActionState, formData: FormData): Prom
   if (!name) return { ok: false, message: 'Cần tên hiển thị.' };
 
   for (let attempt = 0; attempt < 12; attempt++) {
-    const code = makeCode();
+    const code = makePlayerCode();
     const { error } = await db()
       .from('players')
       .insert({ code, display_name: name, contact: contact || null, dews: DEWS_PER_PLAYER });
@@ -88,6 +80,25 @@ export async function updatePlayer(_prev: ActionState, formData: FormData): Prom
   const contact = formData.get('contact');
   if (contact !== null) patch.contact = String(contact).trim() || null;
 
+  const rawPhone = formData.get('phone');
+  if (rawPhone !== null) {
+    const trimmed = String(rawPhone).trim();
+    if (!trimmed) {
+      patch.phone = null;
+    } else {
+      const phone = normalizePhone(trimmed);
+      if (!phone) return { ok: false, message: 'SĐT chưa đúng dạng — 10 số, bắt đầu bằng 0.' };
+      patch.phone = phone;
+    }
+  }
+
+  // Để trống là giữ PIN cũ; điền 4 số là đặt lại (khi học viên quên PIN).
+  const newPin = String(formData.get('new_pin') ?? '').trim();
+  if (newPin) {
+    if (!isValidPin(newPin)) return { ok: false, message: 'PIN mới phải gồm đúng 4 chữ số.' };
+    patch.pin_hash = await hashPin(newPin);
+  }
+
   // Checkbox không được tick thì trình duyệt không gửi gì cả, nên phải có ô ẩn
   // đi kèm để biết form này *có* quản lý trường is_active hay không. Thiếu nó
   // thì bỏ tick sẽ không bao giờ khoá được người chơi.
@@ -104,10 +115,15 @@ export async function updatePlayer(_prev: ActionState, formData: FormData): Prom
   }
 
   const { error } = await db().from('players').update(patch).eq('id', id);
-  if (error) return { ok: false, message: error.message };
+  if (error) {
+    if (error.message.includes('players_phone_unique')) {
+      return { ok: false, message: 'SĐT này đã thuộc về một người chơi khác.' };
+    }
+    return { ok: false, message: error.message };
+  }
 
   revalidatePath('/admin/nguoi-choi');
-  return { ok: true, message: 'Đã lưu.' };
+  return { ok: true, message: newPin ? 'Đã lưu và đặt lại PIN — nhớ báo PIN mới cho học viên.' : 'Đã lưu.' };
 }
 
 /**
@@ -855,6 +871,25 @@ export async function resetSetting(_prev: ActionState, formData: FormData): Prom
 
   revalidateSettingsConsumers();
   return { ok: true, message: 'Đã khôi phục về mặc định.' };
+}
+
+/** Mở hoặc đóng trang tự đăng ký. */
+export async function saveRegistrationOpen(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  await requireAdmin();
+
+  const open = formData.get('open') === '1';
+  const { error } = await saveSetting(SETTING_KEYS.registrationOpen, open);
+  if (error) return { ok: false, message: error };
+
+  revalidateSettingsConsumers();
+  revalidatePath('/dang-ky');
+  revalidatePath('/vao');
+  return {
+    ok: true,
+    message: open
+      ? 'Đã mở đăng ký — ai có link đều tự tạo tài khoản được.'
+      : 'Đã đóng đăng ký. Người đã có tài khoản vẫn đăng nhập bình thường.',
+  };
 }
 
 // ─── Bảng vinh danh ─────────────────────────────────────────────────────────

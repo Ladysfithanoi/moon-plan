@@ -8,6 +8,7 @@ import { TIERS } from '@/lib/scoring';
 import {
   resetSetting,
   saveBoxPrizes,
+  saveRegistrationOpen,
   saveRewardTiers,
   saveScoring,
   saveWeekLabels,
@@ -41,6 +42,34 @@ export default async function CaiDatPage() {
             Mọi thứ ở trang này lưu thẳng vào cơ sở dữ liệu và có hiệu lực ngay khi bấm lưu. Nội dung
             bài học và câu hỏi thì nằm ở mục <strong>Nội dung</strong>.
           </p>
+        </div>
+      </section>
+
+      {/* ─── Tự đăng ký ───────────────────────────────────────────────── */}
+      <section className="fade-in">
+        <div className="wrap-wide">
+          <p className="eyebrow">
+            <span className="rule" />
+            <span>Trang /dang-ky</span>
+          </p>
+          <h2 className="section-title">
+            Tự đăng ký đang {s.registrationOpen ? 'mở' : 'đóng'}
+          </h2>
+          <p className="lede">
+            {s.registrationOpen
+              ? 'Ai có link đều tự tạo tài khoản bằng tên, số điện thoại và mã PIN 4 số. Người mới hiện ngay ở mục Người chơi.'
+              : 'Trang đăng ký đang báo đóng. Người đã có tài khoản — bằng SĐT hay bằng mã — vẫn đăng nhập bình thường, và bạn vẫn tạo mã tay được ở mục Người chơi.'}
+          </p>
+          <div style={{ marginTop: 18 }}>
+            <ActionForm
+              action={saveRegistrationOpen}
+              submitLabel={s.registrationOpen ? 'Đóng đăng ký' : 'Mở đăng ký'}
+              busyLabel="Đang lưu…"
+              ghost={s.registrationOpen}
+            >
+              <input type="hidden" name="open" value={s.registrationOpen ? '0' : '1'} />
+            </ActionForm>
+          </div>
         </div>
       </section>
 

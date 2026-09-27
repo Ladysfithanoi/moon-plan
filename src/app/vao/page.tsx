@@ -4,6 +4,7 @@ import TopBar from '@/components/TopBar';
 import LoginForm from './LoginForm';
 import { getPlayerSession } from '@/lib/session';
 import { eventStatus } from '@/lib/event';
+import { getSettings } from '@/lib/settings';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,7 +12,8 @@ export default async function VaoPage() {
   const session = await getPlayerSession();
   if (session) redirect('/chang-duong');
 
-  const beforeStart = eventStatus() === 'truoc';
+  const { registrationOpen } = await getSettings();
+  const canRegister = registrationOpen && eventStatus() !== 'da-xong';
 
   return (
     <>
@@ -23,22 +25,21 @@ export default async function VaoPage() {
             <span className="rule" />
             <span>Vào cành hoa</span>
           </p>
-          <h1 className="display">Mã của bạn</h1>
+          <h1 className="display">Chào bạn quay lại</h1>
           <p className="body">
-            Mỗi người có một mã riêng. Nhập mã vào đây là bạn thấy được cành hoa của mình — không
-            cần mật khẩu, không cần đăng ký thêm gì.
+            Đăng nhập bằng số điện thoại và mã PIN bạn đã đặt lúc đăng ký. Nếu bạn được gửi mã
+            cá nhân qua Messenger, mở dòng bên dưới để vào bằng mã.
           </p>
 
           <LoginForm />
 
-          {beforeStart ? (
+          {canRegister ? (
             <p className="notice info" style={{ marginTop: 22 }}>
-              Sự kiện khởi động ngày 01/10/2026. Nếu bạn chưa có mã, comment &quot;THAM GIA&quot; dưới
-              bài khởi động trên trang TrungPrecisionCoach — mình sẽ gửi mã qua Messenger.
+              Chưa có tài khoản? <Link href="/dang-ky">Đăng ký ở đây</Link> — chỉ mất một phút.
             </p>
           ) : (
             <p className="notice info" style={{ marginTop: 22 }}>
-              Chưa có mã? Nhắn cho mình trên Messenger kèm tên bạn, mình cấp mã trong ngày.
+              Chưa có tài khoản? Nhắn cho mình trên Messenger kèm tên bạn, mình cấp mã trong ngày.
             </p>
           )}
         </div>

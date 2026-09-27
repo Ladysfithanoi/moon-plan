@@ -48,6 +48,8 @@ export type PlayerRow = {
   code: string;
   display_name: string;
   contact: string | null;
+  /** SĐT (0xxxxxxxxx) nếu người chơi tự đăng ký; null nếu admin tạo mã. */
+  phone: string | null;
   cohort: string;
   points: number;
   streak: number;

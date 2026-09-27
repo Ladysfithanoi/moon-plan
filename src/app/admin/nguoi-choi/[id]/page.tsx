@@ -8,6 +8,7 @@ import { getSettings, maxPoints } from '@/lib/settings';
 import { DAY_TYPE_LABEL, TIERS, tierIndexFor, type DayType } from '@/lib/scoring';
 import { getBloom } from '@/lib/game';
 import { STATE_LABEL } from '@/components/Flower';
+import { formatPhone } from '@/lib/auth';
 import type { PlayerRow } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -215,7 +216,8 @@ export default async function ChiTietNguoiChoi({ params }: { params: Promise<{ i
           <p className="lede">
             Mã <span className="mono">{player.code}</span>
             {' · '}
-            {player.contact ? player.contact : 'chưa có liên hệ'}
+            {player.phone ? `SĐT ${formatPhone(player.phone)}` : 'không có SĐT (vào bằng mã)'}
+            {player.contact ? ` · ${player.contact}` : ''}
             {' · '}vào từ {DATE_ONLY.format(new Date(player.joined_at))}
             {!player.is_active ? (
               <>

@@ -50,6 +50,8 @@ export type AppSettings = {
   ribbons: string[];
   boxPrizes: BoxPrize[];
   scoring: ScoringConfig;
+  /** Trang /dang-ky có nhận người mới không. Tắt thì mã và SĐT cũ vẫn đăng nhập được. */
+  registrationOpen: boolean;
 };
 
 /**
@@ -63,6 +65,7 @@ export const SETTING_KEYS = {
   ribbons: 'ribbons',
   boxPrizes: 'box_prizes',
   scoring: 'scoring_2010',
+  registrationOpen: 'registration_open',
 } as const;
 
 // ─── Mặc định ───────────────────────────────────────────────────────────────
@@ -105,6 +108,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
     giftPoints: GIFT_POINTS,
     comebackPoints: COMEBACK_POINTS,
   },
+  registrationOpen: true,
 };
 
 // ─── Kiểm tra hình dạng ─────────────────────────────────────────────────────
@@ -206,6 +210,7 @@ export const getSettings = cache(async (): Promise<AppSettings> => {
     ribbons: parseFixed(map.get(SETTING_KEYS.ribbons), RIBBONS),
     boxPrizes: parseBoxPrizes(map.get(SETTING_KEYS.boxPrizes)),
     scoring: parseScoring(map.get(SETTING_KEYS.scoring)),
+    registrationOpen: map.get(SETTING_KEYS.registrationOpen) !== false,
   };
 });
 

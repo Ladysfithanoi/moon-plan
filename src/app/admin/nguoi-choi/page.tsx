@@ -7,7 +7,15 @@ import { db } from '@/lib/supabase';
 import { RIBBON_WEEKS, TOTAL_DAYS, currentDayNumber } from '@/lib/event';
 import { TIERS, tierIndexFor } from '@/lib/scoring';
 import { createPlayer } from '../actions';
+import { formatPhone } from '@/lib/auth';
 import type { PlayerRow } from '@/lib/types';
+
+/**
+ * Liệt kê cột thay vì select('*'): dòng người chơi được đưa xuống component
+ * sửa/xoá chạy ở trình duyệt, và pin_hash không được đi theo.
+ */
+const PLAYER_COLUMNS =
+  'id,code,display_name,contact,phone,cohort,points,streak,best_streak,freezes_left,freezes_used,dews,is_active,joined_at';
 
 export const dynamic = 'force-dynamic';
 
@@ -55,7 +63,7 @@ export default async function NguoiChoiPage({
     let q = supabase.from('players').select(select, { count: 'exact', head });
     if (term) {
       q = q.or(
-        `code.ilike.%${term}%,display_name.ilike.%${term}%,contact.ilike.%${term}%`,
+        `code.ilike.%${term}%,display_name.ilike.%${term}%,contact.ilike.%${term}%,phone.ilike.%${term.replace(/s/g, '')}%`,
       );
     }
     if (status) q = q.eq('is_active', status === 'hoat_dong');
@@ -70,7 +78,7 @@ export default async function NguoiChoiPage({
   const page = Math.min(Math.max(1, Number(sp.trang) || 1), pageCount);
   const from = (page - 1) * PAGE_SIZE;
 
-  const { data: players } = await filtered('*')
+  const { data: players } = await filtered(PLAYER_COLUMNS)
     // Sắp xếp phụ theo mã: khi hai người bằng điểm, thứ tự phải cố định giữa
     // các lần truy vấn, nếu không sẽ có người bị nhảy trang hoặc hiện hai lần.
     .order('points', { ascending: false })
@@ -164,7 +172,7 @@ export default async function NguoiChoiPage({
                 name="q"
                 type="text"
                 defaultValue={rawQuery}
-                placeholder="mã, tên hoặc liên hệ"
+                placeholder="mã, tên, SĐT hoặc liên hệ"
                 autoComplete="off"
               />
             </div>
@@ -202,6 +210,7 @@ export default async function NguoiChoiPage({
                 <tr>
                   <th>Mã</th>
                   <th>Tên</th>
+                  <th>SĐT</th>
                   <th>Liên hệ</th>
                   <th>Điểm</th>
                   <th>Chuỗi</th>
@@ -224,6 +233,7 @@ export default async function NguoiChoiPage({
                         </Link>
                         {!p.is_active ? <> · <span className="tag bad">khoá</span></> : null}
                       </td>
+                      <td className="num">{p.phone ? formatPhone(p.phone) : '—'}</td>
                       <td>{p.contact ?? '—'}</td>
                       <td className="num">{p.points}</td>
                       <td className="num">{p.streak}</td>
@@ -245,7 +255,7 @@ export default async function NguoiChoiPage({
                 })}
                 {!list.length ? (
                   <tr>
-                    <td colSpan={10}>
+                    <td colSpan={11}>
                       {filtering
                         ? 'Không có ai khớp bộ lọc này.'
                         : 'Chưa có ai. Tạo mã ở khung phía trên.'}

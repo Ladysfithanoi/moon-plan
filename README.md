@@ -90,7 +90,8 @@ thuốc tránh thai và tập luyện; nằm trong `content/week-1.json` … `we
 | Đường dẫn | Nội dung |
 |---|---|
 | `/` | Trang giới thiệu — bốn tầng hoa, luật bỏ học, lịch, phần thưởng, đếm ngược |
-| `/vao` | Nhập mã cá nhân |
+| `/dang-ky` | Tự đăng ký: tên hiển thị + SĐT + mã PIN 4 số (bật/tắt ở `/admin/cai-dat`) |
+| `/vao` | Đăng nhập bằng SĐT + PIN; hoặc bằng mã cá nhân nếu được cấp mã |
 | `/chang-duong` | Cành hoa, tầng + hệ số hôm nay, giọt sương, ruy băng, tình trạng cây (khát/héo/ngủ/hồi xuân) kèm link học bù, bài hôm nay, vườn chung, luật của cây, những ngày đã qua. Sau 20/10 cành hoa đổi thành bó hoa. |
 | `/ngay/[1-20]` | Xem một ngày; học bù nếu còn trong 48 giờ |
 | `/chung-ket` | Về đích — bó hoa, đề case study, phần thưởng |
@@ -101,10 +102,10 @@ thuốc tránh thai và tập luyện; nằm trong `content/week-1.json` … `we
 | Đường dẫn | Nội dung |
 |---|---|
 | `/admin` | Số người tham gia, tỉ lệ hoàn thành, **tầng hoa của cả lớp**, lượt học bù, bốc bảng vinh danh mỗi tuần |
-| `/admin/nguoi-choi` | Tạo mã, sửa tên/liên hệ, **cấp thêm giọt sương**, khoá mã; xem hành trình từng người theo trạng thái cây |
+| `/admin/nguoi-choi` | Tạo mã, sửa tên/liên hệ/**SĐT**, **đặt lại PIN**, **cấp thêm giọt sương**, khoá mã; tìm theo SĐT; xem hành trình từng người theo trạng thái cây |
 | `/admin/bai-nop` | Đọc bài, duyệt, nhận xét gửi học viên + ghi chú riêng, chọn case study xuất sắc nhất |
 | `/admin/noi-dung` | Sửa bài đọc, **mẹo ẩn, đọc mở rộng**, đề bài, câu hỏi quiz, giờ + link + mã điểm danh Trạm hoa |
-| `/admin/cai-dat` | Bậc thưởng, chủ đề tuần, tên ruy băng, quà hộp bí ẩn, bảng điểm, **hệ số tầng, vườn chung, thưởng hồi xuân** |
+| `/admin/cai-dat` | **Mở/đóng tự đăng ký**, bậc thưởng, chủ đề tuần, tên ruy băng, quà hộp bí ẩn, bảng điểm, **hệ số tầng, vườn chung, thưởng hồi xuân** |
 
 ---
 
@@ -117,14 +118,14 @@ nguyên ở project cũ để xem lại khi cần.
 
 1. Tạo project mới tại [supabase.com](https://supabase.com) (region Singapore).
 2. **SQL Editor → New query**, chạy lần lượt `0001_init.sql`, `0002_player_note.sql`,
-   `0003_mua_20_10.sql` trong `supabase/migrations/`.
+   `0003_mua_20_10.sql`, `0004_dang_ky_sdt.sql` trong `supabase/migrations/`.
 3. Đổi `NEXT_PUBLIC_SUPABASE_URL` và `SUPABASE_SERVICE_ROLE_KEY` trong `.env.local`
    và trên Vercel sang project mới.
 4. `npm run seed`, rồi `npm run make-codes -- 50`.
 
 ### Cách 2 — dùng lại project cũ
 
-1. Chạy `0003_mua_20_10.sql` trong SQL Editor.
+1. Chạy `0003_mua_20_10.sql` và `0004_dang_ky_sdt.sql` trong SQL Editor.
 2. Xem trước sẽ xoá những gì: `npm run mua-moi`
 3. Xoá thật (người chơi, lịch sử, bài nộp, file đính kèm, nội dung ngày của mùa
    trước — **không hoàn tác được**): `npm run mua-moi -- --xac-nhan`
@@ -201,7 +202,13 @@ Vercel chạy theo UTC vẫn đúng ngày.
 
 ## Việc cần làm khi vận hành
 
-**Trước 01/10** — chạy seed, tạo mã, gửi mã cho học viên qua Messenger.
+**Trước 01/10** — chạy seed, rồi gửi link `/dang-ky` cho học viên (hoặc tạo mã tay
+và gửi qua Messenger cho ai không muốn tự đăng ký). Đóng đăng ký lúc nào tuỳ ý ở
+`/admin/cai-dat`.
+
+**Ai quên PIN** — `/admin/nguoi-choi`, tìm theo SĐT, bấm sửa, điền 4 số vào ô
+**Đặt lại PIN** rồi báo PIN mới cho học viên. Mã PIN chỉ lưu dạng băm, nên không ai
+— kể cả admin — xem được PIN cũ.
 
 **Mỗi ngày** — không cần làm gì. Nội dung tự mở, vườn chung tự chốt sổ.
 
@@ -227,6 +234,9 @@ nên nhắn cả nhóm.
 - `correct_index`, `webinar_code`, `bonus_tip` / `bonus_deep` (khi chưa đủ tầng) và
   bảng `secret_days` **không bao giờ** nằm trong props gửi xuống client.
 - Đáp án chỉ gửi xuống sau khi người chơi đã nộp bài ngày đó.
+- PIN băm bằng scrypt kèm salt riêng, không bao giờ lưu dạng thô và không đi xuống
+  trình duyệt. Đăng nhập sai bị giới hạn theo địa chỉ và theo từng SĐT; câu báo lỗi
+  không cho biết SĐT nào đã đăng ký.
 - Ngày Bông hoa bí mật chọn ngẫu nhiên trong script seed, không in ra màn hình.
 - File đính kèm nằm trong bucket riêng tư; admin xem bằng link có hạn 1 giờ.
 - Bài nộp có hai ô nhận xét tách rời: `player_note` gửi học viên, `admin_note` chỉ

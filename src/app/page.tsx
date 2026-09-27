@@ -13,7 +13,8 @@ export const dynamic = 'force-dynamic';
 export default async function GioiThieuPage() {
   const status = eventStatus();
   const beforeStart = status === 'truoc';
-  const { rewardTiers, weekThemes, ribbons, scoring } = await getSettings();
+  const { rewardTiers, weekThemes, ribbons, scoring, registrationOpen } = await getSettings();
+  const canRegister = registrationOpen && status !== 'da-xong';
   const mult = (m: number) => `×${String(m).replace('.', ',')}`;
 
   return (
@@ -44,8 +45,13 @@ export default async function GioiThieuPage() {
           />
 
           <div className="btn-row">
-            <Link href="/vao" className="btn-primary">
-              {beforeStart ? 'Đăng ký tham gia' : 'Vào bằng mã cá nhân'}
+            {canRegister ? (
+              <Link href="/dang-ky" className="btn-primary">
+                Đăng ký tham gia
+              </Link>
+            ) : null}
+            <Link href="/vao" className={canRegister ? 'btn-ghost' : 'btn-primary'}>
+              Đăng nhập
             </Link>
             <a href="#cach-choi" className="btn-ghost">
               Xem luật chơi
@@ -144,9 +150,7 @@ export default async function GioiThieuPage() {
             <li>
               <div>
                 <h3>Đăng ký</h3>
-                <p>
-                  Comment &quot;THAM GIA&quot; dưới bài khởi động, nhận mã cá nhân qua Messenger.
-                </p>
+                <p>Bấm “Đăng ký tham gia”, điền tên, số điện thoại và tự đặt một mã PIN 4 số.</p>
               </div>
             </li>
             <li>
@@ -265,16 +269,16 @@ export default async function GioiThieuPage() {
           <h2 className="section-title">Bắt đầu từ 01/10/2026</h2>
           <div className="register-box">
             <p>
-              <span className="amber-tag">Bước 1</span> — comment &quot;THAM GIA&quot; dưới bài khởi
-              động trên trang TrungPrecisionCoach.
+              <span className="amber-tag">Bước 1</span> —{' '}
+              {canRegister ? <Link href="/dang-ky">đăng ký tại đây</Link> : 'nhắn mình qua Messenger'}{' '}
+              bằng tên và số điện thoại của bạn, tự đặt một mã PIN 4 số.
             </p>
             <p>
-              <span className="amber-tag">Bước 2</span> — nhận mã cá nhân qua Messenger, dùng mã đó để
-              vào trang cành hoa mỗi ngày.
+              <span className="amber-tag">Bước 2</span> — từ 01/10, mỗi ngày vào{' '}
+              <Link href="/vao">trang cành hoa</Link> bằng số điện thoại và PIN.
             </p>
             <p>
-              <span className="amber-tag">Bước 3</span> — sau khi có mã, vào{' '}
-              <Link href="/vao">trang cành hoa</Link> để bắt đầu.
+              <span className="amber-tag">Bước 3</span> — học đều mỗi ngày để hoa nở to. Vậy thôi.
             </p>
           </div>
         </div>
